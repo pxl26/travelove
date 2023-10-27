@@ -1,0 +1,28 @@
+spring:
+    mvc:
+        favicon:
+            enabled: true
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: 26122002loc
+        url: jdbc:mysql://localhost:3306/KLOOK
+        username: root
+    jpa:
+        properties:
+            hibernate:
+                format_sql: true
+        show-sql: true
+    servlet:
+        multipart:
+            max-file-size: 20000KB
+mail:
+    username: travelovecompany@gmail.com
+    password: aoychbrlnljzwgou
+    host: smtp.gmail.com
+    port: 587
+oauth-google:
+    client_id: 226555921335-sg94jf64gf5lq0rdfbo4ulr28i2u8fqu.apps.googleusercontent.com
+    scope: https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile
+    client_secret: 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
+    access_type: offline
+    redirect_uri: http%3A%2F%2Flocalhost%3A8080%2Fauth%2Foauth%2Fgoogle
