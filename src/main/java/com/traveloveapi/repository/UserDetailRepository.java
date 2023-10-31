@@ -15,6 +15,8 @@ public class UserDetailRepository {
         return entityManager.find(UserDetailEntity.class, id);
     }
 
+    public UserDetailEntity findByEmail(String email) { return (UserDetailEntity) entityManager.createQuery("FROM UserDetailEntity u WHERE u.email=:email").setParameter("email",email).getSingleResult();}
+
     @Transactional
     public void save(UserDetailEntity entity) {
         entityManager.persist(entity);

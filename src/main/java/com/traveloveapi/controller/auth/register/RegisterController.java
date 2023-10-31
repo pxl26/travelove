@@ -1,0 +1,50 @@
+package com.traveloveapi.controller.auth.register;
+
+import com.traveloveapi.DTO.TokenResponse;
+import com.traveloveapi.DTO.registration.RegistrationByEmailRequest;
+import com.traveloveapi.entity.OtpEntity;
+import com.traveloveapi.exception.IncorrectCodeException;
+import com.traveloveapi.repository.OtpRepository;
+import com.traveloveapi.service.email.MailService;
+import com.traveloveapi.service.email.registration.RegisterService;
+import com.traveloveapi.utility.OTPCodeProvider;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.Date;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/auth/register")
+@RequiredArgsConstructor
+public class RegisterController {
+    private final OtpRepository otpRepository;
+    private final MailService mailService;
+    private final RegisterService registerService;
+
+
+    @PostMapping("/email/send-code")
+    public String byEmail(@RequestBody RegistrationByEmailRequest request) {
+        String code = OTPCodeProvider.GenegateOTP(5);
+        String id = UUID.randomUUID().toString();
+        OtpEntity otpEntity = new OtpEntity();
+        otpEntity.setId(id);
+        otpEntity.setType("REGISTER-EMAIL");
+        otpEntity.setUser_id("");
+        otpEntity.setCode(code);
+        otpEntity.setAddress(request.getEmail());
+        otpEntity.setNote(request.getPassword());
+        otpEntity.setExpiration(new Date(System.currentTimeMillis()));
+        otpRepository.save(otpEntity);
+        mailService.sendEmail(request.getEmail(), code);
+        return id;
+    }
+
+    @PostMapping("/email/verify-code")
+    public TokenResponse vertify(@RequestParam String id, @RequestParam String code) {
+        OtpEntity otpEntity = otpRepository.find(id);
+        if (!code.equals(otpEntity.getCode()))
+            throw new IncorrectCodeException();
+        return registerService.byEmailPassword(otpEntity.getAddress(), otpEntity.getNote());
+    }
+}

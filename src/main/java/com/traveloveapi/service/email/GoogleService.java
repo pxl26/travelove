@@ -2,15 +2,16 @@ package com.traveloveapi.service.email;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.traveloveapi.DTO.oauth.google.GoogleAccountData;
-import com.traveloveapi.DTO.oauth.google.TokenResponse;
+import com.traveloveapi.DTO.oauth.google.GoogleTokenResponse;
 import com.traveloveapi.entity.GoogleEntity;
 import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.entity.UserDetailEntity;
 import com.traveloveapi.repository.GoogleRepository;
 import com.traveloveapi.repository.UserDetailRepository;
 import com.traveloveapi.repository.UserRepository;
-import com.traveloveapi.security.JwtProvider;
+import com.traveloveapi.utility.JwtProvider;
 import com.traveloveapi.security.SecurityContext;
+import com.traveloveapi.security.role.Roles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,6 @@ public class GoogleService {
     final private GoogleRepository googleRepository;
     final private UserRepository userRepository;
     final private UserDetailRepository userDetailRepository;
-    final private JwtProvider jwtProvider;
 
     public String login(String code) throws IOException {
         String getTokenURL = "https://oauth2.googleapis.com/token?";
@@ -49,7 +49,7 @@ public class GoogleService {
         assert response != null;
         String data = response.body();
 
-        TokenResponse tokenResponse = new ObjectMapper().readValue(data, TokenResponse.class);
+        GoogleTokenResponse tokenResponse = new ObjectMapper().readValue(data, GoogleTokenResponse.class);
 
         //-----------------------GET DATA BY ACCESS TOKEN--------------------------------------
         String dataURL = "https://www.googleapis.com/oauth2/v2/userinfo?access_token="+tokenResponse.getAccess_token();
@@ -69,7 +69,7 @@ public class GoogleService {
             System.out.println(myGoogleData.getId());
             UserEntity user = userRepository.find(myGoogleData.getUser_id());
             SecurityContext.setUser(user.getId(), user.getRole());
-            return jwtProvider.generateToken(user.getId(),36000000L);
+            return JwtProvider.generateToken(user.getId(),36000000L);
         }
         //---------------CASE: New user (Register by Google)
         //---- convert response data to GoogleEntity
@@ -94,7 +94,7 @@ public class GoogleService {
         UserEntity newUser = new UserEntity();
         UserDetailEntity newDetail = new UserDetailEntity();
         UUID newId = UUID.randomUUID();
-        newUser.setRole("user");
+        newUser.setRole(Roles.USER.toString());
         newUser.setId(newId.toString());
         newUser.setFull_name(userInfo.getFamily_name()+" "+userInfo.getGiven_name()); // full = family + given ?
         newDetail.setUser_id(newUser.getId());
@@ -106,6 +106,6 @@ public class GoogleService {
         userRepository.save(newUser);
         userDetailRepository.save(newDetail);
         //-------------------------
-        return jwtProvider.generateToken(newUser.getId(), 36000000L);
+        return JwtProvider.generateToken(newUser.getId(), 36000000L);
     }
 }

@@ -18,4 +18,6 @@ public class OtpEntity {
     private String type;
     private String code;
     private Date expiration;
+    private String address;
+    private String note;
 }

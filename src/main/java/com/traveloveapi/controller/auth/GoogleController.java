@@ -28,7 +28,7 @@ public class GoogleController {
     }
 
     @GetMapping
-    public String Login(@RequestParam String code) throws IOException {
+    public String login(@RequestParam String code) throws IOException {
         System.out.println("Code la: " + code);
         return googleService.login(code);
     }

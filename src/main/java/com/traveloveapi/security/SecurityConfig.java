@@ -1,6 +1,7 @@
 package com.traveloveapi.security;
 
 import com.traveloveapi.repository.UserRepository;
+import com.traveloveapi.utility.JwtProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,13 +19,12 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @AllArgsConstructor
 public class SecurityConfig {
     //private JwtFilter jwtFilter;
-    private JwtProvider jwtProvider;
     private UserRepository userRepository;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        httpSecurity.addFilterBefore(new JwtFilter(jwtProvider, userRepository), BasicAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(new JwtFilter(userRepository), BasicAuthenticationFilter.class);
         return httpSecurity.build();
     }
 
