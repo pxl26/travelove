@@ -1,0 +1,31 @@
+registration_key:
+    admin: trust_me
+    tour_owner: oke
+mail:
+    host: smtp.gmail.com
+    password: aoychbrlnljzwgou
+    port: 587
+    username: travelovecompany@gmail.com
+oauth-google:
+    access_type: offline
+    client_id: 226555921335-sg94jf64gf5lq0rdfbo4ulr28i2u8fqu.apps.googleusercontent.com
+    client_secret: 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
+    redirect_uri: http%3A%2F%2Flocalhost%3A8080%2Fauth%2Foauth%2Fgoogle
+    scope: https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: 26122002loc
+        url: jdbc:mysql://localhost:3306/travelove
+        username: root
+    jpa:
+        properties:
+            hibernate:
+                format_sql: true
+        show-sql: true
+    mvc:
+        favicon:
+            enabled: true
+    servlet:
+        multipart:
+            max-file-size: 20000KB

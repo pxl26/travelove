@@ -1,12 +1,13 @@
 package com.traveloveapi.controller.auth.register;
 
 import com.traveloveapi.DTO.TokenResponse;
-import com.traveloveapi.DTO.registration.RegistrationByEmailRequest;
+import com.traveloveapi.DTO.registration.EmailRegistrationRequest;
+import com.traveloveapi.DTO.registration.UsernameRegistrationRequest;
 import com.traveloveapi.entity.OtpEntity;
 import com.traveloveapi.exception.IncorrectCodeException;
 import com.traveloveapi.repository.OtpRepository;
 import com.traveloveapi.service.email.MailService;
-import com.traveloveapi.service.email.registration.RegisterService;
+import com.traveloveapi.service.register.RegisterService;
 import com.traveloveapi.utility.OTPCodeProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class RegisterController {
 
 
     @PostMapping("/email/send-code")
-    public String byEmail(@RequestBody RegistrationByEmailRequest request) {
+    public String byEmail(@RequestBody EmailRegistrationRequest request) {
         String code = OTPCodeProvider.GenegateOTP(5);
         String id = UUID.randomUUID().toString();
         OtpEntity otpEntity = new OtpEntity();
@@ -46,5 +47,11 @@ public class RegisterController {
         if (!code.equals(otpEntity.getCode()))
             throw new IncorrectCodeException();
         return registerService.byEmailPassword(otpEntity.getAddress(), otpEntity.getNote());
+    }
+
+    //-----------------------------------------
+    @PostMapping("/admin")
+    public TokenResponse adminRegister(@RequestBody UsernameRegistrationRequest request) {
+        return registerService.usernameRegister(request.getUsername(), request.getPassword(), request.getRegistration_key());
     }
 }

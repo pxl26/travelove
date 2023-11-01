@@ -1,0 +1,11 @@
+**/.classpath
+**/.dockerignore
+**/.env
+**/.git
+**/.gitignore
+**/docker-compose*
+**/Dockerfile*
+**/node_modules
+**/.vs
+**/.vscode
+**/target

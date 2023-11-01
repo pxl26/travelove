@@ -1,7 +1,10 @@
 package com.traveloveapi.utility;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
+import com.traveloveapi.DTO.TokenResponse;
+import com.traveloveapi.security.role.Roles;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 
@@ -22,4 +25,28 @@ public class JwtProvider {
         return claims.getSubject();
     }
 
+    static public TokenResponse generateTokenResponse(String id, Roles role) {
+        TokenResponse response = new TokenResponse();
+        long access=0L;
+        long refresh=0L;
+        switch (role) {
+            case USER:
+                access = 86400000L;    //24h
+                refresh = 172800000L;  //48h
+                break;
+            case ADMIN:
+                access = 900000L;   //15'
+                refresh = 2700000L; //45'
+                break;
+            case TOUR_OWNER:
+                access = 900000L;   //15'
+                refresh = 5400000L; //95'
+                break;
+        }
+        response.setAccess_token(JwtProvider.generateToken(id, access));
+        response.setRefresh_token(JwtProvider.generateToken(id, refresh));
+        response.setExpiration(String.valueOf(refresh));
+        response.setCreate_at(new Timestamp(System.currentTimeMillis()));
+        return response;
+    }
 }

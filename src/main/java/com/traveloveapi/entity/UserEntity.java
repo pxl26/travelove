@@ -1,8 +1,7 @@
 package com.traveloveapi.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.traveloveapi.security.role.Roles;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -14,5 +13,6 @@ public class UserEntity {
     private  String id;
     private String full_name;
     private String avatar;
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Roles role;
 }

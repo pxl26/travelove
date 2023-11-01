@@ -12,7 +12,8 @@ import java.sql.Timestamp;
 @Setter
 @Getter
 public class TokenResponse {
-    private String token;
+    private String access_token;
+    private String refresh_token;
     private Timestamp create_at;
-    private Long expiration;
+    private String expiration;
 }

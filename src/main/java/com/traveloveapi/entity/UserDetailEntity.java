@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 public class UserDetailEntity {
     @Id
     private String user_id;
+    private String username;
     private String email;
     private String phone;
     private String gender;

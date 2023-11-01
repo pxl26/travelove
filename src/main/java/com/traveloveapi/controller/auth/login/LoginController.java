@@ -2,7 +2,8 @@ package com.traveloveapi.controller.auth.login;
 
 import com.traveloveapi.DTO.TokenResponse;
 import com.traveloveapi.DTO.login.EmailLoginRequest;
-import com.traveloveapi.service.email.login.LoginService;
+import com.traveloveapi.DTO.login.UsernameLoginRequest;
+import com.traveloveapi.service.login.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +22,8 @@ public class LoginController {
         return "URL???????";
     }
 
-    @GetMapping("/hello")
-    public String greeting(@RequestParam String name) {
-        return "Hello " + name + " <3 !!!";
+    @GetMapping("/username")
+    public TokenResponse usernameLogin(@RequestBody UsernameLoginRequest request) {
+        return loginService.usernameLogin(request.getUsername(),request.getPassword());
     }
 }

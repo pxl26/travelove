@@ -1,6 +1,7 @@
-package com.traveloveapi.service.email;
+package com.traveloveapi.service.OAuth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.traveloveapi.DTO.TokenResponse;
 import com.traveloveapi.DTO.oauth.google.GoogleAccountData;
 import com.traveloveapi.DTO.oauth.google.GoogleTokenResponse;
 import com.traveloveapi.entity.GoogleEntity;
@@ -10,7 +11,7 @@ import com.traveloveapi.repository.GoogleRepository;
 import com.traveloveapi.repository.UserDetailRepository;
 import com.traveloveapi.repository.UserRepository;
 import com.traveloveapi.utility.JwtProvider;
-import com.traveloveapi.security.SecurityContext;
+import com.traveloveapi.utility.SecurityContext;
 import com.traveloveapi.security.role.Roles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class GoogleService {
     final private UserRepository userRepository;
     final private UserDetailRepository userDetailRepository;
 
-    public String login(String code) throws IOException {
+    public TokenResponse login(String code) throws IOException {
         String getTokenURL = "https://oauth2.googleapis.com/token?";
         String access_type = "offline";
         getTokenURL+= "client_id=" + client_id + "&client_secret=" + client_secret + "&access_type=" + access_type + "&grant_type=" + grant_type + "&code=" + code + "&redirect_uri=" + redirect_uri;
@@ -68,8 +69,8 @@ public class GoogleService {
         {
             System.out.println(myGoogleData.getId());
             UserEntity user = userRepository.find(myGoogleData.getUser_id());
-            SecurityContext.setUser(user.getId(), user.getRole());
-            return JwtProvider.generateToken(user.getId(),36000000L);
+            SecurityContext.setUser(user.getId(), user.getRole().toString());
+            return JwtProvider.generateTokenResponse(user.getId(), user.getRole());
         }
         //---------------CASE: New user (Register by Google)
         //---- convert response data to GoogleEntity
@@ -94,7 +95,7 @@ public class GoogleService {
         UserEntity newUser = new UserEntity();
         UserDetailEntity newDetail = new UserDetailEntity();
         UUID newId = UUID.randomUUID();
-        newUser.setRole(Roles.USER.toString());
+        newUser.setRole(Roles.USER);
         newUser.setId(newId.toString());
         newUser.setFull_name(userInfo.getFamily_name()+" "+userInfo.getGiven_name()); // full = family + given ?
         newDetail.setUser_id(newUser.getId());
@@ -106,6 +107,6 @@ public class GoogleService {
         userRepository.save(newUser);
         userDetailRepository.save(newDetail);
         //-------------------------
-        return JwtProvider.generateToken(newUser.getId(), 36000000L);
+        return JwtProvider.generateTokenResponse(newUser.getId(), newUser.getRole());
     }
 }
