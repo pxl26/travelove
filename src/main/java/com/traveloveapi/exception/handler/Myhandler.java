@@ -2,7 +2,6 @@ package com.traveloveapi.exception.handler;
 
 import com.traveloveapi.DTO.ErrorResponse;
 import com.traveloveapi.exception.*;
-import jakarta.persistence.NoResultException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -35,7 +34,11 @@ public class Myhandler {
         return new ErrorResponse("User not found", 404);
     }
 
-    @ExceptionHandler(FileException.class)
+    @ExceptionHandler(SaveFileException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse fileError() { return new ErrorResponse("There are some error with file handling", 500);}
+    public ErrorResponse fileSavingError() { return new ErrorResponse("Catch error during save file", 500);}
+
+    @ExceptionHandler(LoadFileException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse fileLoadingError() { return new ErrorResponse("Catch error during load file", 500);}
 }

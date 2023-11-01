@@ -1,9 +1,11 @@
 package com.traveloveapi.utility;
 
-import com.traveloveapi.exception.FileException;
+import com.traveloveapi.exception.LoadFileException;
+import com.traveloveapi.exception.SaveFileException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 public class FileHandler {
@@ -15,7 +17,14 @@ public class FileHandler {
             FileOutputStream out = new FileOutputStream(myFile);
             out.write(file.getBytes());
         } catch (Exception ex) {
-            throw new FileException();
+            throw new SaveFileException();
         }
+    }
+
+    static public byte[] loadFile(String path) {
+        try {
+            FileInputStream in = new FileInputStream(path);
+            return in.readAllBytes();
+        } catch (Exception ex)  {throw new LoadFileException(); }
     }
 }
