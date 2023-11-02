@@ -2,6 +2,7 @@ package com.traveloveapi.controller.publicController;
 
 import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.service.file.FileService;
+import com.traveloveapi.utility.FileHandler;
 import com.traveloveapi.utility.FileSupporter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -28,5 +29,10 @@ public class MediaController {
     public SimpleResponse upFile(@RequestParam MultipartFile file) {
         String file_url = "/public/media?file_name=" + fileService.savePublicImage(file);
         return new SimpleResponse(file_url, 200);
+    }
+
+    @GetMapping("/check")
+    public String test (@RequestParam String path) {
+        return fileService.check(path);
     }
 }
