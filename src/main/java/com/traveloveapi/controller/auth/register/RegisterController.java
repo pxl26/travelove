@@ -1,5 +1,6 @@
 package com.traveloveapi.controller.auth.register;
 
+import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.DTO.TokenResponse;
 import com.traveloveapi.DTO.registration.EmailRegistrationRequest;
 import com.traveloveapi.DTO.registration.UsernameRegistrationRequest;
@@ -25,7 +26,7 @@ public class RegisterController {
 
 
     @PostMapping("/email/send-code")
-    public String byEmail(@RequestBody EmailRegistrationRequest request) {
+    public SimpleResponse byEmail(@RequestBody EmailRegistrationRequest request) {
         String code = OTPCodeProvider.GenegateOTP(5);
         String id = UUID.randomUUID().toString();
         OtpEntity otpEntity = new OtpEntity();
@@ -38,7 +39,7 @@ public class RegisterController {
         otpEntity.setExpiration(new Date(System.currentTimeMillis()));
         otpRepository.save(otpEntity);
         mailService.sendEmail(request.getEmail(), code);
-        return id;
+        return new SimpleResponse(id, 200);
     }
 
     @PostMapping("/email/verify-code")

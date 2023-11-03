@@ -17,10 +17,6 @@ public class LoginController {
     public TokenResponse emailLogin(@RequestBody EmailLoginRequest request) {
         return loginService.emailLogin(request.getEmail(),request.getPassword());
     }
-    @GetMapping
-    public String test() {
-        return "URL???????";
-    }
 
     @GetMapping("/username")
     public TokenResponse usernameLogin(@RequestBody UsernameLoginRequest request) {
