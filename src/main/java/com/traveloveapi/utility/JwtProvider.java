@@ -4,9 +4,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import com.traveloveapi.DTO.TokenResponse;
-import com.traveloveapi.security.role.Roles;
+import com.traveloveapi.constrain.Roles;
 import io.jsonwebtoken.*;
-import org.springframework.stereotype.Component;
 
 public class JwtProvider {
     static private final String JWT_SECRET = "PhanLocccc";

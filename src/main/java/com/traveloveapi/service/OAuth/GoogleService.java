@@ -12,7 +12,7 @@ import com.traveloveapi.repository.UserDetailRepository;
 import com.traveloveapi.repository.UserRepository;
 import com.traveloveapi.utility.JwtProvider;
 import com.traveloveapi.utility.SecurityContext;
-import com.traveloveapi.security.role.Roles;
+import com.traveloveapi.constrain.Roles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

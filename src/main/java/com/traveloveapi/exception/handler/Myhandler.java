@@ -41,4 +41,14 @@ public class Myhandler {
     @ExceptionHandler(LoadFileException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse fileLoadingError() { return new ErrorResponse("Catch error during load file", 500);}
+
+    @ExceptionHandler(RequestParamException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse paramError() { return new ErrorResponse("Please re-check your request param!", 400);}
+
+    @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse forbiddenError() {
+        return new ErrorResponse("Access to the requested resource is forbidden", 403);
+    }
 }

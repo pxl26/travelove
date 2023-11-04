@@ -29,6 +29,13 @@ public class UserDetailRepository {
     }
 
     public UserDetailEntity findByUsername(String username) {return (UserDetailEntity) entityManager.createQuery("FROM UserDetailEntity u WHERE u.username=:username").setParameter("username", username).getSingleResult();}
+
+    public UserDetailEntity findByPhone(String phone) {
+        List<Object> list = entityManager.createQuery("FROM UserDetailEntity u WHERE u.phone=:phone").setParameter("phone",phone).getResultList();
+        if (list.isEmpty())
+            throw new UserNotFoundException();
+        return (UserDetailEntity) list.get(0);
+    }
     @Transactional
     public void save(UserDetailEntity entity) {
         entityManager.persist(entity);

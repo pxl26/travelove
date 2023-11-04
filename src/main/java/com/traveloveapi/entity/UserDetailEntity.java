@@ -22,4 +22,5 @@ public class UserDetailEntity {
     private String birth;
     private String password;
     private Timestamp create_at;
+    private String region;
 }

@@ -1,17 +1,15 @@
 package com.traveloveapi.service.register;
 
 import com.traveloveapi.DTO.TokenResponse;
-import com.traveloveapi.DTO.registration.UsernameRegistrationRequest;
 import com.traveloveapi.entity.UserDetailEntity;
 import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.exception.IncorrectKeyException;
 import com.traveloveapi.repository.UserDetailRepository;
 import com.traveloveapi.repository.UserRepository;
-import com.traveloveapi.security.role.Roles;
+import com.traveloveapi.constrain.Roles;
 import com.traveloveapi.utility.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.traveloveapi.entity;
 
-import com.traveloveapi.security.role.Roles;
+import com.traveloveapi.constrain.Roles;
 import jakarta.persistence.*;
 import lombok.*;
 
