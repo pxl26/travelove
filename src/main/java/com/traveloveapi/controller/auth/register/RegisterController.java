@@ -5,6 +5,7 @@ import com.traveloveapi.DTO.TokenResponse;
 import com.traveloveapi.DTO.registration.EmailRegistrationRequest;
 import com.traveloveapi.DTO.registration.UsernameRegistrationRequest;
 import com.traveloveapi.entity.OtpEntity;
+import com.traveloveapi.exception.ExpiredCodeException;
 import com.traveloveapi.exception.IncorrectCodeException;
 import com.traveloveapi.repository.OtpRepository;
 import com.traveloveapi.service.email.MailService;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @RestController
@@ -27,6 +29,8 @@ public class RegisterController {
 
     @PostMapping("/email/send-code")
     public SimpleResponse byEmail(@RequestBody EmailRegistrationRequest request) {
+        Long expiredTime = 180000L;
+
         String code = OTPCodeProvider.GenegateOTP(5);
         String id = UUID.randomUUID().toString();
         OtpEntity otpEntity = new OtpEntity();
@@ -36,7 +40,7 @@ public class RegisterController {
         otpEntity.setCode(code);
         otpEntity.setAddress(request.getEmail());
         otpEntity.setNote(request.getPassword());
-        otpEntity.setExpiration(new Date(System.currentTimeMillis()));
+        otpEntity.setExpiration(new Timestamp(System.currentTimeMillis()+expiredTime));
         otpRepository.save(otpEntity);
         mailService.sendEmail(request.getEmail(), code);
         return new SimpleResponse(id, 200);
@@ -47,6 +51,8 @@ public class RegisterController {
         OtpEntity otpEntity = otpRepository.find(id);
         if (!code.equals(otpEntity.getCode()))
             throw new IncorrectCodeException();
+        if (otpEntity.getExpiration().getTime() < System.currentTimeMillis())
+            throw new ExpiredCodeException();
         return registerService.byEmailPassword(otpEntity.getAddress(), otpEntity.getNote());
     }
 

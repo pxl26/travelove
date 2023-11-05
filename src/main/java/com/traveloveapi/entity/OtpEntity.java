@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 @Data
 @Entity
@@ -17,7 +18,7 @@ public class OtpEntity {
     private String user_id;
     private String type;
     private String code;
-    private Date expiration;
+    private Timestamp expiration;
     private String address;
     private String note;
 }

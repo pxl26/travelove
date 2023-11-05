@@ -57,7 +57,6 @@ public class RegisterService {
         else
             throw new IncorrectKeyException();
         String id = UUID.randomUUID().toString();
-        newUser.setRole(Roles.ADMIN);
         newUser.setId(id);
         userRepository.save(newUser);
 

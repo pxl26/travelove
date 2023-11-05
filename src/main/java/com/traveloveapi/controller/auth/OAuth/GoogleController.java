@@ -3,6 +3,7 @@ package com.traveloveapi.controller.auth.OAuth;
 import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.DTO.TokenResponse;
 import com.traveloveapi.service.OAuth.GoogleService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +31,9 @@ public class GoogleController {
     }
 
     @GetMapping
-    public TokenResponse login(@RequestParam String code) throws IOException {
+    public void login(@RequestParam String code, HttpServletResponse response) throws IOException {
         System.out.println("Code la: " + code);
-        return googleService.login(code);
+        TokenResponse token = googleService.login(code);
+        response.sendRedirect("http://localhost:5173/callback/auth/google?accessToken="+token.getAccess_token()+"&refreshToken="+token.getRefresh_token());
     }
 }

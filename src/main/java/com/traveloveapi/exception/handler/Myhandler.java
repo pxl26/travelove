@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 @RestControllerAdvice
 public class Myhandler {
 
@@ -50,5 +52,17 @@ public class Myhandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorResponse forbiddenError() {
         return new ErrorResponse("Access to the requested resource is forbidden", 403);
+    }
+
+    @ExceptionHandler(ExpiredCodeException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse expiredCode() {
+        return new ErrorResponse("Your code was expired!", 401);
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse duplicatedData() {
+        return new ErrorResponse("Something must be unique, eg yourseft <3", 409);
     }
 }

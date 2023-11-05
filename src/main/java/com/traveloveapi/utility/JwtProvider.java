@@ -28,23 +28,27 @@ public class JwtProvider {
         TokenResponse response = new TokenResponse();
         long access=0L;
         long refresh=0L;
+        String desc = "";
         switch (role) {
             case USER:
                 access = 86400000L;    //24h
                 refresh = 172800000L;  //48h
+                desc = "24h-48h";
                 break;
             case ADMIN:
                 access = 900000L;   //15'
                 refresh = 2700000L; //45'
+                desc = "15m-45m";
                 break;
             case TOUR_OWNER:
                 access = 900000L;   //15'
                 refresh = 5400000L; //95'
+                desc = "15m-95m";
                 break;
         }
         response.setAccess_token(JwtProvider.generateToken(id, access));
         response.setRefresh_token(JwtProvider.generateToken(id, refresh));
-        response.setExpiration(String.valueOf(refresh));
+        response.setExpiration(desc);
         response.setCreate_at(new Timestamp(System.currentTimeMillis()));
         return response;
     }

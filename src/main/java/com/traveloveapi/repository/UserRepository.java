@@ -7,8 +7,12 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @Repository
 public class UserRepository {
@@ -20,5 +24,7 @@ public class UserRepository {
     }
 
     @Transactional
-    public void save(UserEntity entity) { entityManager.persist(entity);}
+    public void save(UserEntity entity){
+            entityManager.persist(entity);
+    }
 }

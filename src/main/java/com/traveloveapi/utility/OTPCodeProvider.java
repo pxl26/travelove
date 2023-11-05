@@ -6,7 +6,7 @@ import java.util.UUID;
 public class OTPCodeProvider {
     static public String GenegateOTP(int length) {
         Random rand = new Random();
-        int random_num = rand.nextInt(10);
+        int random_num = rand.nextInt(9);
         int code = random_num*10000 + rand.nextInt(10000);
         int temp = 10;
         for (int i=1;i<length;i++) {
