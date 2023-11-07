@@ -62,7 +62,7 @@ public class RegisterService {
 
         UserDetailEntity detail = new UserDetailEntity();
         detail.setUser_id(id);
-        detail.setPassword(password);
+        detail.setPassword(passwordEncoder.encode(password));
         detail.setUsername(username);
         detail.setCreate_at(new Timestamp(System.currentTimeMillis()));
         userDetailRepository.save(detail);

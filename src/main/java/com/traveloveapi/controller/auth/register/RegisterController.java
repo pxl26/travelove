@@ -29,7 +29,7 @@ public class RegisterController {
 
     @PostMapping("/email/send-code")
     public SimpleResponse byEmail(@RequestBody EmailRegistrationRequest request) {
-        Long expiredTime = 180000L;
+        long expiredTime = 180000L;
 
         String code = OTPCodeProvider.GenegateOTP(5);
         String id = UUID.randomUUID().toString();
