@@ -3,6 +3,8 @@ package com.traveloveapi.controller.auth.OAuth;
 import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.DTO.TokenResponse;
 import com.traveloveapi.service.OAuth.GoogleService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,7 @@ public class GoogleController {
     private final GoogleService googleService;
 
     @GetMapping("/getlink")
+    @Tag(name = "Sprint 1: Google")
     public SimpleResponse googleGetLink() {
         System.out.println("hello em iu");
         String link = "https://accounts.google.com/o/oauth2/v2/auth?redirect_uri="+redirect_uri +"&prompt=consent&response_type=code&client_id=" + client_id +"&scope=" + scope + "&access_type=offline";
@@ -31,6 +34,7 @@ public class GoogleController {
     }
 
     @GetMapping
+    @Operation(hidden = true)
     public void login(@RequestParam String code, HttpServletResponse response) throws IOException {
         System.out.println("Code la: " + code);
         TokenResponse token = googleService.login(code);

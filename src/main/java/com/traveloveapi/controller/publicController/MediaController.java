@@ -4,6 +4,7 @@ import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.service.file.FileService;
 import com.traveloveapi.utility.FileHandler;
 import com.traveloveapi.utility.FileSupporter;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,7 @@ public class MediaController {
     }
 
     @GetMapping("/check")
+    @Operation(hidden = true)
     public String test (@RequestParam String path) {
         return fileService.check(path);
     }
