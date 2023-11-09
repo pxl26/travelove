@@ -2,15 +2,24 @@ package com.traveloveapi.exception.handler;
 
 import com.traveloveapi.DTO.ErrorResponse;
 import com.traveloveapi.exception.*;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.function.EntityResponse;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestControllerAdvice
 public class Myhandler {
+
+    @ExceptionHandler(CustomException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse custom(RuntimeException ex) {
+        return new ErrorResponse(ex.getMessage(), 400);
+    }
+
 
     @ExceptionHandler(IncorrectCodeException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)

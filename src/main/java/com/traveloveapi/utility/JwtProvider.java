@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import com.traveloveapi.DTO.TokenResponse;
-import com.traveloveapi.constrain.Roles;
+import com.traveloveapi.constrain.Role;
 import io.jsonwebtoken.*;
 
 public class JwtProvider {
@@ -24,7 +24,7 @@ public class JwtProvider {
         return claims.getSubject();
     }
 
-    static public TokenResponse generateTokenResponse(String id, Roles role) {
+    static public TokenResponse generateTokenResponse(String id, Role role) {
         TokenResponse response = new TokenResponse();
         long access=0L;
         long refresh=0L;

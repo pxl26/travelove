@@ -1,12 +1,14 @@
 package com.traveloveapi.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.traveloveapi.constrain.Gender;
+import com.traveloveapi.constrain.Region;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Data
@@ -18,9 +20,11 @@ public class UserDetailEntity {
     private String username;
     private String email;
     private String phone;
-    private String gender;
-    private String birth;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+    private Date birth;
     private String password;
     private Timestamp create_at;
-    private String region;
+    @Enumerated(EnumType.STRING)
+    private Region region;
 }

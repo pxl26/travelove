@@ -1,5 +1,6 @@
 package com.traveloveapi.controller.publicController;
 
+import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.DTO.user.UserDTO;
 import com.traveloveapi.DTO.user.UserProfile;
 import com.traveloveapi.service.user.UserProfileService;
@@ -24,9 +25,9 @@ public class PublicUserController {
         return new UserDTO(detailProfile);
     }
 
-    @GetMapping("/check_email")
-    @Tag(name = "Print 1: Eamil login")
-    private String getEmailStatus() {
-        return "Check";
+    @GetMapping("/check/email")
+    @Tag(name = "Sprint 1: Login by email")
+    private SimpleResponse getEmailStatus(@RequestParam String email) {
+        return new SimpleResponse(userProfileService.checkEmailAndPasswordStatus(email).toString(), 200);
     }
 }

@@ -1,12 +1,13 @@
 package com.traveloveapi.service.user;
 
 import com.traveloveapi.DTO.user.UserProfile;
+import com.traveloveapi.constrain.EmailAndPasswordStatus;
 import com.traveloveapi.entity.UserDetailEntity;
 import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.exception.ForbiddenException;
 import com.traveloveapi.repository.UserDetailRepository;
 import com.traveloveapi.repository.UserRepository;
-import com.traveloveapi.constrain.Roles;
+import com.traveloveapi.constrain.Role;
 import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,13 @@ public class UserProfileService {
         return getUserProfile(detail);
     }
 
+    public EmailAndPasswordStatus checkEmailAndPasswordStatus(String email) {
+        UserDetailEntity detail = userDetailRepository.findByEmail(email);
+        if (detail.getPassword()!=null)
+            return EmailAndPasswordStatus.EMAIL_AND_PASSWORD;
+        return EmailAndPasswordStatus.EMAIL_AND_NO_PASSWORD;
+    }
+
     private UserProfile getUserProfile(UserDetailEntity detail) {
         UserEntity user = userRepository.find(detail.getUser_id());
         UserProfile userProfile = new UserProfile();
@@ -50,7 +58,7 @@ public class UserProfileService {
             return userProfile;
 
         UserEntity cur_user = userRepository.find(userProfile.getId());
-        if (cur_user.getRole()== Roles.ADMIN)
+        if (cur_user.getRole()== Role.ADMIN)
             return userProfile;
         throw new ForbiddenException();
     }

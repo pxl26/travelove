@@ -6,7 +6,7 @@ import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.exception.IncorrectKeyException;
 import com.traveloveapi.repository.UserDetailRepository;
 import com.traveloveapi.repository.UserRepository;
-import com.traveloveapi.constrain.Roles;
+import com.traveloveapi.constrain.Role;
 import com.traveloveapi.utility.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +32,7 @@ public class RegisterService {
         UserEntity newUser = new UserEntity();
         String user_id = UUID.randomUUID().toString();
         newUser.setId(user_id);
-        newUser.setRole(Roles.USER);
+        newUser.setRole(Role.USER);
         userRepository.save(newUser);
 
         UserDetailEntity newDetails = new UserDetailEntity();
@@ -51,9 +51,9 @@ public class RegisterService {
     public TokenResponse usernameRegister(String username, String password, String key) {
         UserEntity newUser = new UserEntity();
         if (admin_key.equals(key))
-            newUser.setRole(Roles.ADMIN);
+            newUser.setRole(Role.ADMIN);
         else if (tour_owner_key.equals(key))
-            newUser.setRole(Roles.TOUR_OWNER);
+            newUser.setRole(Role.TOUR_OWNER);
         else
             throw new IncorrectKeyException();
         String id = UUID.randomUUID().toString();

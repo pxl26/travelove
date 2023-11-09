@@ -1,6 +1,6 @@
 package com.traveloveapi.entity;
 
-import com.traveloveapi.constrain.Roles;
+import com.traveloveapi.constrain.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,5 +14,5 @@ public class UserEntity {
     private String full_name;
     private String avatar;
     @Enumerated(EnumType.STRING)
-    private Roles role;
+    private Role role;
 }

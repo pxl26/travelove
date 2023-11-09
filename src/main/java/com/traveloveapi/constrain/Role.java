@@ -1,5 +1,5 @@
 package com.traveloveapi.constrain;
 
-public enum Roles {
+public enum Role {
     USER,ADMIN,TOUR_OWNER;
 }

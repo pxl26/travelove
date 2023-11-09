@@ -1,9 +1,17 @@
 package com.traveloveapi.security;
 
+import com.fasterxml.jackson.databind.JsonSerializable;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.traveloveapi.DTO.ErrorResponse;
 import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.repository.UserRepository;
 import com.traveloveapi.security.role.UserRole;
 import com.traveloveapi.utility.JwtProvider;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
 import jakarta.servlet.ServletException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,8 +33,31 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse  response,FilterChain  filterChain) throws ServletException, IOException {
         System.out.println("Co request ne!!!");
         String token = getTokenFromRequest(request);
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        if (token.isEmpty())
+        {
+            response.setHeader("Content-Type", "application/json");
+            response.getWriter().write(ow.writeValueAsString(new ErrorResponse("Token is required", 403)));
+            response.setStatus(403);
+            return;
+        }
         //-----------------------
-        String user_id =  JwtProvider.getUserIdFromToken(token);
+        String user_id;
+        try {
+            user_id =  JwtProvider.getUserIdFromToken(token);
+        } catch (ExpiredJwtException ex) {
+            response.setHeader("Content-Type", "application/json");
+            response.getWriter().write(ow.writeValueAsString(new ErrorResponse("Expired token", 401)));
+            response.setStatus(401);
+            return;
+        }
+        catch (MalformedJwtException | SignatureException ex) {
+            response.setHeader("Content-Type", "application/json");
+            response.getWriter().write(ow.writeValueAsString(new ErrorResponse("Malformed token", 401)));
+            response.setStatus(401);
+            return;
+        }
+
         //UserDetails userDetail = customUserDetailService.loadUserByUsername(user_id);
         UserEntity user = userRepository.find(user_id);
         Collection <GrantedAuthority> roles = new ArrayList<>();

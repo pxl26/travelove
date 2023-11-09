@@ -16,7 +16,8 @@ public class FileService {
         String file_id = UUID.randomUUID().toString();
         String path = "./data/public";
         FileHandler.saveFile(path, file_id + "." + extension, file);
-        return file_id + "." + extension;
+        // Return url for access this file
+        return "/public/media?file_name=" + file_id + "." + extension;
     }
     public byte[] loadPublicFile(String file_name) {
         return FileHandler.loadFile("./data/public/"+file_name);

@@ -12,7 +12,7 @@ import com.traveloveapi.repository.UserDetailRepository;
 import com.traveloveapi.repository.UserRepository;
 import com.traveloveapi.utility.JwtProvider;
 import com.traveloveapi.utility.SecurityContext;
-import com.traveloveapi.constrain.Roles;
+import com.traveloveapi.constrain.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -95,7 +95,7 @@ public class GoogleService {
         UserEntity newUser = new UserEntity();
         UserDetailEntity newDetail = new UserDetailEntity();
         UUID newId = UUID.randomUUID();
-        newUser.setRole(Roles.USER);
+        newUser.setRole(Role.USER);
         newUser.setId(newId.toString());
         newUser.setFull_name(userInfo.getFamily_name()+" "+userInfo.getGiven_name()); // full = family + given ?
         newDetail.setUser_id(newUser.getId());
