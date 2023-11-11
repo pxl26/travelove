@@ -39,7 +39,7 @@ public class MailService {
             message.setRecipients(Message.RecipientType.TO, new InternetAddress[]{new InternetAddress(address)});
 
             message.setFrom(new InternetAddress(username));
-            message.setSubject("Testing email feature");
+            message.setSubject("Verify code");
             message.setText(content);
             Transport.send(message);
         } catch (MessagingException e) {

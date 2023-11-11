@@ -16,14 +16,11 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .servers(List.of(new Server().url("http://localhost:8080")))
-                .info(new Info().title("TRAVELOVE REST API")
-                        .description("Build by Swagger 3.0")
+                .info(new Info().title("TRAVELOVE")
+                        .description("REST-API document for Travelove")
                         .contact(new Contact()
                                 .email("phanxuanloc2612@gmail.com")
-                                .name("Phan Xuan Loc").url(""))
-                        .license(new License()
-                                .name("Apache 2.0")
-                                .url("http://www.apache.org/licenses/LICENSE-2.0.html"))
+                                .name("Phan Xuan Loc").url("https://www.facebook.com/pxl.26"))
                         .version("1.0.0"));
 
     }

@@ -1,5 +1,6 @@
-package com.traveloveapi.controller.self.profile;
+package com.traveloveapi.controller.me.profile;
 
+import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.DTO.user.UserProfile;
 import com.traveloveapi.constrain.Gender;
 import com.traveloveapi.constrain.Region;
@@ -30,6 +31,15 @@ public class SelfProfileController {
         if (full_name==null&&gender==null&&region==null&&birth==null&&avatar==null) {
             throw new CustomException("Nothing needs to update?");
         }
-        return userService.updateProfile(full_name, gender, region, birth, avatar);
+        return userProfileService.updateProfile(full_name, gender, region, birth, avatar);
+    }
+
+    @PutMapping("/password")
+    public SimpleResponse updatePassword(@RequestParam String new_password, @RequestParam(required = false) String old_password) {
+        if (userService.updateUserPassword(old_password, new_password, SecurityContext.getUserID()))
+            return new SimpleResponse("Successfully", 200);
+        else
+            return new SimpleResponse("Old password is missing", 400);
+
     }
 }

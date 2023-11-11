@@ -32,8 +32,6 @@ public class RegisterController {
     @Tag(name = "Sprint 1: Register by email")
     @PostMapping("/email/send-code")
     public SimpleResponse byEmail(@RequestBody EmailRegistrationRequest request) {
-        long expiredTime = 180000L;
-
         String code = OTPCodeProvider.GenegateOTP(5);
         String id = UUID.randomUUID().toString();
         OtpEntity otpEntity = new OtpEntity();
@@ -43,7 +41,7 @@ public class RegisterController {
         otpEntity.setCode(code);
         otpEntity.setAddress(request.getEmail());
         otpEntity.setNote(request.getPassword());
-        otpEntity.setExpiration(new Timestamp(System.currentTimeMillis()+expiredTime));
+        otpEntity.setExpiration(new Timestamp(System.currentTimeMillis()+180000L));  // 3'
         otpRepository.save(otpEntity);
         mailService.sendEmail(request.getEmail(), code);
         return new SimpleResponse(id, 200);
@@ -62,7 +60,7 @@ public class RegisterController {
 
     //-----------------------------------------
     @Tag(name = "Sprint 1: Register by username (ADMIN and SERVICE_OWNER)")
-    @PostMapping("/admin")
+    @PostMapping("/username")
     public TokenResponse adminRegister(@RequestBody UsernameRegistrationRequest request) {
         return registerService.usernameRegister(request.getUsername(), request.getPassword(), request.getRegistration_key());
     }

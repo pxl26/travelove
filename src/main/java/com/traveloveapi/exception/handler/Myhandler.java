@@ -51,7 +51,7 @@ public class Myhandler {
 
     @ExceptionHandler(LoadFileException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse fileLoadingError() { return new ErrorResponse("Catch error during load file", 500);}
+    public ErrorResponse fileLoadingError() { return new ErrorResponse("File not found", 404);}
 
     @ExceptionHandler(RequestParamException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
