@@ -14,6 +14,10 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import jakarta.servlet.ServletException;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,12 +30,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse  response,FilterChain  filterChain) throws ServletException, IOException {
-        System.out.println("Co request ne!!!");
+        logger.info(request.getRequestURI());
         String token = getTokenFromRequest(request);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         if (token.isEmpty())
@@ -69,16 +74,15 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        logger.info(request.getRequestURL()+"?"+request.getQueryString());
         if (request.getMethod().equals("OPTIONS"))
             return true;
         String requestPath = request.getServletPath();
-        System.out.println("Hello: " + requestPath);
         String[] whiteList = {"/login/basic","/register/basic", "/favicon.ico"};
         for (String path : whiteList) {
             if (path.equals(requestPath))
                 return true;
             if (requestPath.startsWith("/auth")||requestPath.startsWith("/swagger-ui")||requestPath.startsWith("/v3")||requestPath.startsWith("/public")) {
-                System.out.println("Qua r nhe");
                 return true;
             }
         }
