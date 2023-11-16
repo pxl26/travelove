@@ -1,21 +1,11 @@
 package com.traveloveapi.service.user;
 
-import com.traveloveapi.DTO.user.UserProfile;
-import com.traveloveapi.constrain.Gender;
-import com.traveloveapi.constrain.Region;
 import com.traveloveapi.entity.UserDetailEntity;
-import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.exception.IncorrectPasswordException;
 import com.traveloveapi.repository.UserDetailRepository;
-import com.traveloveapi.repository.UserRepository;
-import com.traveloveapi.service.file.FileService;
-import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.sql.Date;
 
 @Service
 @RequiredArgsConstructor

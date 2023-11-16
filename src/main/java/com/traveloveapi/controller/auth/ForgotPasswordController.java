@@ -2,7 +2,6 @@ package com.traveloveapi.controller.auth;
 
 import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.DTO.TokenResponse;
-import com.traveloveapi.constrain.Role;
 import com.traveloveapi.entity.OtpEntity;
 import com.traveloveapi.entity.UserDetailEntity;
 import com.traveloveapi.entity.UserEntity;

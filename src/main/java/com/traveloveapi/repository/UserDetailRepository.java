@@ -22,7 +22,7 @@ public class UserDetailRepository {
     }
 
     public UserDetailEntity findByEmail(String email) {
-        List<Object> result = entityManager.createQuery("FROM UserDetailEntity u WHERE u.email=:email").setParameter("email",email).getResultList();
+        List result = entityManager.createQuery("FROM UserDetailEntity u WHERE u.email=:email").setParameter("email",email).getResultList();
         if (result.isEmpty())
             throw new UserNotFoundException();
         return (UserDetailEntity) result.get(0);

@@ -4,9 +4,6 @@ import com.traveloveapi.constrain.Gender;
 import com.traveloveapi.constrain.Region;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Generated;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.sql.Date;
 import java.sql.Timestamp;
