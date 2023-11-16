@@ -1,5 +1,4 @@
 <configuration>
-    <property name="DIRECTORY" value="logs" />
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>[%d{yyyy-MM-dd HH:mm:ss.sss}][%-5p][%C][%t][%L]%m%n
@@ -13,7 +12,7 @@
         <rollingPolicy
                 class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- rollover daily -->
-            <fileNamePattern>${DIRECTORY}/%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>logs/%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <maxFileSize>50MB</maxFileSize>
         </rollingPolicy>
