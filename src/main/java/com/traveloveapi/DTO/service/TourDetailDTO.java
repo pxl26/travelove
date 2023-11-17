@@ -1,12 +1,15 @@
 package com.traveloveapi.DTO.service;
 
 import com.traveloveapi.constrain.ServiceStatus;
+import com.traveloveapi.entity.MediaEntity;
 import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.TourEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -18,12 +21,14 @@ public class TourDetailDTO {
     private float rating;
     private int sold;
     private ServiceStatus status;
+    private String thumbnail;
 
     private String description;
     private String highlight;
     private String note;
+    private ArrayList<MediaEntity> media;
 
-    TourDetailDTO(ServiceEntity service, TourEntity tour) {
+    public TourDetailDTO(ServiceEntity service, TourEntity tour, ArrayList<MediaEntity> media) {
         id = service.getId();
         title = service.getTitle();
         service_owner = service.getService_owner();
@@ -34,5 +39,8 @@ public class TourDetailDTO {
         description = tour.getDescription();
         highlight = tour.getHighlight();
         note = tour.getNote();
+        thumbnail = service.getThumbnail();
+        this.media = media;
     }
+
 }

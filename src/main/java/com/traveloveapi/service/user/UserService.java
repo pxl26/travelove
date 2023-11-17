@@ -1,8 +1,13 @@
 package com.traveloveapi.service.user;
 
+import com.traveloveapi.constrain.Role;
 import com.traveloveapi.entity.UserDetailEntity;
+import com.traveloveapi.entity.UserEntity;
+import com.traveloveapi.exception.ForbiddenException;
 import com.traveloveapi.exception.IncorrectPasswordException;
 import com.traveloveapi.repository.UserDetailRepository;
+import com.traveloveapi.repository.UserRepository;
+import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserDetailRepository userDetailRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
     public boolean updateUserPassword(String old_password,String new_password, String user_id) {
         UserDetailEntity detail = userDetailRepository.find(user_id);
@@ -27,5 +33,19 @@ public class UserService {
         }
         else
             throw new IncorrectPasswordException();
+    }
+
+    public UserEntity verifyIsAdmin() {
+        UserEntity user = userRepository.find(SecurityContext.getUserID());
+        if (user.getRole()!= Role.ADMIN)
+            throw new ForbiddenException();
+        return user;
+    }
+
+    public UserEntity verifyIsOwner() {
+        UserEntity user = userRepository.find(SecurityContext.getUserID());
+        if (user.getRole()!= Role.TOUR_OWNER)
+            throw new ForbiddenException();
+        return user;
     }
 }

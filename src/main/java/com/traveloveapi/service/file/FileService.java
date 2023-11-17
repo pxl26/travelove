@@ -1,7 +1,10 @@
 package com.traveloveapi.service.file;
 
+import com.traveloveapi.entity.MediaEntity;
+import com.traveloveapi.repository.MediaRepository;
 import com.traveloveapi.utility.FileHandler;
 import com.traveloveapi.utility.FileSupporter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,7 +12,9 @@ import java.io.File;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class FileService {
+    final private MediaRepository mediaRepository;
     public String  savePublicImage(MultipartFile file) {
         String file_name = file.getOriginalFilename();
         String extension = FileSupporter.getExtensionName(file_name);
@@ -23,7 +28,17 @@ public class FileService {
         return FileHandler.loadFile("./data/public/"+file_name);
     }
 
-    public String check(String path) {
+    public MediaEntity saveMedia(MultipartFile file, String description, String ref_id, String type) {
+        MediaEntity entity = new MediaEntity();
+        entity.setType(type);
+        entity.setId(UUID.randomUUID().toString());
+        entity.setRef_id(ref_id);
+        entity.setDescription(description);
+        entity.setPath(savePublicImage(file));
+        mediaRepository.save(entity);
+        return entity;
+    }
+    private String check(String path) {
         String rs = "";
         File file = new File(path);
         if (file.isDirectory()) {
@@ -34,4 +49,5 @@ public class FileService {
             rs = "File!!!";
         return rs;
     }
+
 }

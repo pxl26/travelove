@@ -3,6 +3,7 @@ package com.traveloveapi.repository;
 import com.traveloveapi.entity.MediaEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.hibernate.mapping.List;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +17,8 @@ public class MediaRepository {
     public MediaEntity find(String id) {
         return entityManager.find(MediaEntity.class, id);
     }
+
+    @Transactional
     public void save(MediaEntity entity) {
         entityManager.persist(entity);
     }

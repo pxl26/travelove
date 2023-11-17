@@ -12,11 +12,9 @@ import com.traveloveapi.service.email.MailService;
 import com.traveloveapi.service.register.RegisterService;
 import com.traveloveapi.utility.OTPCodeProvider;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.tags.Tags;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.UUID;
 

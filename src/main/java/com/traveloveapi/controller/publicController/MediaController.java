@@ -31,10 +31,4 @@ public class MediaController {
         String file_url = "/public/media?file_name=" + fileService.savePublicImage(file);
         return new SimpleResponse(file_url, 200);
     }
-
-    @GetMapping("/check")
-    @Operation(hidden = true)
-    public String test (@RequestParam String path) {
-        return fileService.check(path);
-    }
 }
