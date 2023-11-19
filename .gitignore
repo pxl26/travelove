@@ -46,3 +46,4 @@ github_token.txt
 .idea/
 
 !/target/
+!/src/main/resources/public/

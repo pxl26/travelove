@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TokenController {
     final private UserRepository userRepository;
     @GetMapping("/refresh")
-    @Tag(name = "Sprint 1: Refresh Token")
+    @Tag(name = "SPRINT 1: Refresh Token")
     public TokenResponse getNewToken() {
         UserEntity user = userRepository.find(SecurityContext.getUserID());
         return JwtProvider.generateTokenResponse(user.getId(), user.getRole());

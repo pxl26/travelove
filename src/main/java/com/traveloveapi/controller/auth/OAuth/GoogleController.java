@@ -26,8 +26,9 @@ public class GoogleController {
     private String redirect_uri="http%3A%2F%2Flocalhost%3A8080%2Fauth%2Foauth%2Fgoogle";
     private final GoogleService googleService;
 
-    @GetMapping("/getlink")
-    @Tags({@Tag(name = "Sprint 1: Google"), @Tag(name = "Sprint 1: Login by email")})
+    @GetMapping("/get link")
+    @Tag(name = "SPRINT 1: Google")
+    @Operation(description = "URL for go to OAuth page")
     public SimpleResponse googleGetLink() {
         System.out.println("hello em iu");
         String link = "https://accounts.google.com/o/oauth2/v2/auth?redirect_uri="+redirect_uri +"&prompt=consent&response_type=code&client_id=" + client_id +"&scope=" + scope + "&access_type=offline";

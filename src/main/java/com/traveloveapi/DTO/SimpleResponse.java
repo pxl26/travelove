@@ -10,5 +10,5 @@ import lombok.Setter;
 @Setter
 public class SimpleResponse {
     private String message;
-    private int code;
+    private int status_code;
 }

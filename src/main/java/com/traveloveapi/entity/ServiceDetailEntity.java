@@ -4,12 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
-import org.springframework.web.bind.annotation.RestController;
 
 @Entity
 @Data
-@Table(name = "tour")
-public class TourEntity {
+@Table(name = "service_detail")
+public class ServiceDetailEntity {
     @Id
     private String id;
 

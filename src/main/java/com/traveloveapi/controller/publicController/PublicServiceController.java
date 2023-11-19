@@ -1,7 +1,8 @@
 package com.traveloveapi.controller.publicController;
 
-import com.traveloveapi.DTO.service.TourDetailDTO;
+import com.traveloveapi.DTO.service.ServiceDetailDTO;
 import com.traveloveapi.service.tour.TourService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class PublicServiceController {
     final private TourService tourService;
     @GetMapping("/tour")
-    public TourDetailDTO getTour(@RequestParam String id) {
+    @Tag(name = "SPRINT 2: View tour by everyone")
+    public ServiceDetailDTO getTour(@RequestParam String id) {
         return tourService.getTour(id);
     }
 }

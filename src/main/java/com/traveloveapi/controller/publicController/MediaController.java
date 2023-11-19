@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class MediaController {
     final private FileService fileService;
     @GetMapping
+    @Operation(hidden = true)
     public ResponseEntity<byte[]> getFile(@RequestParam String file_name) {
         String extension = FileSupporter.getExtensionName(file_name);
         String contentType = FileSupporter.getContentTypeByExtension(extension);
@@ -27,6 +28,7 @@ public class MediaController {
     }
 
     @PostMapping
+    @Operation(hidden = true)
     public SimpleResponse upFile(@RequestParam MultipartFile file) {
         String file_url = "/public/media?file_name=" + fileService.savePublicImage(file);
         return new SimpleResponse(file_url, 200);

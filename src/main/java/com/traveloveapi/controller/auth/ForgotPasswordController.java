@@ -13,6 +13,7 @@ import com.traveloveapi.repository.UserRepository;
 import com.traveloveapi.service.email.MailService;
 import com.traveloveapi.utility.JwtProvider;
 import com.traveloveapi.utility.OTPCodeProvider;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,8 @@ public class ForgotPasswordController {
     private final UserDetailRepository userDetailRepository;
     private final UserRepository userRepository;
 
-    @GetMapping()
+    @GetMapping
+    @Tag(name = "SPRINT 1: Forgot password")
     public SimpleResponse requestChangeCode(@RequestParam String email) {
         OtpEntity otp = new OtpEntity();
         String id = UUID.randomUUID().toString();
@@ -45,6 +47,7 @@ public class ForgotPasswordController {
     }
 
     @PutMapping("/verify-code")
+    @Tag(name = "SPRINT 1: Forgot password")
     public TokenResponse verifyCode(@RequestParam String id, @RequestParam String code) {
         OtpEntity otpEntity = otpRepository.find(id);
         if (!code.equals(otpEntity.getCode()))

@@ -3,8 +3,7 @@ package com.traveloveapi.DTO.service;
 import com.traveloveapi.constrain.ServiceStatus;
 import com.traveloveapi.entity.MediaEntity;
 import com.traveloveapi.entity.ServiceEntity;
-import com.traveloveapi.entity.TourEntity;
-import lombok.AllArgsConstructor;
+import com.traveloveapi.entity.ServiceDetailEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TourDetailDTO {
+public class ServiceDetailDTO {
     private String id;
     private String title;
     private String service_owner;
@@ -26,9 +25,9 @@ public class TourDetailDTO {
     private String description;
     private String highlight;
     private String note;
-    private ArrayList<MediaEntity> media;
+    private ArrayList<MediaEntity> gallery;
 
-    public TourDetailDTO(ServiceEntity service, TourEntity tour, ArrayList<MediaEntity> media) {
+    public ServiceDetailDTO(ServiceEntity service, ServiceDetailEntity tour, ArrayList<MediaEntity> media) {
         id = service.getId();
         title = service.getTitle();
         service_owner = service.getService_owner();
@@ -40,7 +39,7 @@ public class TourDetailDTO {
         highlight = tour.getHighlight();
         note = tour.getNote();
         thumbnail = service.getThumbnail();
-        this.media = media;
+        this.gallery = media;
     }
 
 }

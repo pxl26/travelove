@@ -26,7 +26,7 @@ public class PublicUserController {
     }
 
     @GetMapping("/check/email")
-    @Tag(name = "Sprint 1: Login by email")
+    @Tag(name = "SPRINT 1: Login by email")
     private SimpleResponse getEmailStatus(@RequestParam String email) {
         return new SimpleResponse(userProfileService.checkEmailAndPasswordStatus(email).toString(), 200);
     }

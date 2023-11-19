@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
     final private LoginService loginService;
 
-    @Tag(name = "Sprint 1: Login by email")
+    @Tag(name = "SPRINT 1: Login by email")
     @PostMapping("/email")
     public TokenResponse emailLogin(@RequestBody EmailLoginRequest request) {
         return loginService.emailLogin(request.getEmail(),request.getPassword());
     }
 
-    @Tag(name = "Sprint 1: Login by username")
+    @Tag(name = "SPRINT 1: Login by username")
     @PostMapping("/username")
     public TokenResponse usernameLogin(@RequestBody UsernameLoginRequest request) {
         return loginService.usernameLogin(request.getUsername(),request.getPassword());
