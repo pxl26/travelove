@@ -22,19 +22,19 @@ public class Myhandler {
 
 
     @ExceptionHandler(IncorrectCodeException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorResponse incorrectCode() {
         return new ErrorResponse("Incorrect code!", 401);
     }
 
     @ExceptionHandler(IncorrectPasswordException.class)
-    @ResponseStatus(HttpStatus.PAYMENT_REQUIRED)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorResponse incorrectPassword() {
         return new ErrorResponse("Incorrect password!", 401);
     }
 
     @ExceptionHandler(IncorrectKeyException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorResponse incorrectKey() {
         return new ErrorResponse("Incorrect registration key!", 401);
     }
@@ -64,7 +64,7 @@ public class Myhandler {
     }
 
     @ExceptionHandler(ExpiredCodeException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorResponse expiredCode() {
         return new ErrorResponse("Your code was expired!", 401);
     }
