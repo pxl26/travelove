@@ -28,7 +28,7 @@ public class Myhandler {
     }
 
     @ExceptionHandler(IncorrectPasswordException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.PAYMENT_REQUIRED)
     public ErrorResponse incorrectPassword() {
         return new ErrorResponse("Incorrect password!", 401);
     }
