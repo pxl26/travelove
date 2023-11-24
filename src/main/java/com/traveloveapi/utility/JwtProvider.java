@@ -31,13 +31,9 @@ public class JwtProvider {
         String desc = "";
         switch (role) {
             case USER:
-//                access = 86400000L;    //24h
-//                refresh = 172800000L;  //48h
-//                desc = "24h-48h";
-
-                access = 10000L; //10s
-                refresh = 60000L; //60s
-                desc = "10s-60s";
+                access = 86400000L;    //24h
+                refresh = 172800000L;  //48h
+                desc = "24h-48h";
                 break;
             case ADMIN:
                 access = 900000L;   //15'
