@@ -4,10 +4,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Table(name = "package_group")
 @IdClass(PackageGroupId.class)
 public class PackageGroupEntity {

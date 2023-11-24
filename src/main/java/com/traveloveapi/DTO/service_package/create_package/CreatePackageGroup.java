@@ -1,10 +1,13 @@
 package com.traveloveapi.DTO.service_package.create_package;
 
-import lombok.Data;
+import lombok.*;
 
 import java.util.ArrayList;
 
-@Data
+@AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public class CreatePackageGroup {
     private int group_number;
     private String title;

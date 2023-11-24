@@ -4,20 +4,22 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "package_option")
 @IdClass(PackageOptionId.class)
 public class PackageOptionEntity {
     @Id
     private String service_id;
     @Id
-    private String group_number;
+    private int group_number;
     @Id
-    private String option_number;
+    private int option_number;
     private String name;
-    private String price;
-    private String price_special;
-    private String limit;
-    private String limit_special;
+    private float price;
+    private float price_special;
+    private int limit;
+    private int limit_special;
 }
