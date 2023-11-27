@@ -9,5 +9,4 @@ import lombok.*;
 public class CreatePackagePersonType {
     private String name;
     private float bonus_price;
-    private int type_number;
 }

@@ -7,7 +7,8 @@ import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class PackageGroupId implements Serializable {
     private String service_id;
     private int group_number;

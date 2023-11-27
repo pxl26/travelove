@@ -16,7 +16,6 @@ public class PackagePersonTypeEntity {
     @Id
     private String service_id;
     @Id
-    private int type_number;
     private String name;
     private float bonus_price;
 }

@@ -27,7 +27,7 @@ public class SelfProfileController {
     }
 
     @PutMapping
-    public UserProfile updateProfile(@RequestParam(required = false) String full_name, @RequestParam(required = false) Gender gender, @RequestParam(required = false) Region region, @RequestParam(required = false)Date birth, @RequestParam(required = false)MultipartFile avatar) {
+    public UserProfile updateProfile(@RequestParam(required = false) String full_name, @RequestParam(required = false) Gender gender, @RequestParam(required = false) String region, @RequestParam(required = false)Date birth, @RequestParam(required = false)MultipartFile avatar) {
         if (full_name==null&&gender==null&&region==null&&birth==null&&avatar==null) {
             throw new CustomException("Nothing needs to update?");
         }

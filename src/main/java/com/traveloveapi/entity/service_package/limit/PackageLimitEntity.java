@@ -1,9 +1,6 @@
 package com.traveloveapi.entity.service_package.limit;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -23,6 +20,7 @@ public class PackageLimitEntity {
     private int group_2;
     @Id
     private int option_2;
+    @Column(name = "`limit`")
     private int limit;
     private int limit_special;
 }

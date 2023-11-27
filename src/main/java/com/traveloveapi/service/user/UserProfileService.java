@@ -70,7 +70,7 @@ public class UserProfileService {
         throw new ForbiddenException();
     }
 
-    public UserProfile updateProfile(String full_name, Gender gender, Region region, Date birth, MultipartFile avatar) {
+    public UserProfile updateProfile(String full_name, Gender gender, String region, Date birth, MultipartFile avatar) {
         UserDetailEntity detail = userDetailRepository.find(SecurityContext.getUserID());
         detail.setGender(gender!=null ? gender : detail.getGender());
         detail.setBirth(birth!=null ? birth : detail.getBirth());

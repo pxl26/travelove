@@ -15,7 +15,7 @@ public class UserDTO {
     private String avatar;
     private Role role;
     private String username;
-    private Region region;
+    private String region;
 
     public UserDTO(UserProfile profile) {
         id = profile.getId();

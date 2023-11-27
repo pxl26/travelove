@@ -1,17 +1,12 @@
 package com.traveloveapi.entity.service_package.package_group;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @Table(name = "package_group")
 @IdClass(PackageGroupId.class)
 public class PackageGroupEntity {
@@ -20,5 +15,7 @@ public class PackageGroupEntity {
     @Id
     private int group_number;
     private String title;
-    private int limit_number;
+    @Column(name = "`limit`")
+    private int limit;
+    private int limit_special;
 }

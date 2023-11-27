@@ -12,5 +12,6 @@ public class CreatePackageGroup {
     private int group_number;
     private String title;
     private int limit;
+    private int limit_special;
     private ArrayList<CreatePackageOption> package_option;
 }

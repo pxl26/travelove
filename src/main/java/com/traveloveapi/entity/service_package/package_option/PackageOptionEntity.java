@@ -1,9 +1,6 @@
 package com.traveloveapi.entity.service_package.package_option;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -20,6 +17,7 @@ public class PackageOptionEntity {
     private String name;
     private float price;
     private float price_special;
+    @Column(name = "`limit`")
     private int limit;
     private int limit_special;
 }

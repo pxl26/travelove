@@ -2,15 +2,16 @@ package com.traveloveapi.service;
 
 import com.traveloveapi.DTO.service_package.BanListOptionDTO;
 import com.traveloveapi.DTO.service_package.CreatePackageDTO;
-import com.traveloveapi.DTO.service_package.create_package.CreatePackageBranchLimit;
-import com.traveloveapi.DTO.service_package.create_package.CreatePackageGroup;
-import com.traveloveapi.DTO.service_package.create_package.CreatePackageOption;
-import com.traveloveapi.DTO.service_package.create_package.CreatePackagePersonType;
+import com.traveloveapi.DTO.service_package.GroupOptionDTO;
+import com.traveloveapi.DTO.service_package.SpecialDateDTO;
+import com.traveloveapi.DTO.service_package.create_package.*;
 import com.traveloveapi.entity.service_package.disable_option.DisableOptionEntity;
 import com.traveloveapi.entity.service_package.limit.PackageLimitEntity;
+import com.traveloveapi.entity.service_package.option_special.OptionSpecialEntity;
 import com.traveloveapi.entity.service_package.package_group.PackageGroupEntity;
 import com.traveloveapi.entity.service_package.package_option.PackageOptionEntity;
 import com.traveloveapi.entity.service_package.person_type.PackagePersonTypeEntity;
+import com.traveloveapi.entity.service_package.special_date.SpecialDateEntity;
 import com.traveloveapi.repository.service_package.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,13 +29,14 @@ public class PackageService {
     final private BillDetailOptionRepository billDetailOptionRepository;
     final private BillDetailPersonTypeRepository billDetailPersonTypeRepository;
     final private BillRepository billRepository;
+    final private SpecialDateRepository specialDateRepository;
 
     public void addPackage(CreatePackageDTO data) {
         String service_id = data.getService_id();
 
         ArrayList<CreatePackageGroup> groupList = data.getPackage_group();
         for (CreatePackageGroup groups: groupList) {
-            PackageGroupEntity group = new PackageGroupEntity(service_id, groups.getGroup_number(), groups.getTitle(), groups.getLimit());
+            PackageGroupEntity group = new PackageGroupEntity(service_id, groups.getGroup_number(), groups.getTitle(), groups.getLimit(), groups.getLimit_special());
             packageGroupRepository.save(group);
             for (CreatePackageOption options: groups.getPackage_option()) {
                 PackageOptionEntity option = getPackageOptionEntity(groups, options, service_id);
@@ -42,14 +44,14 @@ public class PackageService {
             }
         }
 
-        ArrayList<BanListOptionDTO> banList = data.getDisable_list();
-        for (BanListOptionDTO ban: banList) {
+        ArrayList<ArrayList<GroupOptionDTO>> banList = data.getDisable_list();
+        for (ArrayList<GroupOptionDTO> ban: banList) {
             DisableOptionEntity disableEntity = new DisableOptionEntity();
             disableEntity.setService_id(service_id);
-            disableEntity.setGroup_1(ban.getBan_list().get(0).getGroup_number());
-            disableEntity.setOption_1(ban.getBan_list().get(0).getOption_number());
-            disableEntity.setGroup_2(ban.getBan_list().get(1).getGroup_number());
-            disableEntity.setOption_2(ban.getBan_list().get(1).getOption_number());
+            disableEntity.setGroup_1(ban.get(0).getGroup_number());
+            disableEntity.setOption_1(ban.get(0).getOption_number());
+            disableEntity.setGroup_2(ban.get(1).getGroup_number());
+            disableEntity.setOption_2(ban.get(1).getOption_number());
             packageDisableOptionRepository.save(disableEntity);
         }
 
@@ -64,9 +66,19 @@ public class PackageService {
             PackagePersonTypeEntity entity = new PackagePersonTypeEntity();
             entity.setService_id(service_id);
             entity.setName(type.getName());
-            entity.setType_number(type.getType_number());
             entity.setBonus_price(type.getBonus_price());
             packagePersonTypeRepository.save(entity);
+        }
+
+        ArrayList<SpecialDateDTO> specialDate = data.getSpecial_date_list();
+        for (SpecialDateDTO date: specialDate) {
+            SpecialDateEntity entity = new SpecialDateEntity(service_id, date.getType(), date.getSeq());
+            specialDateRepository.save(entity);
+        }
+
+        ArrayList<CreateSpecialOption> specialOptions = data.getSpecial_option();
+        for (CreateSpecialOption options: specialOptions) {
+            OptionSpecialEntity entity = new OptionSpecialEntity(service_id, options.getGroup_number(), options.getOption_number(), options.isDisable());
         }
     }
 
