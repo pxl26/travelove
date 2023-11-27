@@ -82,7 +82,7 @@ public class JwtFilter extends OncePerRequestFilter {
         for (String path : whiteList) {
             if (path.equals(requestPath))
                 return true;
-            if (requestPath.startsWith("/auth")||requestPath.startsWith("/swagger-ui")||requestPath.startsWith("/v3")||requestPath.startsWith("/public")) {
+            if (requestPath.startsWith("/auth")||requestPath.startsWith("/swagger-ui")||requestPath.startsWith("/v3")||requestPath.startsWith("/public") || requestPath.startsWith("/.well-known")) {
                 return true;
             }
         }

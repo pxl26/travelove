@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.package.datn",
+    "sha256_cert_fingerprints":
+    ["EC:7A:A9:23:F8:70:80:17:65:D9:90:4D:A4:83:7B:BB:87:93:91:61:99:C1:30:2E:CE:C0:30:68:2D:FC:1B:92"]
+  }
+}]
