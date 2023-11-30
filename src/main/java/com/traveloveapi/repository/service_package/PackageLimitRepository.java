@@ -14,8 +14,8 @@ public class PackageLimitRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private ArrayList<PackageLimitRepository> findByService(String service_id) {
-        return (ArrayList<PackageLimitRepository>) entityManager.createQuery("FROM PackageLimitEntity m WHERE m.service_id=:id").setParameter("id",service_id).getResultList();
+    public ArrayList<PackageLimitEntity> findByService(String service_id) {
+        return (ArrayList<PackageLimitEntity>) entityManager.createQuery("FROM PackageLimitEntity m WHERE m.service_id=:id").setParameter("id",service_id).getResultList();
     }
 
     @Transactional

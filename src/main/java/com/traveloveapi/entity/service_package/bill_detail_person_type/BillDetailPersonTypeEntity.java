@@ -4,13 +4,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 import java.io.Serializable;
 
 @Entity
 @Table(name = "bill_detail_person_type")
-@IdClass(BillDetailPersonType.class)
-public class BillDetailPersonType implements Serializable {
+@IdClass(BillDetailPersonTypeEntity.class)
+@Data
+public class BillDetailPersonTypeEntity implements Serializable {
     @Id
     private String bill_id;
     @Id
