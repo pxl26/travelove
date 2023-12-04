@@ -29,3 +29,17 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: phanxuanloc2612/travelove:latest
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: establishes ssh
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: 3.0.65.96
+          username: ubuntu
+          key: ${{secrets.EC2_SSH_KEY}}
+          port: 22
+          command_timeout: 5m
+          script: |
+            docker compose -f /home/ubuntu/travelove/compose.yml down | docker pull phanxuanloc2612/travelove | docker compose -f /home/ubuntu/travelove/compose.yml up
