@@ -40,7 +40,7 @@ public class GoogleController {
     public void login(@RequestParam String code, HttpServletResponse response) throws IOException {
         System.out.println("Code la: " + code);
         TokenResponse token = googleService.login(code);
-//        response.sendRedirect("http://localhost:3000/callback/auth/google?accessToken="+token.getAccess_token()+"&refreshToken="+token.getRefresh_token());
-        response.sendRedirect("http://localhost:8080");
+        response.sendRedirect("http://localhost:3000/callback/auth/google?accessToken="+token.getAccess_token()+"&refreshToken="+token.getRefresh_token());
+ //       response.sendRedirect("http://localhost:8080");
     }
 }

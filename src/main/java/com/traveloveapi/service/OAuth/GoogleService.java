@@ -31,7 +31,8 @@ public class GoogleService {
     private String client_secret="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";
     private String grant_type = "authorization_code";
     private String scope="https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile";
-    private String redirect_uri="http%3A%2F%2Flocalhost%3A8080%2Fauth%2Foauth%2Fgoogle";
+    //private String redirect_uri="http%3A%2F%2Flocalhost%3A8080%2Fauth%2Foauth%2Fgoogle";
+    private String redirect_uri="https%3A%2F%2F3.0.65.96%3A2511";
     final private GoogleRepository googleRepository;
     final private UserRepository userRepository;
     final private UserDetailRepository userDetailRepository;
