@@ -16,7 +16,7 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .servers(List.of(new Server().url("http://localhost:8080")))
+                .servers(List.of(new Server().url("https://3.0.65.96:2511")))
                 .info(new Info().title("TRAVELOVE")
                         .description("REST-API document for Travelove")
                         .contact(new Contact()
