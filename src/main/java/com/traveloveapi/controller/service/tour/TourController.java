@@ -1,5 +1,6 @@
 package com.traveloveapi.controller.service.tour;
 
+import com.traveloveapi.DTO.service.CreateTourDTO;
 import com.traveloveapi.DTO.service.ServiceDetailDTO;
 import com.traveloveapi.constrain.ServiceType;
 import com.traveloveapi.service.tour.TourService;
@@ -15,7 +16,7 @@ public class TourController {
     final private TourService tourService;
     @PostMapping("/new")
     @Tag(name = "SPRINT 2: Create a service by Service-owner")
-    public ServiceDetailDTO createTour(@RequestParam MultipartFile[] files, @RequestParam String title, @RequestParam String description, @RequestParam String highlight, @RequestParam String note, @RequestParam ServiceType service_type) {
-        return tourService.createNewService(service_type,title, description, highlight, note, files);
+    public ServiceDetailDTO createTour(@RequestBody CreateTourDTO data) {
+        return tourService.createNewService(data.getService_type(), data.getTitle(), data.getDescription(), data.getHighlight(), data.getNote(), data.getFiles());
     }
 }
