@@ -53,8 +53,9 @@ public class TourService {
 
 
         ArrayList<MediaEntity> media = new ArrayList<>();
+        int t = 0;
         for (MultipartFile file : files) {
-            media.add(fileService.saveMedia(file, "", id, "SERVICE_MEDIA"));
+            media.add(fileService.saveMedia(file, String.valueOf(t++), id, "SERVICE_MEDIA"));
         }
         service.setThumbnail(media.get(0).getPath());
         serviceRepository.save(service);
@@ -69,6 +70,8 @@ public class TourService {
         ArrayList<MediaEntity> media = mediaRepository.find(id, "SERVICE_MEDIA");
         return new ServiceDetailDTO(service, tour, media);
     }
+
+    public ServiceDetailDTO editTour(String title, String description, String highlight, String note) {return null;}
 
 
     public ServiceEntity changeStatus(SensorAction action, String tour_id) {
