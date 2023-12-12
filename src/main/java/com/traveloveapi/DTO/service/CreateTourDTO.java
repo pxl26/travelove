@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateTourDTO {
-    private MultipartFile[] files;
     private String title;
     private String highlight;
     private String note;

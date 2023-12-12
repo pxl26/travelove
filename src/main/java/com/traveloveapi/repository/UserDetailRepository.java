@@ -7,6 +7,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.OnDelete;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -28,7 +29,12 @@ public class UserDetailRepository {
         return (UserDetailEntity) result.get(0);
     }
 
-    public UserDetailEntity findByUsername(String username) {return (UserDetailEntity) entityManager.createQuery("FROM UserDetailEntity u WHERE u.username=:username").setParameter("username", username).getSingleResult();}
+    public UserDetailEntity findByUsername(String username) {
+        List<Object> list = entityManager.createQuery("FROM UserDetailEntity u WHERE u.username=:username").setParameter("username", username).getResultList();
+        if (list.isEmpty())
+            throw new UserNotFoundException();
+        return (UserDetailEntity) list.get(0);
+    }
 
     public UserDetailEntity findByPhone(String phone) {
         List<Object> list = entityManager.createQuery("FROM UserDetailEntity u WHERE u.phone=:phone").setParameter("phone",phone).getResultList();

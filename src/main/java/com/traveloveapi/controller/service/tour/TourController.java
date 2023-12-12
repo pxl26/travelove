@@ -16,7 +16,7 @@ public class TourController {
     final private TourService tourService;
     @PostMapping("/new")
     @Tag(name = "SPRINT 2: Create a service by Service-owner")
-    public ServiceDetailDTO createTour(@RequestBody CreateTourDTO data) {
-        return tourService.createNewService(data.getService_type(), data.getTitle(), data.getDescription(), data.getHighlight(), data.getNote(), data.getFiles());
+    public ServiceDetailDTO createTour(@RequestBody CreateTourDTO data, @RequestParam MultipartFile[] files) {
+        return tourService.createNewService(data.getService_type(), data.getTitle(), data.getDescription(), data.getHighlight(), data.getNote(), files);
     }
 }
