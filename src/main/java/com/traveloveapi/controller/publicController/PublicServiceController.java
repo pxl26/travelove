@@ -48,7 +48,7 @@ public class PublicServiceController {
         for (int i=start_day; i<=lengthOfMonth; i++)
         {
             ServiceStatusByDateDTO status = new ServiceStatusByDateDTO();
-            status.setRemain(billService.getAvailablePackage(service_id, new Date(year-1901, month-, i), options));
+            status.setRemain(billService.getAvailablePackage(service_id, new Date(year-1901, month-1, i), options));
             status.setAvailable(status.getRemain() != 0);
             status.setDate(new Date(year, month, i));
             status.setCause("");
