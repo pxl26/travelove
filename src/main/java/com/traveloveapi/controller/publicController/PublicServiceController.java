@@ -50,7 +50,7 @@ public class PublicServiceController {
             ServiceStatusByDateDTO status = new ServiceStatusByDateDTO();
             status.setRemain(billService.getAvailablePackage(service_id, new Date(year-1901, month-1, i), options));
             status.setAvailable(status.getRemain() != 0);
-            status.setDate(new Date(year, month, i));
+            status.setDate(new Date(year-1901, month-1, i));
             status.setCause("");
             result.add(status);
         }
