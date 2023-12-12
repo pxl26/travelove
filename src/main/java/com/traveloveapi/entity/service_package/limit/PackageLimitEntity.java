@@ -21,6 +21,6 @@ public class PackageLimitEntity {
     @Id
     private int option_2;
     @Column(name = "`limit`")
-    private int limit;
-    private int limit_special;
+    private Integer limit;
+    private Integer limit_special;
 }

@@ -16,6 +16,6 @@ public class PackageGroupEntity {
     private int group_number;
     private String title;
     @Column(name = "`limit`")
-    private int limit;
-    private int limit_special;
+    private Integer limit;
+    private Integer limit_special;
 }
