@@ -4,6 +4,7 @@ import com.traveloveapi.DTO.ErrorResponse;
 import com.traveloveapi.exception.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -15,9 +16,8 @@ import java.sql.SQLIntegrityConstraintViolationException;
 public class Myhandler {
 
     @ExceptionHandler(CustomException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse custom(RuntimeException ex) {
-        return new ErrorResponse(ex.getMessage(), 400);
+    public ResponseEntity<ErrorResponse> custom(CustomException ex) {
+        return ResponseEntity.status(ex.code).body(new ErrorResponse(ex.getMessage(), ex.code));
     }
 
 

@@ -84,6 +84,7 @@ public class BillService {
 
         ArrayList<PackageOptionEntity> option_in_service = packageOptionRepository.findByService(service_id);
 
+        System.out.println("So option: " + option_in_service.size());
 
         boolean isSpecialDay = checkSpecialDate(service_id, date);
 

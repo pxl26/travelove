@@ -1,7 +1,9 @@
 package com.traveloveapi.exception;
 
 public class CustomException extends RuntimeException{
-    public CustomException(String msg) {
+    public int code;
+    public CustomException(String msg, int code) {
         super(msg);
+        this.code = code;
     }
 }
