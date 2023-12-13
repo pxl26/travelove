@@ -1,12 +1,10 @@
 package com.traveloveapi.DTO.service_package;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Data
-@Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class SpecialDateDTO {
     private String type;
     private int seq;

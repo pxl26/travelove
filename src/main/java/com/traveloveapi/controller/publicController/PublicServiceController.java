@@ -4,6 +4,7 @@ import com.traveloveapi.DTO.service.RequestCheckAvailablePackageDTO;
 import com.traveloveapi.DTO.service.ServiceDetailDTO;
 import com.traveloveapi.DTO.service.ServiceStatusByDateDTO;
 import com.traveloveapi.DTO.service_package.GroupOptionDTO;
+import com.traveloveapi.DTO.service_package.PackageInfoDTO;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.service.BillService;
 import com.traveloveapi.service.tour.TourService;
@@ -26,6 +27,12 @@ public class PublicServiceController {
     @Tag(name = "SPRINT 2: View tour by everyone")
     public ServiceDetailDTO getTour(@RequestParam String id) {
         return tourService.getTour(id);
+    }
+
+
+    @GetMapping("/package")
+    public PackageInfoDTO getPackage(@RequestParam String service_id) {
+        return null;
     }
 
     @GetMapping("/check-available")

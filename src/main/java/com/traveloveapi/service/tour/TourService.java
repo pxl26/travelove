@@ -1,6 +1,10 @@
 package com.traveloveapi.service.tour;
 
 import com.traveloveapi.DTO.service.ServiceDetailDTO;
+import com.traveloveapi.DTO.service_package.PackageInfoDTO;
+import com.traveloveapi.DTO.service_package.SpecialDateDTO;
+import com.traveloveapi.DTO.service_package.create_package.CreatePackagePersonType;
+import com.traveloveapi.DTO.service_package.create_package.CreateSpecialOption;
 import com.traveloveapi.constrain.SensorAction;
 import com.traveloveapi.constrain.ServiceStatus;
 import com.traveloveapi.constrain.ServiceType;
@@ -8,10 +12,14 @@ import com.traveloveapi.entity.MediaEntity;
 import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.ServiceDetailEntity;
 import com.traveloveapi.entity.UserEntity;
+import com.traveloveapi.entity.service_package.option_special.OptionSpecialEntity;
+import com.traveloveapi.entity.service_package.person_type.PackagePersonTypeEntity;
+import com.traveloveapi.entity.service_package.special_date.SpecialDateEntity;
 import com.traveloveapi.repository.MediaRepository;
 import com.traveloveapi.repository.ServiceDetailRepository;
 import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.repository.UserRepository;
+import com.traveloveapi.repository.service_package.*;
 import com.traveloveapi.service.file.FileService;
 import com.traveloveapi.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +34,16 @@ import java.util.UUID;
 public class TourService {
     final private ServiceRepository serviceRepository;
     final private ServiceDetailRepository tourRepository;
-    final private UserRepository userRepository;
     final private MediaRepository mediaRepository;
     final private FileService fileService;
     final private UserService userService;
+
+    final private SpecialDateRepository specialDateRepository;
+    final private OptionSpecialRepository optionSpecialRepository;
+    final private PackageDisableOptionRepository packageDisableOptionRepository;
+    final private PackagePersonTypeRepository packagePersonTypeRepository;
+    final private PackageGroupRepository packageGroupRepository;
+    final private PackageOptionRepository packageOptionRepository;
 
     public ServiceDetailDTO createNewService(ServiceType type,String title, String description, String highlight, String note, MultipartFile[] files) {
         UserEntity owner = userService.verifyIsOwner();
@@ -74,6 +88,30 @@ public class TourService {
     public ServiceDetailDTO editTour(String title, String description, String highlight, String note) {return null;}
 
 
+    public PackageInfoDTO getPackageInfo(String service_id) {
+        PackageInfoDTO result = new PackageInfoDTO();
+        result.setService_id(service_id);
+
+        //----set special date
+        ArrayList<SpecialDateEntity> specialDateEntities = specialDateRepository.findByService(service_id);
+        for (SpecialDateEntity entity: specialDateEntities) {
+            SpecialDateDTO dto = new SpecialDateDTO(entity.getType(), entity.getSeq());
+            result.getSpecial_date().add(dto);
+        }
+        //------set person type
+        ArrayList<PackagePersonTypeEntity> packagePersonTypeEntities = packagePersonTypeRepository.find(service_id);
+        for (PackagePersonTypeEntity entity: packagePersonTypeEntities) {
+            CreatePackagePersonType dto = new CreatePackagePersonType(entity.getName(), entity.getBonus_price());
+            result.getPeron_type().add(dto);
+        }
+        //------set special option
+        ArrayList<OptionSpecialEntity> optionSpecialEntities = optionSpecialRepository.findByService(service_id);
+        for (OptionSpecialEntity entity: optionSpecialEntities) {
+            CreateSpecialOption dto = new CreateSpecialOption(entity.getGroup_number(), entity.getOption_number(),entity.isDisable());
+            result.getSpecial_option().add(dto);
+        }
+        return null;
+    }
     public ServiceEntity changeStatus(SensorAction action, String tour_id) {
         userService.verifyIsAdmin();
         ServiceEntity entity = serviceRepository.find(tour_id);

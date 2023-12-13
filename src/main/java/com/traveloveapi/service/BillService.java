@@ -36,12 +36,18 @@ public class BillService {
         String id = UUID.randomUUID().toString();
         String user_id = SecurityContext.getUserID();
 
+
         BillEntity bill = new BillEntity();
         bill.setId(id);
         bill.setUser_id(user_id);
         bill.setService_id(data.getService_id());
         bill.setTotal(data.getTotal());
+        bill.setDate(data.getDate());
         bill.setCreate_at(new Timestamp(System.currentTimeMillis()));
+        int num_ticket = 0;
+        for (CreateBillPersonType ele: data.getPerson_types())
+            num_ticket+=ele.getQuantity();
+        bill.setQuantity(num_ticket);
         billRepository.save(bill);
 
         for (GroupOptionDTO option : data.getOptions()) {
