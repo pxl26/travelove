@@ -19,7 +19,7 @@ public class PackagePersonTypeRepository {
     }
 
     public ArrayList<PackagePersonTypeEntity> find(String service_id) {
-        return (ArrayList<PackagePersonTypeEntity>) entityManager.createQuery("FROM PackageGroupEntity m WHERE m.service_id=:id").setParameter("id",service_id).getResultList();
+        return (ArrayList<PackagePersonTypeEntity>) entityManager.createQuery("FROM PackagePersonTypeEntity m WHERE m.service_id=:id").setParameter("id",service_id).getResultList();
     }
     @Transactional
     public void save(PackagePersonTypeEntity entity) {

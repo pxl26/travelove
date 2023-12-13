@@ -1,8 +1,7 @@
 package com.traveloveapi.service.tour;
 
 import com.traveloveapi.DTO.service.ServiceDetailDTO;
-import com.traveloveapi.DTO.service_package.PackageInfoDTO;
-import com.traveloveapi.DTO.service_package.SpecialDateDTO;
+import com.traveloveapi.DTO.service_package.*;
 import com.traveloveapi.DTO.service_package.create_package.CreatePackagePersonType;
 import com.traveloveapi.DTO.service_package.create_package.CreateSpecialOption;
 import com.traveloveapi.constrain.SensorAction;
@@ -12,7 +11,10 @@ import com.traveloveapi.entity.MediaEntity;
 import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.ServiceDetailEntity;
 import com.traveloveapi.entity.UserEntity;
+import com.traveloveapi.entity.service_package.disable_option.DisableOptionEntity;
 import com.traveloveapi.entity.service_package.option_special.OptionSpecialEntity;
+import com.traveloveapi.entity.service_package.package_group.PackageGroupEntity;
+import com.traveloveapi.entity.service_package.package_option.PackageOptionEntity;
 import com.traveloveapi.entity.service_package.person_type.PackagePersonTypeEntity;
 import com.traveloveapi.entity.service_package.special_date.SpecialDateEntity;
 import com.traveloveapi.repository.MediaRepository;
@@ -92,6 +94,12 @@ public class TourService {
         PackageInfoDTO result = new PackageInfoDTO();
         result.setService_id(service_id);
 
+        result.setPackage_group(new ArrayList<>());
+        result.setDisable_list(new ArrayList<>());
+        result.setPeron_type(new ArrayList<>());
+        result.setSpecial_date(new ArrayList<>());
+        result.setSpecial_option(new ArrayList<>());
+
         //----set special date
         ArrayList<SpecialDateEntity> specialDateEntities = specialDateRepository.findByService(service_id);
         for (SpecialDateEntity entity: specialDateEntities) {
@@ -107,10 +115,33 @@ public class TourService {
         //------set special option
         ArrayList<OptionSpecialEntity> optionSpecialEntities = optionSpecialRepository.findByService(service_id);
         for (OptionSpecialEntity entity: optionSpecialEntities) {
-            CreateSpecialOption dto = new CreateSpecialOption(entity.getGroup_number(), entity.getOption_number(),entity.isDisable());
+            CreateSpecialOption dto = new CreateSpecialOption(entity.getGroup_number(), entity.getOption_number(),entity.is_disable());
             result.getSpecial_option().add(dto);
         }
-        return null;
+        //-----set disable option
+        ArrayList<DisableOptionEntity> disableList = packageDisableOptionRepository.findByService(service_id);
+        for (DisableOptionEntity entity: disableList) {
+            GroupOptionDTO option_1 = new GroupOptionDTO(entity.getGroup_1(), entity.getOption_1());
+            GroupOptionDTO option_2 = new GroupOptionDTO(entity.getGroup_2(), entity.getOption_2());
+            ArrayList<GroupOptionDTO> option_pair = new ArrayList<>();
+            option_pair.add(option_1);
+            option_pair.add(option_2);
+            result.getDisable_list().add(option_pair);
+        }
+        //-----set all option
+        ArrayList<PackageGroupEntity> group_list = packageGroupRepository.find(service_id);
+        ArrayList<PackageOptionEntity> option_list = packageOptionRepository.findByService(service_id);
+        for (PackageGroupEntity entity: group_list) {
+            PackageGroupDTO dto = new PackageGroupDTO();
+            dto.setTitle(entity.getTitle());
+            dto.setGroup_number(entity.getGroup_number());
+            dto.setPackage_option(new ArrayList<>());
+            for (PackageOptionEntity option: option_list)
+                if (option.getGroup_number()==entity.getGroup_number())
+                    dto.getPackage_option().add(new OptionDTO(entity.getGroup_number(), option.getOption_number(), option.getName()));
+            result.getPackage_group().add(dto);
+        }
+        return result;
     }
     public ServiceEntity changeStatus(SensorAction action, String tour_id) {
         userService.verifyIsAdmin();

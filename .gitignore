@@ -49,3 +49,4 @@ github_token.txt
 !/src/main/resources/public/
 !/log
 !/logs
+!/data

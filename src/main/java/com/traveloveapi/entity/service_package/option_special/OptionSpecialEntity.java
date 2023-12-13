@@ -21,5 +21,5 @@ public class OptionSpecialEntity {
     private int group_number;
     @Id
     private int option_number;
-    private boolean isDisable;
+    private boolean is_disable;
 }

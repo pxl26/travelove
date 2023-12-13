@@ -7,6 +7,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+
 @Repository
 public class PackageGroupRepository {
     @PersistenceContext
@@ -14,6 +16,9 @@ public class PackageGroupRepository {
 
     public PackageGroupEntity find(PackageGroupId id) {
         return entityManager.find(PackageGroupEntity.class, id);
+    }
+    public ArrayList<PackageGroupEntity> find(String service_id) {
+        return (ArrayList<PackageGroupEntity>) entityManager.createQuery("FROM PackageGroupEntity m WHERE m.service_id=:id").setParameter("id",service_id).getResultList();
     }
 
     @Transactional

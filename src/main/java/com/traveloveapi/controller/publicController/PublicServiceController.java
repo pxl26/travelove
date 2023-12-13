@@ -32,7 +32,7 @@ public class PublicServiceController {
 
     @GetMapping("/package")
     public PackageInfoDTO getPackage(@RequestParam String service_id) {
-        return null;
+        return tourService.getPackageInfo(service_id);
     }
 
     @GetMapping("/check-available")
