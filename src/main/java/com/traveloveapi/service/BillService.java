@@ -3,11 +3,13 @@ package com.traveloveapi.service;
 import com.traveloveapi.DTO.service_package.BillDTO;
 import com.traveloveapi.DTO.service_package.BillRequest;
 import com.traveloveapi.DTO.service_package.GroupOptionDTO;
+import com.traveloveapi.DTO.service_package.PackageGroupDTO;
 import com.traveloveapi.DTO.service_package.bill.CreateBillPersonType;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import com.traveloveapi.entity.service_package.bill_detail_option.BillDetailOptionEntity;
 import com.traveloveapi.entity.service_package.bill_detail_person_type.BillDetailPersonTypeEntity;
 import com.traveloveapi.entity.service_package.limit.PackageLimitEntity;
+import com.traveloveapi.entity.service_package.package_group.PackageGroupEntity;
 import com.traveloveapi.entity.service_package.package_option.PackageOptionEntity;
 import com.traveloveapi.entity.service_package.special_date.SpecialDateEntity;
 import com.traveloveapi.repository.service_package.*;
@@ -80,6 +82,7 @@ public class BillService {
 
 
     public int getAvailablePackage(String service_id, Date date, ArrayList<GroupOptionDTO> option_list) {
+        boolean isSpecialDate = checkSpecialDate(service_id,date);
         ArrayList<Integer> remain_slot_list = new ArrayList<>();
 
         ArrayList<BillEntity> bill_on_date = billRepository.findByService(service_id, date);
@@ -91,22 +94,34 @@ public class BillService {
         ArrayList<PackageOptionEntity> option_in_service = packageOptionRepository.findByService(service_id);
 
         System.out.println("So option: " + option_in_service.size());
+        System.out.println("So bill: "+ bill_on_date.size());
+        System.out.println("Date: "+ date);
+        System.out.println(isSpecialDate ? "NGAY DB" : "Khong phai ngay db");
 
         boolean isSpecialDay = checkSpecialDate(service_id, date);
 
 
-        //-----CHECK FOR EACH NODE LIMIT
-        for (PackageOptionEntity option : option_in_service) {
-            int single_option_limit = isSpecialDay ? option.getLimit_special() : option.getLimit();
-            if (single_option_limit > 0) {
-                int k = single_option_limit;
-                for (BillDetailOptionEntity option_bill : option_on_bill)
-                    if (option_bill.getGroup_number() == option.getGroup_number() && option_bill.getOption_number() == option_bill.getOption_number())
-                        k -= getQuantityOfBill(bill_on_date, option_bill.getBill_id());
-                if (k == 0)
-                    return 0;
-                remain_slot_list.add(k);
+        //-----CHECK FOR EACH GROUP LIMIT
+        ArrayList<PackageGroupEntity> group_list = packageGroupRepository.find(service_id);
+        for (PackageGroupEntity entity: group_list) {
+            int limit = isSpecialDay ? entity.getLimit_special() : entity.getLimit();
+            if (limit == 0)
+                continue;
+            for (BillDetailOptionEntity ele : option_on_bill) {
+                if (ele.getGroup_number() == entity.getGroup_number())
+                    limit -= getQuantityOfBill(bill_on_date, ele.getBill_id());
             }
+            remain_slot_list.add(limit);
+        }
+        //------CHECK FOR EACH NODE
+        for (GroupOptionDTO entity: option_list) {
+            int limit = getNodeLimit(entity.getGroup_number(), entity.getOption_number(), isSpecialDate, option_in_service);
+            for (BillDetailOptionEntity option :option_on_bill) {
+                if (entity.getGroup_number()!=option.getGroup_number() || entity.getOption_number()!=option.getOption_number())
+                    continue;
+                limit-=getQuantityOfBill(bill_on_date, option.getBill_id());
+            }
+            remain_slot_list.add(limit);
         }
         //------CHECK FOR BRANCH-------
         ArrayList<PackageLimitEntity> branch_ban_list = packageLimitRepository.findByService(service_id);
@@ -145,11 +160,23 @@ public class BillService {
                 return 0;
         }
         // Find min limit
+        if (remain_slot_list.isEmpty())
+            return 0;
         int min = remain_slot_list.get(0);
-        for (int ele:remain_slot_list)
-            if (ele<min)
+        for (int ele:remain_slot_list) {
+            System.out.println("MANG: " + ele);
+            if (ele < min)
                 min = ele;
+        }
         return min;
+    }
+
+    private int getNodeLimit(int group, int option, boolean isSpecial, ArrayList<PackageOptionEntity> option_list) {
+        for (PackageOptionEntity entity:option_list){
+            if (entity.getGroup_number()==group&&entity.getOption_number()==option)
+                return isSpecial ? entity.getLimit_special() : entity.getLimit();
+        }
+        return 0;
     }
 
     private int getQuantityOfBill(ArrayList<BillEntity> list, String bill_id) {
@@ -162,10 +189,11 @@ public class BillService {
     private boolean checkSpecialDate(String service_id, Date date) {
         int number_in_week = date.toLocalDate().getDayOfWeek().getValue();
         int number_in_month = date.toLocalDate().getDayOfMonth();
+        System.out.println("NGAY: " + number_in_week);
 
         ArrayList<SpecialDateEntity> special_day_list = specialDateRepository.findByService(service_id);
         for (SpecialDateEntity day : special_day_list)
-            if (day.getType().equals("WEEK") && day.getSeq() + 1 == number_in_week)
+            if (day.getType().equals("WEEK") && day.getSeq() + 2 == number_in_week)
                 return true;
             else if (day.getType().equals("MONTH") && day.getSeq() + 1 == number_in_month)
                 return true;

@@ -24,5 +24,4 @@ public class TestController {
         headers.add("Content-type","application/json");
         return ResponseEntity.status(200).headers(headers).body(fileService.loadPublicFile("assetlinks.json"));
     }
-
 }

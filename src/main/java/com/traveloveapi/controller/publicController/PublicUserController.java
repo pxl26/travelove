@@ -30,4 +30,8 @@ public class PublicUserController {
     private SimpleResponse getEmailStatus(@RequestParam String email) {
         return new SimpleResponse(userProfileService.checkEmailAndPasswordStatus(email).toString(), 200);
     }
+    @GetMapping("/test")
+    public String test() {
+        return "Hello world!!!";
+    }
 }
