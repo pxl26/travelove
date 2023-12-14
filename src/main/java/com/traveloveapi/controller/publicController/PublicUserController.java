@@ -32,6 +32,6 @@ public class PublicUserController {
     }
     @GetMapping("/test")
     public String test() {
-        return "Hello world!!!";
+        return "Hello PTUDWNC!!!";
     }
 }
