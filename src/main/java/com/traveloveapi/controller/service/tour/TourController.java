@@ -5,6 +5,7 @@ import com.traveloveapi.DTO.service.ServiceDetailDTO;
 import com.traveloveapi.DTO.service.ServiceStatusByDateDTO;
 import com.traveloveapi.constrain.ServiceType;
 import com.traveloveapi.service.tour.TourService;
+import com.traveloveapi.service.user.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/service/tour")
+@RequestMapping("/service")
 public class TourController {
     final private TourService tourService;
     @PostMapping("/new")
@@ -24,5 +25,10 @@ public class TourController {
         return tourService.createNewService(service_type, title, description, highlight, note, files);
     }
 
-
+    @GetMapping("/pending")
+    public ArrayList<ServiceDetailDTO> getPendingService(@RequestParam(required = false) String owner) {
+        if (owner==null)
+            owner="";
+        return tourService.getPendingTour(owner);
+    }
 }

@@ -17,6 +17,7 @@ import com.traveloveapi.entity.service_package.package_group.PackageGroupEntity;
 import com.traveloveapi.entity.service_package.package_option.PackageOptionEntity;
 import com.traveloveapi.entity.service_package.person_type.PackagePersonTypeEntity;
 import com.traveloveapi.entity.service_package.special_date.SpecialDateEntity;
+import com.traveloveapi.exception.ForbiddenException;
 import com.traveloveapi.repository.MediaRepository;
 import com.traveloveapi.repository.ServiceDetailRepository;
 import com.traveloveapi.repository.ServiceRepository;
@@ -24,6 +25,7 @@ import com.traveloveapi.repository.UserRepository;
 import com.traveloveapi.repository.service_package.*;
 import com.traveloveapi.service.file.FileService;
 import com.traveloveapi.service.user.UserService;
+import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -85,6 +87,19 @@ public class TourService {
         ServiceDetailEntity tour = tourRepository.find(id);
         ArrayList<MediaEntity> media = mediaRepository.find(id, "SERVICE_MEDIA");
         return new ServiceDetailDTO(service, tour, media);
+    }
+
+    public ArrayList<ServiceDetailDTO> getPendingTour(String service_owner) {
+        if (!userService.isAdmin()&&service_owner.isEmpty())
+            throw new ForbiddenException();
+            else if (!service_owner.isEmpty()&&!service_owner.equals(SecurityContext.getUserID()))
+                    throw new ForbiddenException();
+
+        ArrayList<ServiceEntity> entity_list = serviceRepository.findByStatus(ServiceStatus.PENDING, service_owner);
+        ArrayList<ServiceDetailDTO> rs = new ArrayList<>();
+        for (ServiceEntity entity: entity_list)
+            rs.add(getTour(entity.getId()));
+        return rs;
     }
 
     public ServiceDetailDTO editTour(String title, String description, String highlight, String note) {return null;}
