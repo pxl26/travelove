@@ -38,7 +38,6 @@ public class BillService {
         String id = UUID.randomUUID().toString();
         String user_id = SecurityContext.getUserID();
 
-
         BillEntity bill = new BillEntity();
         bill.setId(id);
         bill.setUser_id(user_id);
