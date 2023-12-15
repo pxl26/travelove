@@ -24,10 +24,10 @@ public class GoogleController {
     private String client_id="226555921335-sg94jf64gf5lq0rdfbo4ulr28i2u8fqu.apps.googleusercontent.com";
     private String scope="https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile";
     //private String redirect_uri="http%3A%2F%2Flocalhost%3A8080%2Fauth%2Foauth%2Fgoogle";
-    private String redirect_uri="http%3A%2F%2Fec2-3-0-65-96.ap-southeast-1.compute.amazonaws.com%3A2511/auth/oauth/google";
+    private String redirect_uri="https%3A%2F%2Fec2-3-0-65-96.ap-southeast-1.compute.amazonaws.com%3A2511/auth/oauth/google";
     private final GoogleService googleService;
 
-    @GetMapping("/get-link")https
+    @GetMapping("/get-link")
     @Tag(name = "SPRINT 1: Google")
     @Operation(description = "URL for go to OAuth page")
     public SimpleResponse googleGetLink() {
