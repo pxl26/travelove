@@ -11,6 +11,7 @@ import com.traveloveapi.entity.service_package.bill_detail_person_type.BillDetai
 import com.traveloveapi.entity.service_package.limit.PackageLimitEntity;
 import com.traveloveapi.entity.service_package.package_group.PackageGroupEntity;
 import com.traveloveapi.entity.service_package.package_option.PackageOptionEntity;
+import com.traveloveapi.entity.service_package.person_type.PackagePersonTypeEntity;
 import com.traveloveapi.entity.service_package.special_date.SpecialDateEntity;
 import com.traveloveapi.repository.service_package.*;
 import com.traveloveapi.utility.SecurityContext;
@@ -33,6 +34,7 @@ public class BillService {
     final private PackageOptionRepository packageOptionRepository;
     final private PackageGroupRepository packageGroupRepository;
     final private PackageLimitRepository packageLimitRepository;
+    final private PackagePersonTypeRepository packagePersonTypeRepository;
 
     public BillDTO createNewBill(BillRequest data) {
         String id = UUID.randomUUID().toString();
@@ -42,7 +44,7 @@ public class BillService {
         bill.setId(id);
         bill.setUser_id(user_id);
         bill.setService_id(data.getService_id());
-        bill.setTotal(data.getTotal());
+        bill.setTotal(getTotalForBill(data.getService_id(),data.getDate(), data.getPerson_types(), data.getOptions()));
         bill.setDate(data.getDate());
         bill.setCreate_at(new Timestamp(System.currentTimeMillis()));
         int num_ticket = 0;
@@ -170,6 +172,32 @@ public class BillService {
         return min;
     }
 
+    public float getTotalForBill(String service_id, Date date, ArrayList<CreateBillPersonType> person_type, ArrayList<GroupOptionDTO> options) {
+        ArrayList<PackageOptionEntity> option_entity_list = packageOptionRepository.findByService(service_id);
+        boolean isSpecialDay = checkSpecialDate(service_id,date);
+        float base_price = 0;
+        for (GroupOptionDTO option: options)
+            for (PackageOptionEntity entity: option_entity_list)
+                if (option.getGroup_number()==entity.getGroup_number()&&option.getOption_number()==entity.getOption_number())
+                {
+                    if (isSpecialDay)
+                        base_price+=entity.getPrice_special();
+                    else
+                        base_price+=entity.getPrice();
+                    break;
+                }
+
+        float total = 0;
+        ArrayList<PackagePersonTypeEntity> person_type_list = packagePersonTypeRepository.find(service_id);
+        for (CreateBillPersonType person: person_type)
+            for (PackagePersonTypeEntity entity: person_type_list)
+                if (person.getType().equals(entity.getName())) {
+                    total += (entity.getBonus_price() + base_price)*person.getQuantity();
+                    break;
+                }
+        return total;
+    }
+
     private int getNodeLimit(int group, int option, boolean isSpecial, ArrayList<PackageOptionEntity> option_list) {
         for (PackageOptionEntity entity:option_list){
             if (entity.getGroup_number()==group&&entity.getOption_number()==option)
@@ -192,7 +220,7 @@ public class BillService {
 
         ArrayList<SpecialDateEntity> special_day_list = specialDateRepository.findByService(service_id);
         for (SpecialDateEntity day : special_day_list)
-            if (day.getType().equals("WEEK") && day.getSeq() + 2 == number_in_week)
+            if (day.getType().equals("WEEK") && day.getSeq() + 1 == number_in_week)
                 return true;
             else if (day.getType().equals("MONTH") && day.getSeq() + 1 == number_in_month)
                 return true;
