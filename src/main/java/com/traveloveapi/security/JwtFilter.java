@@ -78,7 +78,8 @@ public class JwtFilter extends OncePerRequestFilter {
         if (request.getMethod().equals("OPTIONS"))
             return true;
         String requestPath = request.getServletPath();
-        String[] whiteList = {"/login/basic","/register/basic", "/favicon.ico"};
+        System.out.println("Day la url"+requestPath);
+        String[] whiteList = {"/login/basic","/register/basic", "/favicon.ico", "/"};
         for (String path : whiteList) {
             if (path.equals(requestPath))
                 return true;
