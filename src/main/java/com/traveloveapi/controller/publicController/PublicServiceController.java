@@ -24,18 +24,20 @@ public class PublicServiceController {
     final private TourService tourService;
     final private BillService billService;
     @GetMapping("/tour")
-    @Tag(name = "SPRINT 2: View tour by everyone")
+    @Tag(name = "SPRINT 2: User side")
     public ServiceDetailDTO getTour(@RequestParam String id) {
         return tourService.getTour(id);
     }
 
 
     @GetMapping("/package")
+    @Tag(name = "SPRINT 2: User side")
     public PackageInfoDTO getPackage(@RequestParam String service_id) {
         return tourService.getPackageInfo(service_id);
     }
 
     @GetMapping("/check-available")
+    @Tag(name="SPRINT 2: User side")
     public ArrayList<ServiceStatusByDateDTO> checkServiceStatusByMonth(@RequestBody RequestCheckAvailablePackageDTO request) {
         int month = request.getMonth();
         int year = request.getYear();
