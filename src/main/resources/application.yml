@@ -32,7 +32,7 @@ logging:
         name: log/dev.log
 
 server:
-    port: 433
+    port: 2511
     ssl:
         key-store: data/keystore.p12
         key-store-password: 26122002loc
