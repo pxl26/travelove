@@ -16,7 +16,7 @@ public class PackageInfoDTO {
     private String service_id;
     private ArrayList<PackageGroupDTO> package_group;
     private ArrayList<ArrayList<GroupOptionDTO>> disable_list;
-    private ArrayList<CreatePackagePersonType> peron_type;
+    private ArrayList<CreatePackagePersonType> person_type;
     private ArrayList<CreateSpecialOption> special_option;
     private ArrayList<SpecialDateDTO> special_date;
 }
