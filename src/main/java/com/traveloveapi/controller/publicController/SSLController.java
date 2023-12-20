@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SSLController {
     final private FileService fileService;
-    @GetMapping("/.well-known/pki-validation/B693896016E01B5DDD76680770EA7FBB.txt")
+    @GetMapping("/.well-known/pki-validation/BB97BD543EE6CEDCFF884C60DCD8D216.txt")
     public byte[] requireForSSL() {
         return fileService.loadPublicFile("ssl.txt");
     }
