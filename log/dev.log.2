@@ -1,85 +1,40 @@
-[2023-12-20 16:33:19.561] - 21176 INFO [main] --- com.traveloveapi.TraveloveApplication: Starting TraveloveApplication using Java 17.0.8.1 with PID 21176 (/home/pxl/IT/Travelove/travelove/target/classes started by pxl in /home/pxl/IT/Travelove/travelove)
-[2023-12-20 16:33:19.601] - 21176 INFO [main] --- com.traveloveapi.TraveloveApplication: No active profile set, falling back to 1 default profile: "default"
-[2023-12-20 16:33:20.754] - 21176 INFO [main] --- org.springframework.data.repository.config.RepositoryConfigurationDelegate: Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-[2023-12-20 16:33:20.796] - 21176 INFO [main] --- org.springframework.data.repository.config.RepositoryConfigurationDelegate: Finished Spring Data repository scanning in 31 ms. Found 0 JPA repository interfaces.
-[2023-12-20 16:33:21.481] - 21176 INFO [main] --- org.springframework.boot.web.embedded.tomcat.TomcatWebServer: Tomcat initialized with port(s): 443 (https)
-[2023-12-20 16:33:21.496] - 21176 INFO [main] --- org.apache.catalina.core.StandardService: Starting service [Tomcat]
-[2023-12-20 16:33:21.497] - 21176 INFO [main] --- org.apache.catalina.core.StandardEngine: Starting Servlet engine: [Apache Tomcat/10.1.13]
-[2023-12-20 16:33:21.558] - 21176 INFO [main] --- org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]: Initializing Spring embedded WebApplicationContext
-[2023-12-20 16:33:21.559] - 21176 INFO [main] --- org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext: Root WebApplicationContext: initialization completed in 1866 ms
-[2023-12-20 16:33:21.745] - 21176 INFO [main] --- com.zaxxer.hikari.HikariDataSource: HikariPool-1 - Starting...
-[2023-12-20 16:33:21.889] - 21176 INFO [main] --- com.zaxxer.hikari.pool.HikariPool: HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@b379bc6
-[2023-12-20 16:33:21.892] - 21176 INFO [main] --- com.zaxxer.hikari.HikariDataSource: HikariPool-1 - Start completed.
-[2023-12-20 16:33:21.930] - 21176 INFO [main] --- org.hibernate.jpa.internal.util.LogHelper: HHH000204: Processing PersistenceUnitInfo [name: default]
-[2023-12-20 16:33:21.983] - 21176 INFO [main] --- org.hibernate.Version: HHH000412: Hibernate ORM core version 6.2.9.Final
-[2023-12-20 16:33:21.986] - 21176 INFO [main] --- org.hibernate.cfg.Environment: HHH000406: Using bytecode reflection optimizer
-[2023-12-20 16:33:22.137] - 21176 INFO [main] --- org.hibernate.bytecode.internal.BytecodeProviderInitiator: HHH000021: Bytecode provider name : bytebuddy
-[2023-12-20 16:33:22.265] - 21176 INFO [main] --- org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo: No LoadTimeWeaver setup: ignoring JPA class transformer
-[2023-12-20 16:33:22.327] - 21176 WARNING [main] --- org.hibernate.dialect.Dialect: HHH000511: The 5.6.51 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 5.7.0. Check the community dialects project for available legacy versions.
-[2023-12-20 16:33:22.572] - 21176 INFO [main] --- org.hibernate.bytecode.internal.BytecodeProviderInitiator: HHH000021: Bytecode provider name : bytebuddy
-[2023-12-20 16:33:22.633] - 21176 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000038: Composite-id class does not override equals(): com.traveloveapi.entity.service_package.option_special.OptionSpecialId
-[2023-12-20 16:33:22.633] - 21176 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000039: Composite-id class does not override hashCode(): com.traveloveapi.entity.service_package.option_special.OptionSpecialId
-[2023-12-20 16:33:22.634] - 21176 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000038: Composite-id class does not override equals(): com.traveloveapi.entity.service_package.limit.PackageLimitId
-[2023-12-20 16:33:22.634] - 21176 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000039: Composite-id class does not override hashCode(): com.traveloveapi.entity.service_package.limit.PackageLimitId
-[2023-12-20 16:33:22.635] - 21176 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000038: Composite-id class does not override equals(): com.traveloveapi.entity.service_package.person_type.PackagePersonTypeId
-[2023-12-20 16:33:22.635] - 21176 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000039: Composite-id class does not override hashCode(): com.traveloveapi.entity.service_package.person_type.PackagePersonTypeId
-[2023-12-20 16:33:22.636] - 21176 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000038: Composite-id class does not override equals(): com.traveloveapi.entity.service_package.package_group.PackageGroupId
-[2023-12-20 16:33:22.637] - 21176 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000039: Composite-id class does not override hashCode(): com.traveloveapi.entity.service_package.package_group.PackageGroupId
-[2023-12-20 16:33:22.637] - 21176 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000038: Composite-id class does not override equals(): com.traveloveapi.entity.service_package.package_option.PackageOptionId
-[2023-12-20 16:33:22.638] - 21176 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000039: Composite-id class does not override hashCode(): com.traveloveapi.entity.service_package.package_option.PackageOptionId
-[2023-12-20 16:33:23.357] - 21176 INFO [main] --- org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-[2023-12-20 16:33:23.360] - 21176 INFO [main] --- org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean: Initialized JPA EntityManagerFactory for persistence unit 'default'
-[2023-12-20 16:33:23.626] - 21176 WARNING [main] --- org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration: spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-[2023-12-20 16:33:23.719] - 21176 INFO [main] --- org.springframework.security.web.DefaultSecurityFilterChain: Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4131261, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@193c3b1c, org.springframework.security.web.context.SecurityContextHolderFilter@7205a8b7, org.springframework.security.web.header.HeaderWriterFilter@7dd847a2, org.springframework.security.web.authentication.logout.LogoutFilter@6334c0d8, com.traveloveapi.security.JwtFilter@43d84df1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@22cce199, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@19ee0a2f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2318651f, org.springframework.security.web.session.SessionManagementFilter@24890021, org.springframework.security.web.access.ExceptionTranslationFilter@2c7607e5]
-[2023-12-20 16:33:24.123] - 21176 WARNING [main] --- org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext: Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
-[2023-12-20 16:33:24.128] - 21176 INFO [main] --- org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean: Closing JPA EntityManagerFactory for persistence unit 'default'
-[2023-12-20 16:33:24.131] - 21176 INFO [main] --- com.zaxxer.hikari.HikariDataSource: HikariPool-1 - Shutdown initiated...
-[2023-12-20 16:33:24.137] - 21176 INFO [main] --- com.zaxxer.hikari.HikariDataSource: HikariPool-1 - Shutdown completed.
-[2023-12-20 16:33:24.139] - 21176 INFO [main] --- org.apache.catalina.core.StandardService: Stopping service [Tomcat]
-[2023-12-20 16:33:24.158] - 21176 INFO [main] --- org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLogger: 
-
-Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
-[2023-12-20 16:33:24.173] - 21176 SEVERE [main] --- org.springframework.boot.SpringApplication: Application run failed
-org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
-	at org.springframework.context.support.DefaultLifecycleProcessor.doStart(DefaultLifecycleProcessor.java:182)
-	at org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.start(DefaultLifecycleProcessor.java:357)
-	at java.base/java.lang.Iterable.forEach(Iterable.java:75)
-	at org.springframework.context.support.DefaultLifecycleProcessor.startBeans(DefaultLifecycleProcessor.java:156)
-	at org.springframework.context.support.DefaultLifecycleProcessor.onRefresh(DefaultLifecycleProcessor.java:124)
-	at org.springframework.context.support.AbstractApplicationContext.finishRefresh(AbstractApplicationContext.java:958)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:611)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:737)
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
-	at com.traveloveapi.TraveloveApplication.main(TraveloveApplication.java:12)
-Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat server
-	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start(TomcatWebServer.java:229)
-	at org.springframework.boot.web.servlet.context.WebServerStartStopLifecycle.start(WebServerStartStopLifecycle.java:44)
-	at org.springframework.context.support.DefaultLifecycleProcessor.doStart(DefaultLifecycleProcessor.java:179)
-	... 13 more
-Caused by: java.lang.IllegalArgumentException: standardService.connector.startFailed
-	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:235)
-	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.addPreviouslyRemovedConnectors(TomcatWebServer.java:282)
-	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start(TomcatWebServer.java:213)
-	... 15 more
-Caused by: org.apache.catalina.LifecycleException: Protocol handler start failed
-	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1046)
-	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:171)
-	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:232)
-	... 17 more
-Caused by: java.net.BindException: Permission denied
-	at java.base/sun.nio.ch.Net.bind0(Native Method)
-	at java.base/sun.nio.ch.Net.bind(Net.java:555)
-	at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:337)
-	at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:294)
-	at org.apache.tomcat.util.net.NioEndpoint.initServerSocket(NioEndpoint.java:247)
-	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:202)
-	at org.apache.tomcat.util.net.AbstractEndpoint.bindWithCleanup(AbstractEndpoint.java:1278)
-	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:1364)
-	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:633)
-	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1043)
-	... 19 more
-
+[2023-12-20 16:33:35.893] - 21320 INFO [main] --- com.traveloveapi.TraveloveApplication: Starting TraveloveApplication using Java 17.0.8.1 with PID 21320 (/home/pxl/IT/Travelove/travelove/target/classes started by pxl in /home/pxl/IT/Travelove/travelove)
+[2023-12-20 16:33:35.962] - 21320 INFO [main] --- com.traveloveapi.TraveloveApplication: No active profile set, falling back to 1 default profile: "default"
+[2023-12-20 16:33:37.300] - 21320 INFO [main] --- org.springframework.data.repository.config.RepositoryConfigurationDelegate: Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2023-12-20 16:33:37.340] - 21320 INFO [main] --- org.springframework.data.repository.config.RepositoryConfigurationDelegate: Finished Spring Data repository scanning in 30 ms. Found 0 JPA repository interfaces.
+[2023-12-20 16:33:38.068] - 21320 INFO [main] --- org.springframework.boot.web.embedded.tomcat.TomcatWebServer: Tomcat initialized with port(s): 2511 (https)
+[2023-12-20 16:33:38.083] - 21320 INFO [main] --- org.apache.catalina.core.StandardService: Starting service [Tomcat]
+[2023-12-20 16:33:38.084] - 21320 INFO [main] --- org.apache.catalina.core.StandardEngine: Starting Servlet engine: [Apache Tomcat/10.1.13]
+[2023-12-20 16:33:38.149] - 21320 INFO [main] --- org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]: Initializing Spring embedded WebApplicationContext
+[2023-12-20 16:33:38.150] - 21320 INFO [main] --- org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext: Root WebApplicationContext: initialization completed in 2054 ms
+[2023-12-20 16:33:38.348] - 21320 INFO [main] --- com.zaxxer.hikari.HikariDataSource: HikariPool-1 - Starting...
+[2023-12-20 16:33:38.525] - 21320 INFO [main] --- com.zaxxer.hikari.pool.HikariPool: HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@251c8145
+[2023-12-20 16:33:38.528] - 21320 INFO [main] --- com.zaxxer.hikari.HikariDataSource: HikariPool-1 - Start completed.
+[2023-12-20 16:33:38.576] - 21320 INFO [main] --- org.hibernate.jpa.internal.util.LogHelper: HHH000204: Processing PersistenceUnitInfo [name: default]
+[2023-12-20 16:33:38.636] - 21320 INFO [main] --- org.hibernate.Version: HHH000412: Hibernate ORM core version 6.2.9.Final
+[2023-12-20 16:33:38.639] - 21320 INFO [main] --- org.hibernate.cfg.Environment: HHH000406: Using bytecode reflection optimizer
+[2023-12-20 16:33:38.803] - 21320 INFO [main] --- org.hibernate.bytecode.internal.BytecodeProviderInitiator: HHH000021: Bytecode provider name : bytebuddy
+[2023-12-20 16:33:38.946] - 21320 INFO [main] --- org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo: No LoadTimeWeaver setup: ignoring JPA class transformer
+[2023-12-20 16:33:39.021] - 21320 WARNING [main] --- org.hibernate.dialect.Dialect: HHH000511: The 5.6.51 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 5.7.0. Check the community dialects project for available legacy versions.
+[2023-12-20 16:33:39.305] - 21320 INFO [main] --- org.hibernate.bytecode.internal.BytecodeProviderInitiator: HHH000021: Bytecode provider name : bytebuddy
+[2023-12-20 16:33:39.378] - 21320 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000038: Composite-id class does not override equals(): com.traveloveapi.entity.service_package.option_special.OptionSpecialId
+[2023-12-20 16:33:39.378] - 21320 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000039: Composite-id class does not override hashCode(): com.traveloveapi.entity.service_package.option_special.OptionSpecialId
+[2023-12-20 16:33:39.379] - 21320 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000038: Composite-id class does not override equals(): com.traveloveapi.entity.service_package.limit.PackageLimitId
+[2023-12-20 16:33:39.380] - 21320 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000039: Composite-id class does not override hashCode(): com.traveloveapi.entity.service_package.limit.PackageLimitId
+[2023-12-20 16:33:39.380] - 21320 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000038: Composite-id class does not override equals(): com.traveloveapi.entity.service_package.person_type.PackagePersonTypeId
+[2023-12-20 16:33:39.381] - 21320 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000039: Composite-id class does not override hashCode(): com.traveloveapi.entity.service_package.person_type.PackagePersonTypeId
+[2023-12-20 16:33:39.382] - 21320 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000038: Composite-id class does not override equals(): com.traveloveapi.entity.service_package.package_group.PackageGroupId
+[2023-12-20 16:33:39.383] - 21320 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000039: Composite-id class does not override hashCode(): com.traveloveapi.entity.service_package.package_group.PackageGroupId
+[2023-12-20 16:33:39.384] - 21320 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000038: Composite-id class does not override equals(): com.traveloveapi.entity.service_package.package_option.PackageOptionId
+[2023-12-20 16:33:39.384] - 21320 WARNING [main] --- org.hibernate.mapping.RootClass: HHH000039: Composite-id class does not override hashCode(): com.traveloveapi.entity.service_package.package_option.PackageOptionId
+[2023-12-20 16:33:40.258] - 21320 INFO [main] --- org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[2023-12-20 16:33:40.262] - 21320 INFO [main] --- org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean: Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2023-12-20 16:33:40.587] - 21320 WARNING [main] --- org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration: spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2023-12-20 16:33:40.739] - 21320 INFO [main] --- org.springframework.security.web.DefaultSecurityFilterChain: Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@560c3758, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@43414b88, org.springframework.security.web.context.SecurityContextHolderFilter@25762f04, org.springframework.security.web.header.HeaderWriterFilter@3fed0c04, org.springframework.security.web.authentication.logout.LogoutFilter@3c5cb013, com.traveloveapi.security.JwtFilter@52a605c3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5a6d4dee, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7af7c9aa, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@13fad0c7, org.springframework.security.web.session.SessionManagementFilter@5812935, org.springframework.security.web.access.ExceptionTranslationFilter@28796d0e]
+[2023-12-20 16:33:41.722] - 21320 INFO [main] --- org.apache.tomcat.util.net.NioEndpoint.certificate: Connector [https-jsse-nio-2511], TLS virtual host [_default_], certificate type [UNDEFINED] configured from keystore [/home/pxl/.keystore] using alias [tomcat] with trust store [null]
+[2023-12-20 16:33:41.742] - 21320 INFO [main] --- org.springframework.boot.web.embedded.tomcat.TomcatWebServer: Tomcat started on port(s): 2511 (https) with context path ''
+[2023-12-20 16:33:41.764] - 21320 INFO [main] --- com.traveloveapi.TraveloveApplication: Started TraveloveApplication in 6.81 seconds (process running for 7.455)
+[2023-12-20 16:34:01.303] - 21320 INFO [https-jsse-nio-2511-exec-8] --- org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]: Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2023-12-20 16:34:01.304] - 21320 INFO [https-jsse-nio-2511-exec-8] --- org.springframework.web.servlet.DispatcherServlet: Initializing Servlet 'dispatcherServlet'
+[2023-12-20 16:34:01.305] - 21320 INFO [https-jsse-nio-2511-exec-8] --- org.springframework.web.servlet.DispatcherServlet: Completed initialization in 1 ms
+[2023-12-20 16:34:01.314] - 21320 INFO [https-jsse-nio-2511-exec-8] --- com.traveloveapi.security.JwtFilter: https://localhost:2511/public/service/package?service_id=0f1891f1-897c-46ae-8d4c-a9b254eb4da2
