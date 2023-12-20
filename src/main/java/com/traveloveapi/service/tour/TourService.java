@@ -111,7 +111,7 @@ public class TourService {
 
         result.setPackage_group(new ArrayList<>());
         result.setDisable_list(new ArrayList<>());
-        result.setPeron_type(new ArrayList<>());
+        result.setPerson_type(new ArrayList<>());
         result.setSpecial_date(new ArrayList<>());
         result.setSpecial_option(new ArrayList<>());
 
@@ -125,7 +125,7 @@ public class TourService {
         ArrayList<PackagePersonTypeEntity> packagePersonTypeEntities = packagePersonTypeRepository.find(service_id);
         for (PackagePersonTypeEntity entity: packagePersonTypeEntities) {
             CreatePackagePersonType dto = new CreatePackagePersonType(entity.getName(), entity.getBonus_price());
-            result.getPeron_type().add(dto);
+            result.getPerson_type().add(dto);
         }
         //------set special option
         ArrayList<OptionSpecialEntity> optionSpecialEntities = optionSpecialRepository.findByService(service_id);
