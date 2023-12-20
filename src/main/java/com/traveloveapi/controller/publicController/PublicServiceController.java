@@ -54,16 +54,7 @@ public class PublicServiceController {
         ArrayList<ServiceStatusByDateDTO> result = new ArrayList<>();
 
         int start_day = now.get(Calendar.MONTH)==month ? now.get(Calendar.DAY_OF_MONTH) : 1;
-//        for (int i=start_day; i<=lengthOfMonth; i++)
-//        {
-//            ServiceStatusByDateDTO status = new ServiceStatusByDateDTO();
-//            status.setRemain(billService.getAvailablePackage(service_id, new Date(year-1900, month-1, i), options));
-//            status.setAvailable(status.getRemain() != 0);
-//            status.setDate(new Date(year-1900, month-1, i));
-//            status.setCause("");
-//            result.add(status);
-//        }
-        for (int i=15; i<=15; i++)
+        for (int i=start_day; i<=lengthOfMonth; i++)
         {
             ServiceStatusByDateDTO status = new ServiceStatusByDateDTO();
             status.setRemain(billService.getAvailablePackage(service_id, new Date(year-1900, month-1, i), options));
@@ -72,6 +63,17 @@ public class PublicServiceController {
             status.setCause("");
             result.add(status);
         }
+
+
+//        for (int i=15; i<=15; i++)
+//        {
+//            ServiceStatusByDateDTO status = new ServiceStatusByDateDTO();
+//            status.setRemain(billService.getAvailablePackage(service_id, new Date(year-1900, month-1, i), options));
+//            status.setAvailable(status.getRemain() != 0);
+//            status.setDate(new Date(year-1900, month-1, i));
+//            status.setCause("");
+//            result.add(status);
+//        }
         return result;
     }
 }

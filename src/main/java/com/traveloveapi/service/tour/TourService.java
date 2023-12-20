@@ -153,7 +153,7 @@ public class TourService {
             dto.setPackage_option(new ArrayList<>());
             for (PackageOptionEntity option: option_list)
                 if (option.getGroup_number()==entity.getGroup_number())
-                    dto.getPackage_option().add(new OptionDTO(entity.getGroup_number(), option.getOption_number(), option.getName()));
+                    dto.getPackage_option().add(new OptionDTO(entity.getGroup_number(), option.getOption_number(), option.getName(), option.getPrice(), option.getPrice_special()));
             result.getPackage_group().add(dto);
         }
         return result;

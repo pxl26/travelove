@@ -11,4 +11,6 @@ public class OptionDTO {
     private int group_number;
     private int option_number;
     private String name;
+    private float price;
+    private float price_special;
 }

@@ -16,11 +16,11 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .servers(List.of(new Server().url("https://3.0.65.96:2511")))
+                .servers(List.of(new Server().url("https://api.travelovecompany.com")))
                 .info(new Info().title("TRAVELOVE")
                         .description("REST-API document for Travelove")
                         .contact(new Contact()
-                                .email("phanxuanloc2612@gmail.com")
+                                .email("travelovecompany@gmail.com")
                                 .name("Phan Xuan Loc").url("https://www.facebook.com/pxl.26"))
                         .version("1.0.0"));
 

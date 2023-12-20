@@ -8,6 +8,6 @@ public class HomePageController {
     @RequestMapping("/")
     @ResponseBody
     public String homepage() {
-        return "<meta name=\"zalo-platform-site-verification\" content=\"GFoq08lq1Wr9_z0goUbM1X71vb3zjpGBCJCn\" />";
+        return "<head><title>One piece</title></head><body><h1>Thời đại mới đã đến!!!</h1></body>";
     }
 }
