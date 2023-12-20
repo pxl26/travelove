@@ -32,10 +32,12 @@ logging:
         name: log/dev.log
 
 server:
-    port: 80
-#    ssl:
-#        key-store: data/keystore.p12
-#        key-store-password: 26122002loc
-#        keyStoreType: PKCS12
-#        keyAlias: tomcat
-#        enabled: true
+    port: 433
+    ssl:
+        key-store: data/keystore.p12
+        key-store-password: 26122002loc
+        keyStoreType: PKCS12
+        keyAlias: tomcat
+        enabled: true
+        certificate: data/certificate.crt
+        certificate-private-key: data/private.key
