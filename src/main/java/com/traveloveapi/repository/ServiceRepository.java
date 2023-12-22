@@ -5,6 +5,7 @@ import com.traveloveapi.entity.ServiceEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.hibernate.search.mapper.orm.Search;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -22,6 +23,10 @@ public class ServiceRepository {
             return (ArrayList<ServiceEntity>) entityManager.createQuery("FROM ServiceEntity m WHERE m.status=:status").setParameter("status",status).getResultList();
         return (ArrayList<ServiceEntity>) entityManager.createQuery("FROM ServiceEntity m WHERE m.status=:status and m.service_owner=:owner").setParameter("status",status).setParameter("owner",owner).getResultList();
     }
+
+//    public ArrayList<ServiceEntity> search(String input, int limit. int offset) {
+//        return Search.session(entityManager).search(ServiceEntity.class).where(f -> f.match().fields("title").)
+//    }
 
     @Transactional
     public void save(ServiceEntity entity) {

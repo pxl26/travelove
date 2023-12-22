@@ -1,5 +1,7 @@
 package com.traveloveapi.controller.publicController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.traveloveapi.DTO.service.RequestCheckAvailablePackageDTO;
 import com.traveloveapi.DTO.service.ServiceDetailDTO;
 import com.traveloveapi.DTO.service.ServiceStatusByDateDTO;
@@ -38,7 +40,9 @@ public class PublicServiceController {
 
     @GetMapping("/check-available")
     @Tag(name="SPRINT 2: User side")
-    public ArrayList<ServiceStatusByDateDTO> checkServiceStatusByMonth(@RequestBody RequestCheckAvailablePackageDTO request) {
+    //RequestCheckAvailablePackageDTO
+    public ArrayList<ServiceStatusByDateDTO> checkServiceStatusByMonth(@RequestParam String data) throws JsonProcessingException {
+        RequestCheckAvailablePackageDTO request = new ObjectMapper().readValue(data, RequestCheckAvailablePackageDTO.class);
         int month = request.getMonth();
         int year = request.getYear();
         String service_id = request.getService_id();

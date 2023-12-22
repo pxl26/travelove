@@ -41,7 +41,6 @@ com/traveloveapi/DTO/service_package/BillDTO.class
 com/traveloveapi/DTO/login/EmailLoginRequest.class
 com/traveloveapi/controller/auth/register/RegisterController.class
 com/traveloveapi/service/email/MailService.class
-com/traveloveapi/service/zalo/CreateOrder$1.class
 com/traveloveapi/repository/service_package/PackageOptionRepository.class
 com/traveloveapi/DTO/service_package/create_package/CreatePackageGroup.class
 com/traveloveapi/DTO/service_package/create_package/CreateSpecialOption.class
@@ -91,7 +90,6 @@ com/traveloveapi/DTO/RegisterDTO.class
 com/traveloveapi/entity/service_package/bill/BillEntity.class
 com/traveloveapi/constrain/Region.class
 com/traveloveapi/controller/publicController/HomePageController.class
-com/traveloveapi/service/zalo/CreateOrder.class
 com/traveloveapi/entity/GoogleEntity.class
 com/traveloveapi/controller/TestController.class
 com/traveloveapi/entity/service_package/person_type/PackagePersonTypeEntity.class
@@ -107,7 +105,6 @@ com/traveloveapi/utility/FileSupporter.class
 com/traveloveapi/constrain/Role.class
 com/traveloveapi/DTO/user/UserDTO.class
 com/traveloveapi/DTO/oauth/google/GoogleTokenResponse.class
-com/traveloveapi/controller/publicController/SSLController.class
 com/traveloveapi/utility/OTPCodeProvider.class
 com/traveloveapi/exception/SaveFileException.class
 com/traveloveapi/controller/service/tour/TourController.class

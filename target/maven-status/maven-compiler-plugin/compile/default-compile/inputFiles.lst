@@ -2,7 +2,6 @@
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/DTO/ErrorResponse.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/repository/service_package/OptionSpecialRepository.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/controller/publicController/PublicUserController.java
-/home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/controller/publicController/SSLController.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/utility/FileHandler.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/DTO/service_package/create_package/CreatePackageOption.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/DTO/service_package/BillRequest.java
@@ -31,7 +30,6 @@
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/entity/GoogleEntity.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/DTO/service_package/create_package/CreateSpecialOption.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/controller/admin/CreateAccount.java
-/home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/service/zalo/CreateOrder.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/entity/service_package/person_type/PackagePersonTypeId.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/repository/service_package/BillDetailOptionRepository.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/security/role/TourOwnerRole.java
@@ -65,7 +63,6 @@
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/controller/auth/register/RegisterController.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/security/CustomUserDetailService.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/DTO/login/EmailLoginRequest.java
-/home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/service/zalo/zalopay.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/DTO/oauth/google/GoogleTokenResponse.java
 /home/pxl/IT/Travelove/travelove/src/main/java/vn/zalopay/crypto/RSAUtil.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/service/BillService.java

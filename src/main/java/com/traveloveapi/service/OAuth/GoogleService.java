@@ -68,7 +68,6 @@ public class GoogleService {
         GoogleEntity myGoogleData = googleRepository.find(userInfo.getId());
         if (myGoogleData!=null)
         {
-            System.out.println(myGoogleData.getId());
             UserEntity user = userRepository.find(myGoogleData.getUser_id());
             SecurityContext.setUser(user.getId(), user.getRole().toString());
             return JwtProvider.generateTokenResponse(user.getId(), user.getRole());
