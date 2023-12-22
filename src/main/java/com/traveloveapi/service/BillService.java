@@ -142,6 +142,8 @@ public class BillService {
             if (!isHaveOption_1 && !isHaveOption_2)
                 continue;
             int limit_on_single_branch = isSpecialDay ? rule.getLimit_special() : rule.getLimit();
+            if (limit_on_single_branch==0)
+                continue;
             for (BillEntity bill : bill_on_date) {
                 ArrayList<BillDetailOptionEntity> options = billDetailOptionRepository.findByBill(bill.getId());
                 // Check for existing of branch in bill
