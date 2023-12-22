@@ -11,6 +11,7 @@ import com.traveloveapi.entity.MediaEntity;
 import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.ServiceDetailEntity;
 import com.traveloveapi.entity.UserEntity;
+import com.traveloveapi.entity.searching.ServiceSearchingEntity;
 import com.traveloveapi.entity.service_package.disable_option.DisableOptionEntity;
 import com.traveloveapi.entity.service_package.option_special.OptionSpecialEntity;
 import com.traveloveapi.entity.service_package.package_group.PackageGroupEntity;
@@ -22,6 +23,7 @@ import com.traveloveapi.repository.MediaRepository;
 import com.traveloveapi.repository.ServiceDetailRepository;
 import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.repository.UserRepository;
+import com.traveloveapi.repository.searching.ServiceSearchingRepository;
 import com.traveloveapi.repository.service_package.*;
 import com.traveloveapi.service.file.FileService;
 import com.traveloveapi.service.user.UserService;
@@ -48,6 +50,7 @@ public class TourService {
     final private PackagePersonTypeRepository packagePersonTypeRepository;
     final private PackageGroupRepository packageGroupRepository;
     final private PackageOptionRepository packageOptionRepository;
+    final private ServiceSearchingRepository serviceSearchingRepository;
 
     public ServiceDetailDTO createNewService(ServiceType type,String title, String description, String highlight, String note, MultipartFile[] files) {
         UserEntity owner = userService.verifyIsOwner();
@@ -78,6 +81,13 @@ public class TourService {
         service.setThumbnail(media.get(0).getPath());
         serviceRepository.save(service);
         tourRepository.save(tour);
+
+        //---------- CREATE SEARCHING RECORD
+        ServiceSearchingEntity entity = new ServiceSearchingEntity();
+        entity.setId(UUID.randomUUID().toString());
+        entity.setService_id(service.getId());
+        entity.setTitle(service.getTitle());
+        serviceSearchingRepository.save(entity);
 
         return new ServiceDetailDTO(service, tour, media);
     }
