@@ -24,9 +24,9 @@ public class ServiceRepository {
         return (ArrayList<ServiceEntity>) entityManager.createQuery("FROM ServiceEntity m WHERE m.status=:status and m.service_owner=:owner").setParameter("status",status).setParameter("owner",owner).getResultList();
     }
 
-//    public ArrayList<ServiceEntity> search(String input, int limit. int offset) {
-//        return Search.session(entityManager).search(ServiceEntity.class).where(f -> f.match().fields("title").)
-//    }
+    public ArrayList<ServiceEntity> search(String input, int limit, int offset) {
+        return (ArrayList<ServiceEntity>) Search.session(entityManager).search(ServiceEntity.class).where(f -> f.match().fields("title").matching(input)).fetchHits(offset, limit);
+    }
 
     @Transactional
     public void save(ServiceEntity entity) {

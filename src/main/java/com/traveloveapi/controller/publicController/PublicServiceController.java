@@ -7,7 +7,9 @@ import com.traveloveapi.DTO.service.ServiceDetailDTO;
 import com.traveloveapi.DTO.service.ServiceStatusByDateDTO;
 import com.traveloveapi.DTO.service_package.GroupOptionDTO;
 import com.traveloveapi.DTO.service_package.PackageInfoDTO;
+import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.exception.CustomException;
+import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.service.BillService;
 import com.traveloveapi.service.tour.TourService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,6 +27,7 @@ import java.util.Calendar;
 public class PublicServiceController {
     final private TourService tourService;
     final private BillService billService;
+    final private ServiceRepository serviceRepository;
     @GetMapping("/tour")
     @Tag(name = "SPRINT 2: User side")
     public ServiceDetailDTO getTour(@RequestParam String id) {
@@ -38,11 +41,11 @@ public class PublicServiceController {
         return tourService.getPackageInfo(service_id);
     }
 
-    @GetMapping("/check-available")
+    @PutMapping("/check-available")
     @Tag(name="SPRINT 2: User side")
     //RequestCheckAvailablePackageDTO
-    public ArrayList<ServiceStatusByDateDTO> checkServiceStatusByMonth(@RequestParam String data) throws JsonProcessingException {
-        RequestCheckAvailablePackageDTO request = new ObjectMapper().readValue(data, RequestCheckAvailablePackageDTO.class);
+    public ArrayList<ServiceStatusByDateDTO> checkServiceStatusByMonth(@RequestBody RequestCheckAvailablePackageDTO request) throws JsonProcessingException {
+        //RequestCheckAvailablePackageDTO request = new ObjectMapper().readValue(data, RequestCheckAvailablePackageDTO.class);
         int month = request.getMonth();
         int year = request.getYear();
         String service_id = request.getService_id();
@@ -79,5 +82,10 @@ public class PublicServiceController {
 //            result.add(status);
 //        }
         return result;
+    }
+
+    @GetMapping("/search")
+    public ArrayList<ServiceEntity> search(@RequestParam String input) {
+        return serviceRepository.search(input, 5, 0);
     }
 }
