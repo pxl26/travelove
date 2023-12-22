@@ -117,6 +117,8 @@ public class BillService {
         //------CHECK FOR EACH NODE
         for (GroupOptionDTO entity: option_list) {
             int limit = getNodeLimit(entity.getGroup_number(), entity.getOption_number(), isSpecialDate, option_in_service);
+            if (limit==0)
+                continue;
             for (BillDetailOptionEntity option :option_on_bill) {
                 if (entity.getGroup_number()!=option.getGroup_number() || entity.getOption_number()!=option.getOption_number())
                     continue;
@@ -162,7 +164,7 @@ public class BillService {
         }
         // Find min limit
         if (remain_slot_list.isEmpty())
-            return 0;
+            return -1;
         int min = remain_slot_list.get(0);
         for (int ele:remain_slot_list) {
             System.out.println("MANG: " + ele);

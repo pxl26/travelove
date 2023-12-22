@@ -15,6 +15,5 @@ public class BillRequest {
     private String service_id;
     private ArrayList<GroupOptionDTO> options;
     private Date date;
-    private float total;
     private ArrayList<CreateBillPersonType> person_types;
 }
