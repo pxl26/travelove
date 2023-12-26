@@ -47,6 +47,6 @@ github_token.txt
 
 !/target/
 !/src/main/resources/public/
-!/log
-!/logs
+log
+logs
 !/data
