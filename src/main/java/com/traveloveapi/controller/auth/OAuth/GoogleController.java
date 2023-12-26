@@ -28,7 +28,7 @@ public class GoogleController {
     private final GoogleService googleService;
 
     @GetMapping("/get-link")
-    @Tag(name = "SPRINT 1: Google")
+    @Tag(name = "SPRINT 1")
     @Operation(description = "URL for go to OAuth page")
     public SimpleResponse googleGetLink() {
         String link = "https://accounts.google.com/o/oauth2/v2/auth?redirect_uri="+redirect_uri +"&prompt=consent&response_type=code&client_id=" + client_id +"&scope=" + scope + "&access_type=offline";

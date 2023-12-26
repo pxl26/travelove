@@ -19,6 +19,7 @@ public class PublicUserController {
     final private UserProfileService userProfileService;
 
     @GetMapping
+    @Tag(name = "SPRINT 1")
     @Operation(description = "Get specified user's information by user_id (brief data)")
     public UserDTO getUser(@RequestParam String id) {
         UserProfile detailProfile = userProfileService.findUserById(id);
@@ -26,11 +27,12 @@ public class PublicUserController {
     }
 
     @GetMapping("/check/email")
-    @Tag(name = "SPRINT 1: Login by email")
+    @Tag(name = "SPRINT 1")
     private SimpleResponse getEmailStatus(@RequestParam String email) {
         return new SimpleResponse(userProfileService.checkEmailAndPasswordStatus(email).toString(), 200);
     }
     @GetMapping("/test")
+    @Operation(hidden = true)
     public String test() {
         return "Hello PTUDWNC!!!";
     }

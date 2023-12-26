@@ -30,7 +30,7 @@ public class ForgotPasswordController {
     private final UserRepository userRepository;
 
     @GetMapping
-    @Tag(name = "SPRINT 1: Forgot password")
+    @Tag(name = "SPRINT 1")
     public SimpleResponse requestChangeCode(@RequestParam String email) {
         OtpEntity otp = new OtpEntity();
         String id = UUID.randomUUID().toString();
@@ -47,7 +47,7 @@ public class ForgotPasswordController {
     }
 
     @PutMapping("/verify-code")
-    @Tag(name = "SPRINT 1: Forgot password")
+    @Tag(name = "SPRINT 1")
     public TokenResponse verifyCode(@RequestParam String id, @RequestParam String code) {
         OtpEntity otpEntity = otpRepository.find(id);
         if (!code.equals(otpEntity.getCode()))

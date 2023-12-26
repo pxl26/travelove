@@ -86,6 +86,7 @@ public class PublicServiceController {
         return result;
     }
 
+    @Tag(name = "SPRINT 4: User side")
     @GetMapping("/search")
     public List search(@RequestParam String title) {
         return serviceSearchingRepository.findByTitle(title, 0, 5);

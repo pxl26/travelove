@@ -28,7 +28,7 @@ public class RegisterController {
     private final RegisterService registerService;
 
 
-    @Tag(name = "SPRINT 1: Register by email")
+    @Tag(name = "SPRINT 1")
     @PostMapping("/email/send-code")
     public SimpleResponse byEmail(@RequestBody EmailRegistrationRequest request) {
         String code = OTPCodeProvider.GenegateOTP(5);
@@ -46,7 +46,7 @@ public class RegisterController {
         return new SimpleResponse(id, 200);
     }
 
-    @Tag(name = "SPRINT 1: Register by email")
+    @Tag(name = "SPRINT 1")
     @PostMapping("/email/verify-code")
     public TokenResponse vertify(@RequestParam String id, @RequestParam String code) {
         OtpEntity otpEntity = otpRepository.find(id);

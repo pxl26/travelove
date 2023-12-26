@@ -4,7 +4,10 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.ListObjectsV2Request;
+import com.amazonaws.services.s3.model.ListObjectsV2Result;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.amazonaws.services.s3.transfer.*;
 import com.amazonaws.services.s3.transfer.model.UploadResult;
 import com.traveloveapi.configuration.AWSConfig;
@@ -17,14 +20,16 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 public class S3FileService {
     private TransferManager transferManager;
     private AWSConfig config;
+    private AmazonS3 client;
     S3FileService(AWSConfig config) {
-        AmazonS3 client = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_SOUTHEAST_1).withCredentials(config.getCredentialsProvider()).build();
+        this.client = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_SOUTHEAST_1).withCredentials(config.getCredentialsProvider()).build();
         this.transferManager = TransferManagerBuilder.standard().withS3Client(client).build();
     }
 
@@ -49,6 +54,12 @@ public class S3FileService {
                 System.out.println(ex);
                 return null;
             }
+    }
+
+    public List<S3ObjectSummary> getRandomWallPaper() {
+        ListObjectsV2Request req = new ListObjectsV2Request().withBucketName("travelove-data").withPrefix("wall-paper");
+        ListObjectsV2Result rs = client.listObjectsV2(req);
+        return rs.getObjectSummaries();
     }
 
     private void multipleFileUpload(String bucket_name, String key_prefix, ArrayList<File> file_list) throws InterruptedException {
