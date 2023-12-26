@@ -4,10 +4,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.ListObjectsV2Request;
-import com.amazonaws.services.s3.model.ListObjectsV2Result;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.amazonaws.services.s3.model.*;
 import com.amazonaws.services.s3.transfer.*;
 import com.amazonaws.services.s3.transfer.model.UploadResult;
 import com.traveloveapi.configuration.AWSConfig;
@@ -69,8 +66,9 @@ public class S3FileService {
     public byte[] downloadFile(String bucket, String key) {
         File file = new File("./temp_s3/"+key);
         try {
-            transferManager.download(bucket, key,file).waitForCompletion();
-            return FileHandler.loadFile("./temp_s3/"+key);
+            S3Object o  = client.getObject(bucket, key);
+            S3ObjectInputStream objectInputStream = o.getObjectContent();
+            return objectInputStream.readAllBytes();
         }
             catch (Exception ex) {
                 System.out.println(ex);
