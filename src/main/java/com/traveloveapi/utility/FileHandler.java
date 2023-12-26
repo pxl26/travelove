@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class FileHandler {
     static public void saveFile(String path, String file_name, MultipartFile file) {
@@ -26,5 +27,13 @@ public class FileHandler {
             FileInputStream in = new FileInputStream(path);
             return in.readAllBytes();
         } catch (Exception ex)  {throw new LoadFileException(); }
+    }
+
+    static public File convertMultiPartToFile(MultipartFile file) throws IOException, IOException {
+        File convFile = new File(file.getOriginalFilename());
+        FileOutputStream fos = new FileOutputStream(convFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convFile;
     }
 }

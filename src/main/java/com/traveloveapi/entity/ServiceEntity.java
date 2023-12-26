@@ -25,4 +25,5 @@ public class ServiceEntity {
     private ServiceType type;
     @Enumerated(EnumType.STRING)
     private ServiceStatus status;
+    private float min_price;
 }

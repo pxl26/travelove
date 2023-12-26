@@ -9,3 +9,5 @@
 **/.vs
 **/.vscode
 **/target
+/log/
+/logs/

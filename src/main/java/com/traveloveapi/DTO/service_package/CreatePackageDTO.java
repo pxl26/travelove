@@ -22,4 +22,5 @@ public class CreatePackageDTO {
     private ArrayList<CreatePackagePersonType> person_type;
     private ArrayList<SpecialDateDTO> special_date_list;
     private ArrayList<CreateSpecialOption> special_option;
+    private float min_price;
 }

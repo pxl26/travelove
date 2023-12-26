@@ -11,7 +11,9 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.transfer.model.UploadResult;
 import com.traveloveapi.DTO.SimpleResponse;
+import com.traveloveapi.service.aws.s3.S3FileService;
 import com.traveloveapi.service.file.FileService;
 import com.traveloveapi.utility.FileHandler;
 import com.traveloveapi.utility.FileSupporter;
@@ -31,37 +33,35 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class MediaController {
     final private FileService fileService;
+    final private S3FileService s3FileService;
+//    @GetMapping
+//    @Operation(hidden = true)
+//    public ResponseEntity<byte[]> getFile(@RequestParam String file_name) {
+//        String extension = FileSupporter.getExtensionName(file_name);
+//        String contentType = FileSupporter.getContentTypeByExtension(extension);
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Content-type",contentType);
+//        return ResponseEntity.status(200).headers(headers).body(fileService.loadPublicFile(file_name));
+//    }
+//
+//    @PostMapping
+//    @Operation(hidden = true)
+//    public SimpleResponse upFile(@RequestParam MultipartFile file) {
+//        String file_url = "/public/media?file_name=" + fileService.savePublicImage(file);
+//        return new SimpleResponse(file_url, 200);
+//    }
+
+    @PostMapping
+    public String uploadToS3(@RequestParam MultipartFile file) throws IOException, InterruptedException {
+        return s3FileService.savePublicFile(file);
+    }
+
     @GetMapping
-    @Operation(hidden = true)
-    public ResponseEntity<byte[]> getFile(@RequestParam String file_name) {
+    public ResponseEntity<byte[]> getFileFromS3(@RequestParam String file_name) throws InterruptedException {
         String extension = FileSupporter.getExtensionName(file_name);
         String contentType = FileSupporter.getContentTypeByExtension(extension);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-type",contentType);
-        return ResponseEntity.status(200).headers(headers).body(fileService.loadPublicFile(file_name));
+        return ResponseEntity.status(200).headers(headers).body(s3FileService.downloadFile("travelove-data", file_name));
     }
-
-    @PostMapping
-    @Operation(hidden = true)
-    public SimpleResponse upFile(@RequestParam MultipartFile file) {
-        String file_url = "/public/media?file_name=" + fileService.savePublicImage(file);
-        return new SimpleResponse(file_url, 200);
-    }
-    @PostMapping("/s3")
-    public String postDataToS3(@RequestParam MultipartFile file) throws IOException {
-        AWSCredentials credential = new BasicAWSCredentials("AKIA3AG4GPMUVZLUKBNS","CvFEWS6GXqdaRkAEuYYTaOpCIifkMTGAbxnP6ha4");
-        AmazonS3 s3Client = new AmazonS3Client(credential);
-        s3Client.putObject(new PutObjectRequest("travelove-data","public/origin_name"+file.getOriginalFilename(), convertMultiPartToFile(file)));
-        return "";
-    }
-    @GetMapping("/s3")
-    private File convertMultiPartToFile(MultipartFile file) throws IOException, IOException {
-        File convFile = new File(file.getOriginalFilename());
-        FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(file.getBytes());
-        fos.close();
-        return convFile;
-    }
-
-
 }

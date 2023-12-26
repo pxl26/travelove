@@ -50,3 +50,4 @@ github_token.txt
 log
 logs
 !/data
+!/.dockerignore

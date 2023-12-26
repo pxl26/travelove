@@ -5,6 +5,7 @@ import com.traveloveapi.DTO.service_package.CreatePackageDTO;
 import com.traveloveapi.DTO.service_package.GroupOptionDTO;
 import com.traveloveapi.DTO.service_package.SpecialDateDTO;
 import com.traveloveapi.DTO.service_package.create_package.*;
+import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.service_package.disable_option.DisableOptionEntity;
 import com.traveloveapi.entity.service_package.limit.PackageLimitEntity;
 import com.traveloveapi.entity.service_package.option_special.OptionSpecialEntity;
@@ -12,6 +13,7 @@ import com.traveloveapi.entity.service_package.package_group.PackageGroupEntity;
 import com.traveloveapi.entity.service_package.package_option.PackageOptionEntity;
 import com.traveloveapi.entity.service_package.person_type.PackagePersonTypeEntity;
 import com.traveloveapi.entity.service_package.special_date.SpecialDateEntity;
+import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.repository.service_package.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,8 +33,13 @@ public class PackageService {
     final private BillRepository billRepository;
     final private SpecialDateRepository specialDateRepository;
 
+    final private ServiceRepository serviceRepository;
+
     public void addPackage(CreatePackageDTO data) {
         String service_id = data.getService_id();
+        ServiceEntity serviceEntity = serviceRepository.find(service_id);
+        serviceEntity.setMin_price(data.getMin_price());
+        serviceRepository.save(serviceEntity);
 
         ArrayList<CreatePackageGroup> groupList = data.getPackage_group();
         for (CreatePackageGroup groups: groupList) {

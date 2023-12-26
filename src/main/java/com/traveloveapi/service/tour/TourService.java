@@ -30,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -50,7 +51,7 @@ public class TourService {
     final private PackageOptionRepository packageOptionRepository;
     final private ServiceSearchingRepository serviceSearchingRepository;
 
-    public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files) {
+    public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files) throws IOException, InterruptedException {
         UserEntity owner = userService.verifyIsOwner();
         ServiceEntity service = new ServiceEntity();
         ServiceDetailEntity tour = new ServiceDetailEntity();
