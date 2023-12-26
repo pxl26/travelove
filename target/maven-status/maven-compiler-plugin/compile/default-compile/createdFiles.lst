@@ -1,3 +1,4 @@
+com/traveloveapi/repository/searching/ServiceSearchingRepository.class
 com/traveloveapi/controller/BillController.class
 com/traveloveapi/exception/RequestParamException.class
 com/traveloveapi/DTO/service/CreateTourDTO.class
@@ -71,6 +72,7 @@ com/traveloveapi/security/role/AdminRole.class
 com/traveloveapi/repository/ServiceDetailRepository.class
 com/traveloveapi/DTO/service/ServiceDetailDTO.class
 com/traveloveapi/constrain/ServiceStatus.class
+com/traveloveapi/entity/searching/ServiceSearchingEntity.class
 com/traveloveapi/service/OAuth/GoogleService.class
 com/traveloveapi/DTO/service_package/BanListOptionDTO.class
 com/traveloveapi/entity/service_package/disable_option/DisableOptionEntity.class

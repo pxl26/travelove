@@ -1,5 +1,7 @@
 package com.traveloveapi.DTO.service;
 
+import com.traveloveapi.constrain.Currency;
+import com.traveloveapi.constrain.Language;
 import com.traveloveapi.constrain.ServiceStatus;
 import com.traveloveapi.entity.MediaEntity;
 import com.traveloveapi.entity.ServiceEntity;
@@ -25,6 +27,8 @@ public class ServiceDetailDTO {
     private String description;
     private String highlight;
     private String note;
+    private Currency currency;
+    private Language primary_language;
     private ArrayList<MediaEntity> gallery;
 
     public ServiceDetailDTO(ServiceEntity service, ServiceDetailEntity tour, ArrayList<MediaEntity> media) {
@@ -39,6 +43,8 @@ public class ServiceDetailDTO {
         highlight = tour.getHighlight();
         note = tour.getNote();
         thumbnail = service.getThumbnail();
+        currency = tour.getCurrency();
+        primary_language = tour.getPrimary_language();
         this.gallery = media;
     }
 

@@ -1,8 +1,8 @@
 package com.traveloveapi.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.traveloveapi.constrain.Currency;
+import com.traveloveapi.constrain.Language;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -11,8 +11,11 @@ import lombok.Data;
 public class ServiceDetailEntity {
     @Id
     private String id;
-
     private String description;
     private String highlight;
     private String note;
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
+    @Enumerated(EnumType.STRING)
+    private Language primary_language;
 }

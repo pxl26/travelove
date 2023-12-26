@@ -4,9 +4,7 @@ import com.traveloveapi.DTO.service.ServiceDetailDTO;
 import com.traveloveapi.DTO.service_package.*;
 import com.traveloveapi.DTO.service_package.create_package.CreatePackagePersonType;
 import com.traveloveapi.DTO.service_package.create_package.CreateSpecialOption;
-import com.traveloveapi.constrain.SensorAction;
-import com.traveloveapi.constrain.ServiceStatus;
-import com.traveloveapi.constrain.ServiceType;
+import com.traveloveapi.constrain.*;
 import com.traveloveapi.entity.MediaEntity;
 import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.ServiceDetailEntity;
@@ -52,7 +50,7 @@ public class TourService {
     final private PackageOptionRepository packageOptionRepository;
     final private ServiceSearchingRepository serviceSearchingRepository;
 
-    public ServiceDetailDTO createNewService(ServiceType type,String title, String description, String highlight, String note, MultipartFile[] files) {
+    public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files) {
         UserEntity owner = userService.verifyIsOwner();
         ServiceEntity service = new ServiceEntity();
         ServiceDetailEntity tour = new ServiceDetailEntity();
@@ -71,7 +69,8 @@ public class TourService {
         tour.setDescription(description);
         tour.setNote(note);
         tour.setHighlight(highlight);
-
+        tour.setCurrency(currency);
+        tour.setPrimary_language(primary_language);
 
         ArrayList<MediaEntity> media = new ArrayList<>();
         int t = 0;

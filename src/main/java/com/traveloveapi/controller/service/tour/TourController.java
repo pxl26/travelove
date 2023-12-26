@@ -3,6 +3,8 @@ package com.traveloveapi.controller.service.tour;
 import com.traveloveapi.DTO.service.CreateTourDTO;
 import com.traveloveapi.DTO.service.ServiceDetailDTO;
 import com.traveloveapi.DTO.service.ServiceStatusByDateDTO;
+import com.traveloveapi.constrain.Currency;
+import com.traveloveapi.constrain.Language;
 import com.traveloveapi.constrain.ServiceType;
 import com.traveloveapi.service.tour.TourService;
 import com.traveloveapi.service.user.UserService;
@@ -25,8 +27,8 @@ public class TourController {
     final private TourService tourService;
     @PostMapping("/new")
     @Tag(name = "SPRINT 2: Service owner side")
-    public ServiceDetailDTO createTour(@RequestParam ServiceType service_type, @RequestParam String title,@RequestParam String description,@RequestParam String highlight, @RequestParam String note,@RequestParam MultipartFile[] files) {
-        return tourService.createNewService(service_type, title, description, highlight, note, files);
+    public ServiceDetailDTO createTour(@RequestParam ServiceType service_type, @RequestParam String title, @RequestParam String description, @RequestParam String highlight, @RequestParam String note, @RequestParam MultipartFile[] files, @RequestParam Currency currency, @RequestParam Language primary_language) {
+        return tourService.createNewService(service_type, title, description, highlight, note,currency,primary_language, files);
     }
 
     @GetMapping("/pending")

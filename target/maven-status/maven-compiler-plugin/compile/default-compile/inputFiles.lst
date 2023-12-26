@@ -49,6 +49,7 @@
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/entity/MediaEntity.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/constrain/Role.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/DTO/TokenResponse.java
+/home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/repository/searching/ServiceSearchingRepository.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/exception/ForbiddenException.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/controller/publicController/HomePageController.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/repository/service_package/PackageDisableOptionRepository.java
@@ -96,6 +97,7 @@
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/controller/auth/OAuth/GoogleController.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/constrain/EmailAndPasswordStatus.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/DTO/service_package/SpecialDateDTO.java
+/home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/entity/searching/ServiceSearchingEntity.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/controller/admin/AdminServiceController.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/constrain/Region.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/entity/service_package/bill/BillEntity.java
