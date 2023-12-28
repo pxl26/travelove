@@ -9,6 +9,6 @@ public class HomePageController {
     @ResponseBody
     public String homepage() {
         return
-                "<head><title>One Piece</title></head><body><h1>Thời đại mới đã đến!!!</h1><img style=\"object-fit:cover;width:100%;\" src=\"/public/media/random-wall-paper\"></body>";
+                "<head><title>One Piece</title></head><body><h1>Thời đại mới đã đến!!!</h1><a href=\"/swagger-ui.html\" /><img style=\"object-fit:cover;width:100%;\" src=\"/public/media/random-wall-paper\"></body>";
     }
 }

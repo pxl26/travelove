@@ -1,4 +1,6 @@
+com/traveloveapi/configuration/AWSConfig$1.class
 com/traveloveapi/repository/searching/ServiceSearchingRepository.class
+com/traveloveapi/constrain/Currency.class
 com/traveloveapi/controller/BillController.class
 com/traveloveapi/exception/RequestParamException.class
 com/traveloveapi/DTO/service/CreateTourDTO.class
@@ -11,6 +13,7 @@ com/traveloveapi/DTO/SimpleResponse.class
 com/traveloveapi/DTO/service_package/create_package/CreatePackageOption.class
 com/traveloveapi/DTO/service/ServiceStatusByDateDTO.class
 com/traveloveapi/service/PackageService.class
+com/traveloveapi/configuration/AWSConfig.class
 com/traveloveapi/swagger/SwaggerConfig.class
 com/traveloveapi/DTO/login/UsernameLoginRequest.class
 com/traveloveapi/entity/service_package/package_group/PackageGroupEntity.class
@@ -68,6 +71,7 @@ com/traveloveapi/entity/service_package/special_date/SpecialDateEntity.class
 com/traveloveapi/exception/IncorrectCodeException.class
 vn/zalopay/crypto/HexStringUtil.class
 com/traveloveapi/security/role/TourOwnerRole.class
+com/traveloveapi/configuration/RedisConfig.class
 com/traveloveapi/security/role/AdminRole.class
 com/traveloveapi/repository/ServiceDetailRepository.class
 com/traveloveapi/DTO/service/ServiceDetailDTO.class
@@ -78,6 +82,7 @@ com/traveloveapi/DTO/service_package/BanListOptionDTO.class
 com/traveloveapi/entity/service_package/disable_option/DisableOptionEntity.class
 com/traveloveapi/controller/auth/ForgotPasswordController.class
 com/traveloveapi/constrain/Gender.class
+com/traveloveapi/constrain/Language.class
 com/traveloveapi/controller/auth/TokenController.class
 com/traveloveapi/utility/JwtProvider$1.class
 com/traveloveapi/entity/service_package/bill_detail_option/BillDetailOptionEntity.class
@@ -93,7 +98,6 @@ com/traveloveapi/entity/service_package/bill/BillEntity.class
 com/traveloveapi/constrain/Region.class
 com/traveloveapi/controller/publicController/HomePageController.class
 com/traveloveapi/entity/GoogleEntity.class
-com/traveloveapi/controller/TestController.class
 com/traveloveapi/entity/service_package/person_type/PackagePersonTypeEntity.class
 com/traveloveapi/entity/MediaEntity.class
 com/traveloveapi/entity/service_package/limit/PackageLimitEntity.class
@@ -112,6 +116,7 @@ com/traveloveapi/exception/SaveFileException.class
 com/traveloveapi/controller/service/tour/TourController.class
 com/traveloveapi/repository/service_package/PackageLimitRepository.class
 com/traveloveapi/service/tour/TourService.class
+com/traveloveapi/service/aws/s3/S3FileService.class
 com/traveloveapi/controller/admin/AdminServiceController.class
 com/traveloveapi/security/SecurityConfig.class
 com/traveloveapi/utility/FileHandler.class

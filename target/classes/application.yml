@@ -47,3 +47,7 @@ aws:
         access_key: AKIA3AG4GPMUVZLUKBNS
         secret_key: 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
         bucket_name: travelove-data
+
+redis:
+    host: localhost
+    port: 10001

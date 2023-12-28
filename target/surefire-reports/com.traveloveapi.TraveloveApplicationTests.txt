@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.traveloveapi.TraveloveApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.37 s <<< FAILURE! - in com.traveloveapi.TraveloveApplicationTests
-com.traveloveapi.TraveloveApplicationTests  Time elapsed: 0.37 s  <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.54 s <<< FAILURE! - in com.traveloveapi.TraveloveApplicationTests
+com.traveloveapi.TraveloveApplicationTests  Time elapsed: 0.54 s  <<< ERROR!
 java.lang.NoClassDefFoundError: org/slf4j/helpers/ThreadLocalMapOfStacks
 	at ch.qos.logback.classic.util.LogbackMDCAdapter.<init>(LogbackMDCAdapter.java:49)
 	at ch.qos.logback.classic.spi.LogbackServiceProvider.initialize(LogbackServiceProvider.java:44)

@@ -1,22 +1,33 @@
 package com.traveloveapi.controller.publicController;
 
 import com.traveloveapi.DTO.SimpleResponse;
+import com.traveloveapi.DTO.registration.EmailRegistrationRequest;
 import com.traveloveapi.DTO.user.UserDTO;
 import com.traveloveapi.DTO.user.UserProfile;
+import com.traveloveapi.configuration.RedisConfig;
+import com.traveloveapi.configuration.User;
 import com.traveloveapi.service.user.UserProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPooled;
+import redis.clients.jedis.search.FTCreateParams;
+import redis.clients.jedis.search.IndexDataType;
+import redis.clients.jedis.search.schemafields.NumericField;
+import redis.clients.jedis.search.schemafields.TagField;
+import redis.clients.jedis.search.schemafields.TextField;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/public/user")
 @RequiredArgsConstructor
 public class PublicUserController {
     final private UserProfileService userProfileService;
+    final private RedisConfig redisConfig;
 
     @GetMapping
     @Tag(name = "SPRINT 1")
@@ -31,9 +42,19 @@ public class PublicUserController {
     private SimpleResponse getEmailStatus(@RequestParam String email) {
         return new SimpleResponse(userProfileService.checkEmailAndPasswordStatus(email).toString(), 200);
     }
-    @GetMapping("/test")
+    @PostMapping("/redis")
     @Operation(hidden = true)
-    public String test() {
-        return "Hello PTUDWNC!!!";
+    public String test(@RequestBody User request) {
+        JedisPooled jedis = redisConfig.getPooled();
+        jedis.ftCreate("idx:users",
+                FTCreateParams.createParams()
+                        .on(IndexDataType.JSON)
+                        .addPrefix("user:"),
+                TextField.of("$.name").as("name"),
+                TagField.of("$.city").as("city"),
+                NumericField.of("$.age").as("age")
+        );
+        jedis.jsonSetWithEscape("user:1", request);
+        return "Ok";
     }
 }
