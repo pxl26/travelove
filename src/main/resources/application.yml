@@ -49,5 +49,5 @@ aws:
         bucket_name: travelove-data
 
 redis:
-    host: localhost
+    host: redis
     port: 6379
