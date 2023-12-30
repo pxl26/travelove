@@ -44,9 +44,7 @@ public class UserService {
 
     public boolean isAdmin() {
         UserEntity user = userRepository.find(SecurityContext.getUserID());
-        if (user.getRole()!= Role.ADMIN)
-            return false;
-        return true;
+        return user.getRole() == Role.ADMIN;
     }
 
     public UserEntity verifyIsOwner() {
