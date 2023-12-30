@@ -16,8 +16,7 @@ spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         password: 26122002loc
-#        url: jdbc:mysql://localhost:3306/travelove
-        url: jdbc:mysql://3.1.165.245:3307/travelove
+        url: jdbc:mysql://localhost:3306/travelove
         username: root
     jpa:
         properties:
@@ -50,5 +49,5 @@ aws:
         bucket_name: travelove-data
 
 redis:
-    host: localhost
+    host: redis
     port: 6379
