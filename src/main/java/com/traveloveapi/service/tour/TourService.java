@@ -100,10 +100,10 @@ public class TourService {
     }
 
     public ArrayList<ServiceDetailDTO> getPendingTour(String service_owner) {
-        if ((!userService.isAdmin())&&service_owner.isEmpty())
+        boolean isAdmin = userService.isAdmin();
+        if ((!isAdmin)&&service_owner.isEmpty())
             if (!service_owner.equals(SecurityContext.getUserID()))
                     throw new ForbiddenException();
-
         ArrayList<ServiceEntity> entity_list = serviceRepository.findByStatus(ServiceStatus.PENDING, service_owner);
         ArrayList<ServiceDetailDTO> rs = new ArrayList<>();
         for (ServiceEntity entity: entity_list)

@@ -27,6 +27,7 @@ public class ServiceDetailDTO {
     private String description;
     private String highlight;
     private String note;
+    private Float min_price;
     private Currency currency;
     private Language primary_language;
     private ArrayList<MediaEntity> gallery;
@@ -43,9 +44,10 @@ public class ServiceDetailDTO {
         highlight = tour.getHighlight();
         note = tour.getNote();
         thumbnail = service.getThumbnail();
+        min_price = service.getMin_price();
         currency = tour.getCurrency();
         primary_language = tour.getPrimary_language();
-        this.gallery = media;
+        gallery = media;
     }
 
 }
