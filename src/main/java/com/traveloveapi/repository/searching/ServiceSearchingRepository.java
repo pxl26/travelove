@@ -20,6 +20,7 @@ public class ServiceSearchingRepository {
     }
 
     public List<ServiceSearchingEntity> findByTitle(String input, int offset, int limit) {
+        System.out.println("SEARCH REPO");
         return Search.session(entityManager).search(ServiceSearchingEntity.class).where(f->f.match().field("title").matching(input)).fetchHits(offset, limit);
     }
 }
