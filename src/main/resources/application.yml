@@ -33,14 +33,14 @@ logging:
 
 server:
     port: 2511
-    ssl:
-        key-store: data/keystore.p12
-        key-store-password: 26122002loc
-        keyStoreType: PKCS12
-        keyAlias: tomcat
-        enabled: true
-#        certificate: data/certificate.crt
-#        certificate-private-key: data/private.key
+#    ssl:
+#        key-store: data/keystore.p12
+#        key-store-password: 26122002loc
+#        keyStoreType: PKCS12
+#        keyAlias: tomcat
+#        enabled: true
+##        certificate: data/certificate.crt
+##        certificate-private-key: data/private.key
 aws:
     region: ap-southeast-1
     s3:
