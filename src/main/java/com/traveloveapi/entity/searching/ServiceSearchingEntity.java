@@ -13,9 +13,13 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 @Table(name = "service_searching")
 public class ServiceSearchingEntity {
     @Id
-    private String id;
     private String service_id;
+
     @FullTextField
     private String title;
+
+    private String thumbnail;
+
+    private float min_price;
 
 }

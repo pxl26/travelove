@@ -20,16 +20,18 @@ import com.traveloveapi.exception.ForbiddenException;
 import com.traveloveapi.repository.MediaRepository;
 import com.traveloveapi.repository.ServiceDetailRepository;
 import com.traveloveapi.repository.ServiceRepository;
-import com.traveloveapi.repository.UserRepository;
 import com.traveloveapi.repository.searching.ServiceSearchingRepository;
 import com.traveloveapi.repository.service_package.*;
-import com.traveloveapi.service.file.FileService;
+import com.traveloveapi.service.aws.s3.S3FileService;
 import com.traveloveapi.service.user.UserService;
+import com.traveloveapi.utility.FileHandler;
+import com.traveloveapi.utility.FileSupporter;
 import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -40,7 +42,6 @@ public class TourService {
     final private ServiceRepository serviceRepository;
     final private ServiceDetailRepository tourRepository;
     final private MediaRepository mediaRepository;
-    final private FileService fileService;
     final private UserService userService;
 
     final private SpecialDateRepository specialDateRepository;
@@ -50,8 +51,9 @@ public class TourService {
     final private PackageGroupRepository packageGroupRepository;
     final private PackageOptionRepository packageOptionRepository;
     final private ServiceSearchingRepository serviceSearchingRepository;
+    final private S3FileService s3FileService;
 
-    public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files) throws IOException, InterruptedException {
+    public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files, float min_price) throws IOException, InterruptedException {
         UserEntity owner = userService.verifyIsOwner();
         ServiceEntity service = new ServiceEntity();
         ServiceDetailEntity tour = new ServiceDetailEntity();
@@ -63,6 +65,7 @@ public class TourService {
         service.setRating(0);
         service.setStatus(ServiceStatus.PENDING);
         service.setType(type);
+        service.setMin_price(min_price);
 
         service.setTitle(title);
         service.setId(id);
@@ -73,20 +76,17 @@ public class TourService {
         tour.setCurrency(currency);
         tour.setPrimary_language(primary_language);
 
-        ArrayList<MediaEntity> media = new ArrayList<>();
-        int t = 0;
-        for (MultipartFile file : files) {
-            media.add(fileService.saveMedia(file, String.valueOf(t++), id, "SERVICE_MEDIA"));
-        }
+        ArrayList<MediaEntity> media = saveTourGallery(id,files);
         service.setThumbnail(media.get(0).getPath());
         serviceRepository.save(service);
         tourRepository.save(tour);
 
         //---------- CREATE SEARCHING RECORD
         ServiceSearchingEntity entity = new ServiceSearchingEntity();
-        entity.setId(UUID.randomUUID().toString());
         entity.setService_id(service.getId());
         entity.setTitle(service.getTitle());
+        entity.setThumbnail(service.getThumbnail());
+        entity.setMin_price(service.getMin_price());
         serviceSearchingRepository.save(entity);
 
         return new ServiceDetailDTO(service, tour, media);
@@ -95,7 +95,7 @@ public class TourService {
     public ServiceDetailDTO getTour(String id) {
         ServiceEntity service = serviceRepository.find(id);
         ServiceDetailEntity tour = tourRepository.find(id);
-        ArrayList<MediaEntity> media = mediaRepository.find(id, "SERVICE_MEDIA");
+        ArrayList<MediaEntity> media = mediaRepository.find(id, "GALLERY-MEDIA");
         return new ServiceDetailDTO(service, tour, media);
     }
 
@@ -111,7 +111,37 @@ public class TourService {
         return rs;
     }
 
-    public ServiceDetailDTO editTour(String title, String description, String highlight, String note) {return null;}
+    public ServiceDetailDTO editTour(String service_id,ServiceType type,String title, String description, String highlight, String note, Currency currency, Language primary_language, Float min_price) {
+        ServiceEntity entity = serviceRepository.find(service_id);
+        ServiceDetailEntity detail = tourRepository.find(service_id);
+        ServiceSearchingEntity searching = serviceSearchingRepository.find(service_id);
+        if (!SecurityContext.getUserID().equals(entity.getService_owner()))
+            throw new ForbiddenException();
+        if (type!=null)
+            entity.setType(type);
+        if(title!=null) {
+            entity.setTitle(title);
+            searching.setTitle(title);
+        }
+        if (min_price!=null) {
+            entity.setMin_price(min_price);
+            searching.setMin_price(min_price);
+        }
+        if (highlight!=null)
+            detail.setHighlight(highlight);
+        if (description!=null)
+            detail.setDescription(description);
+        if (note!=null)
+            detail.setNote(note);
+        if (currency!=null)
+            detail.setCurrency(currency);
+        if (primary_language!=null)
+            detail.setPrimary_language(primary_language);
+
+        serviceRepository.save(entity);
+        tourRepository.save(detail);
+        return new ServiceDetailDTO(entity, detail, mediaRepository.find(service_id, "GALLERY-MEDIA"));
+    }
 
 
     public PackageInfoDTO getPackageInfo(String service_id) {
@@ -178,4 +208,24 @@ public class TourService {
         return entity;
     }
 
+    private ArrayList<MediaEntity> saveTourGallery(String tour_id, MultipartFile[] file_list) {
+        ArrayList<MediaEntity> rs = new ArrayList<>();
+        int k = 0;
+        ArrayList<File> list = new ArrayList<>();
+        for (MultipartFile file: file_list) {
+            String file_name = UUID.randomUUID().toString() + '.' + FileSupporter.getExtensionName(file_list[k].getOriginalFilename());
+            list.add(FileHandler.convertMultiPartToFile(file_list[k],file_name));
+            System.out.println(list.get(k).getName());
+            MediaEntity media = new MediaEntity();
+            media.setId(UUID.randomUUID().toString());
+            media.setType("GALLERY-MEDIA");
+            media.setSeq(k);
+            media.setRef_id(tour_id);
+            media.setPath("public/service/"+tour_id+'/'+s3FileService.uploadFile(list.get(k++), "public/service/"+tour_id+"/"));
+            mediaRepository.save(media);
+            rs.add(media);
+        }
+        //s3FileService.multipleFileUpload("public/service/"+tour_id, list);
+        return rs;
+    }
 }

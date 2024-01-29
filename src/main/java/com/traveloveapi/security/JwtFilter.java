@@ -41,6 +41,11 @@ public class JwtFilter extends OncePerRequestFilter {
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         if (token.isEmpty())
         {
+            String path = request.getServletPath();
+            if (path.startsWith("/public")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
             response.setHeader("Content-Type", "application/json");
             response.getWriter().write(ow.writeValueAsString(new ErrorResponse("Token is required", 403)));
             response.setStatus(403);
@@ -83,7 +88,7 @@ public class JwtFilter extends OncePerRequestFilter {
         for (String path : whiteList) {
             if (path.equals(requestPath))
                 return true;
-            if (requestPath.startsWith("/auth")||requestPath.startsWith("/swagger-ui")||requestPath.startsWith("/v3")||requestPath.startsWith("/public") || requestPath.startsWith("/.well-known")) {
+            if (requestPath.startsWith("/auth")||requestPath.startsWith("/swagger-ui")||requestPath.startsWith("/v3") || requestPath.startsWith("/.well-known")) {
                 return true;
             }
         }

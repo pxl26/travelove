@@ -1,17 +1,15 @@
 package com.traveloveapi.controller.publicController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.traveloveapi.DTO.service.RequestCheckAvailablePackageDTO;
 import com.traveloveapi.DTO.service.ServiceDetailDTO;
 import com.traveloveapi.DTO.service.ServiceStatusByDateDTO;
 import com.traveloveapi.DTO.service_package.GroupOptionDTO;
 import com.traveloveapi.DTO.service_package.PackageInfoDTO;
-import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.exception.CustomException;
-import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.repository.searching.ServiceSearchingRepository;
 import com.traveloveapi.service.BillService;
+import com.traveloveapi.service.logging.ActivityLoggingService;
 import com.traveloveapi.service.tour.TourService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +28,14 @@ public class PublicServiceController {
     final private TourService tourService;
     final private BillService billService;
     final private ServiceSearchingRepository serviceSearchingRepository;
+    final private ActivityLoggingService activityLoggingService;
     @GetMapping("/tour")
     @Tag(name = "SPRINT 2: User side")
     public ServiceDetailDTO getTour(@RequestParam String id) {
-        return tourService.getTour(id);
+
+        ServiceDetailDTO tour = tourService.getTour(id);;
+        activityLoggingService.viewTour(tour.getId());
+        return tour;
     }
 
 

@@ -23,4 +23,8 @@ public class ServiceSearchingRepository {
         System.out.println("SEARCH REPO");
         return Search.session(entityManager).search(ServiceSearchingEntity.class).where(f->f.match().field("title").matching(input)).fetchHits(offset, limit);
     }
+
+    public ServiceSearchingEntity find(String service_id) {
+        return entityManager.find(ServiceSearchingEntity.class, service_id);
+    }
 }

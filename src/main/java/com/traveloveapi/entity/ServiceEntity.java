@@ -16,14 +16,22 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 public class ServiceEntity {
     @Id
     private String id;
+
     private String title;
+
     private String service_owner;
+
     private float rating;
+
     private int sold;
+
     private String thumbnail;
+
     @Enumerated(EnumType.STRING)
     private ServiceType type;
+
     @Enumerated(EnumType.STRING)
     private ServiceStatus status;
+
     private float min_price;
 }

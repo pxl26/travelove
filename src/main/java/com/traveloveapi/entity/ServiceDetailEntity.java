@@ -11,11 +11,20 @@ import lombok.Data;
 public class ServiceDetailEntity {
     @Id
     private String id;
+
     private String description;
+
     private String highlight;
+
     private String note;
+
     @Enumerated(EnumType.STRING)
     private Currency currency;
+
     @Enumerated(EnumType.STRING)
     private Language primary_language;
+
+    private String address;
+
+    private String location;
 }

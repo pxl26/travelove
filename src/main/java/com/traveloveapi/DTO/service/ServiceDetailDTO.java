@@ -26,6 +26,8 @@ public class ServiceDetailDTO {
 
     private String description;
     private String highlight;
+    private String address;
+    private String location;
     private String note;
     private Float min_price;
     private Currency currency;
@@ -42,6 +44,8 @@ public class ServiceDetailDTO {
 
         description = tour.getDescription();
         highlight = tour.getHighlight();
+        address = tour.getAddress();
+        location = tour.getLocation();
         note = tour.getNote();
         thumbnail = service.getThumbnail();
         min_price = service.getMin_price();

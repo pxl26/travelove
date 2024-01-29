@@ -28,8 +28,8 @@ public class TourController {
     final private TourService tourService;
     @PostMapping("/new")
     @Tag(name = "SPRINT 2: Service owner side")
-    public ServiceDetailDTO createTour(@RequestParam ServiceType service_type, @RequestParam String title, @RequestParam String description, @RequestParam String highlight, @RequestParam String note, @RequestParam MultipartFile[] files, @RequestParam Currency currency, @RequestParam Language primary_language) throws IOException, InterruptedException {
-        return tourService.createNewService(service_type, title, description, highlight, note,currency,primary_language, files);
+    public ServiceDetailDTO createService(@RequestParam ServiceType service_type, @RequestParam String title, @RequestParam String description, @RequestParam String highlight, @RequestParam String note, @RequestParam MultipartFile[] files, @RequestParam Currency currency, @RequestParam Language primary_language, @RequestParam Float min_price) throws IOException, InterruptedException {
+        return tourService.createNewService(service_type, title, description, highlight, note,currency,primary_language, files, min_price);
     }
 
     @GetMapping("/pending")
@@ -41,5 +41,11 @@ public class TourController {
         if (owner==null)
             owner="";
         return tourService.getPendingTour(owner);
+    }
+
+    @PutMapping
+    @Tag(name = "SPRINT 4: Service owner side")
+    public ServiceDetailDTO editService(@RequestParam String service_id,@RequestParam(required = false) ServiceType service_type, @RequestParam(required = false) String title, @RequestParam(required = false) String description, @RequestParam(required = false) String highlight, @RequestParam(required = false) String note, @RequestParam(required = false) Currency currency, @RequestParam(required = false) Language primary_language, @RequestParam(required = false) float min_price) {
+        return tourService.editTour(service_id, service_type, title, description,highlight,note, currency, primary_language, min_price);
     }
 }
