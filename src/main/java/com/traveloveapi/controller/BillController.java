@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BillController {
     final private BillService billService;
     @PostMapping
-    @Tag(name = "SPRINT 2: User side")
+    @Tag(name = "SPRINT 2")
     public BillDTO createBill(@RequestBody BillRequest request) {
         return billService.createNewBill(request);
     }

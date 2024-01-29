@@ -27,15 +27,15 @@ import java.util.ArrayList;
 public class TourController {
     final private TourService tourService;
     @PostMapping("/new")
-    @Tag(name = "SPRINT 2: Service owner side")
+    @Tag(name = "SPRINT 2")
     public ServiceDetailDTO createService(@RequestParam ServiceType service_type, @RequestParam String title, @RequestParam String description, @RequestParam String highlight, @RequestParam String note, @RequestParam MultipartFile[] files, @RequestParam Currency currency, @RequestParam Language primary_language, @RequestParam Float min_price) throws IOException, InterruptedException {
         return tourService.createNewService(service_type, title, description, highlight, note,currency,primary_language, files, min_price);
     }
 
     @GetMapping("/pending")
     @Tags({
-            @Tag(name = "SPRINT 2: Admin side"),
-            @Tag(name = "SPRINT 2: Service owner side")
+            @Tag(name = "SPRINT 2"),
+            @Tag(name = "SPRINT 2")
     })
     public ArrayList<ServiceDetailDTO> getPendingService(@RequestParam(required = false) String owner) {
         if (owner==null)

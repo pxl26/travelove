@@ -16,12 +16,12 @@ public class ServicePackageController {
     final private PackageService packageService;
     final private BillService billService;
     @PostMapping
-    @Tag(name = "SPRINT 2: Service owner side")
+    @Tag(name = "SPRINT 2")
     public void addPackage(@RequestBody CreatePackageDTO data) {
         packageService.addPackage(data);
     }
 
-    @Tag(name = "SPRINT 2: User side")
+    @Tag(name = "SPRINT 2")
     @GetMapping("/check")
     public int checkByDate(@RequestBody CheckAvailableRequest request) {
         return billService.getAvailablePackage(request.getService_id(), request.getDate(), request.getOptions());

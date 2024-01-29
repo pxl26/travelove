@@ -46,6 +46,7 @@ public class MediaController {
 
     @GetMapping
     @Tag(name = "MEDIA")
+    @Operation(hidden = true)
     public ResponseEntity<byte[]> getFileFromS3(@RequestParam String path) throws InterruptedException {
         String extension = FileSupporter.getExtensionName(path);
         String contentType = FileSupporter.getContentTypeByExtension(extension);
@@ -54,16 +55,4 @@ public class MediaController {
         return ResponseEntity.status(200).headers(headers).body(s3FileService.downloadFile(path));
     }
 
-    @PostMapping("/multiple")
-    public String test(@RequestParam MultipartFile[] files) {
-        ArrayList<File> list = new ArrayList<>();
-        for (int i=0;i<files.length;i++)
-        {
-            list.add(FileHandler.convertMultiPartToFile(files[i]));
-            System.out.println(list.get(i).getName());
-            System.out.println(list.get(i).length());
-        }
-        s3FileService.multipleFileUpload("public/test", list);
-        return "OK";
-    }
 }

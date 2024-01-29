@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminServiceController {
     final private TourService tourService;
     @PutMapping("/tour/sensor")
-    @Tag(name = "SPRINT 2: Sensor a tour by ADMIN")
+    @Tag(name = "SPRINT 2")
     public ServiceEntity sensorTour(@RequestParam SensorAction action, @RequestParam String id) {
         return tourService.changeStatus(action, id);
     }

@@ -30,7 +30,7 @@ public class PublicServiceController {
     final private ServiceSearchingRepository serviceSearchingRepository;
     final private ActivityLoggingService activityLoggingService;
     @GetMapping("/tour")
-    @Tag(name = "SPRINT 2: User side")
+    @Tag(name = "SPRINT 2")
     public ServiceDetailDTO getTour(@RequestParam String id) {
 
         ServiceDetailDTO tour = tourService.getTour(id);;
@@ -40,13 +40,13 @@ public class PublicServiceController {
 
 
     @GetMapping("/package")
-    @Tag(name = "SPRINT 2: User side")
+    @Tag(name = "SPRINT 2")
     public PackageInfoDTO getPackage(@RequestParam String service_id) {
         return tourService.getPackageInfo(service_id);
     }
 
     @PutMapping("/check-available")
-    @Tag(name="SPRINT 2: User side")
+    @Tag(name="SPRINT 2")
     //RequestCheckAvailablePackageDTO
     public ArrayList<ServiceStatusByDateDTO> checkServiceStatusByMonth(@RequestBody RequestCheckAvailablePackageDTO request) throws JsonProcessingException {
         //RequestCheckAvailablePackageDTO request = new ObjectMapper().readValue(data, RequestCheckAvailablePackageDTO.class);
