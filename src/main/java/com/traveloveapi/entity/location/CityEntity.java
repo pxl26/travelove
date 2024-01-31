@@ -15,9 +15,11 @@ public class CityEntity {
 
     private String country_id;
 
-    private String country;
+    private String country_name;
 
-    private String cover_picture;
+    private String cover_pic;
+
+    private String thumbnail;
 
     @Column(name = "dont_miss")
     private String do_not_miss;

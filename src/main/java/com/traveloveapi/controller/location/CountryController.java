@@ -24,9 +24,4 @@ public class CountryController {
             throw new ForbiddenException();
         return countryService.createCountry(name, cover_pic, location, thumb, description, time_zone, currency, best_time, language);
     }
-    @GetMapping
-    @Tag(name = "SPRINT 4: User side")
-    public CountryEntity get(@RequestParam(required = false) String id, @RequestParam(required = false) String country_name) {
-        return countryService.getCountry(id, country_name);
-    }
 }

@@ -4,6 +4,7 @@ import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.Language;
 import com.traveloveapi.entity.location.CountryEntity;
 import com.traveloveapi.exception.CustomException;
+import com.traveloveapi.repository.location.CityRepository;
 import com.traveloveapi.repository.location.CountryRepository;
 import com.traveloveapi.service.aws.s3.S3FileService;
 import com.traveloveapi.utility.FileSupporter;
@@ -11,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -19,6 +22,7 @@ import java.util.UUID;
 public class CountryService {
     final private CountryRepository countryRepository;
     final private S3FileService s3FileService;
+    final private CityRepository cityRepository;
 
     public CountryEntity createCountry(String name, MultipartFile cover_pic, String location, MultipartFile thumb, String description, String time_zone, Currency currency, String best_time, Language language) {
         CountryEntity entity = new CountryEntity();
@@ -43,6 +47,14 @@ public class CountryService {
             return countryRepository.findById(id);
         if (name!=null)
             return countryRepository.findByName(name);
+        throw new CustomException("Require 1 param at least", 400);
+    }
+
+    public List getAllCity(String id, String name) {
+        if (id!=null)
+            return cityRepository.getAllCityByICountryId(id);
+        if (name!=null)
+            return cityRepository.getAllCityByICountryName(name);
         throw new CustomException("Require 1 param at least", 400);
     }
 }

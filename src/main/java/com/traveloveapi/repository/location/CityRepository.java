@@ -7,6 +7,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class CityRepository {
     @PersistenceContext
@@ -17,7 +19,15 @@ public class CityRepository {
     }
 
     @Transactional
-    public void save(CountryEntity entity) {
+    public void save(CityEntity entity) {
         entityManager.persist(entity);
+    }
+
+    public List getAllCityByICountryId(String country_id) {
+        return entityManager.createQuery("FROM CityEntity m WHERE m.country_id=:id").setParameter("id",country_id).getResultList();
+    }
+
+    public List getAllCityByICountryName(String country_name) {
+        return entityManager.createQuery("FROM CityEntity m WHERE m.country_name=:name").setParameter("name",country_name).getResultList();
     }
 }
