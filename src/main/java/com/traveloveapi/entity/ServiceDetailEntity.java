@@ -18,6 +18,7 @@ public class ServiceDetailEntity {
 
     private String note;
 
+
     @Enumerated(EnumType.STRING)
     private Currency currency;
 

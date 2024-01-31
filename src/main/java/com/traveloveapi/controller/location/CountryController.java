@@ -24,4 +24,12 @@ public class CountryController {
             throw new ForbiddenException();
         return countryService.createCountry(name, cover_pic, location, thumb, description, time_zone, currency, best_time, language);
     }
+
+    @PutMapping
+    @Tag(name = "SPRINT 4: Admin side")
+    public CountryEntity edit(@RequestParam String country_id, @RequestParam(required = false) String country_name, @RequestParam(required = false) MultipartFile cover_pic, @RequestParam(required = false) String location, @RequestParam(required = false) MultipartFile thumbnail, @RequestParam(required = false) String description, @RequestParam(required = false) String time_zone, @RequestParam(required = false) Currency currency, @RequestParam(required = false) String best_time, @RequestParam(required = false) Language language) {
+        if (!userService.isAdmin())
+            throw new ForbiddenException();
+        return countryService.edit(country_id,country_name,cover_pic,location,thumbnail,description,time_zone,currency,best_time,language);
+    }
 }

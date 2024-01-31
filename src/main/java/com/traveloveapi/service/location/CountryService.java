@@ -24,6 +24,7 @@ public class CountryService {
     final private S3FileService s3FileService;
     final private CityRepository cityRepository;
 
+
     public CountryEntity createCountry(String name, MultipartFile cover_pic, String location, MultipartFile thumb, String description, String time_zone, Currency currency, String best_time, Language language) {
         CountryEntity entity = new CountryEntity();
         entity.setId(UUID.randomUUID().toString());
@@ -35,8 +36,8 @@ public class CountryService {
         entity.setBest_time(best_time);
         entity.setLanguage(language);
 
-        entity.setCover_pic(s3FileService.uploadFile(cover_pic,"public/country/"+ name + '/',"cover"));
-        entity.setThumbnail(s3FileService.uploadFile(thumb,"public/country/"+ name + '/',"thumbnail"));
+        entity.setCover_pic(s3FileService.uploadFile(cover_pic,"public/country/"+ entity.getId() + '/',"cover"));
+        entity.setThumbnail(s3FileService.uploadFile(thumb,"public/country/"+ entity.getId() + '/',"thumbnail"));
 
         countryRepository.save(entity);
         return entity;
@@ -56,5 +57,37 @@ public class CountryService {
         if (name!=null)
             return cityRepository.getAllCityByICountryName(name);
         throw new CustomException("Require 1 param at least", 400);
+    }
+
+    public CountryEntity edit(String country_id,String country_name, MultipartFile cover_pic, String location, MultipartFile thumbnail, String description, String time_zone, Currency currency, String best_time, Language language) {
+        CountryEntity entity = countryRepository.findById(country_id);
+        if (country_name!=null) {
+
+            entity.setCountry_name(country_name);
+        }
+        if (location!=null)
+            entity.setLocation(location);
+        if (description!=null)
+            entity.setDescription(description);
+        if (time_zone!=null)
+            entity.setTime_zone(time_zone);
+        if (currency!=null)
+            entity.setCurrency(currency);
+        if (best_time!=null)
+            entity.setBest_time(best_time);
+        if (language!=null)
+            entity.setLanguage(language);
+
+        if (cover_pic!=null)
+            entity.setCover_pic(s3FileService.uploadFile(cover_pic, "public/country/"+country_id+'/',"cover"));
+        if (thumbnail!=null)
+            entity.setThumbnail(s3FileService.uploadFile(thumbnail, "public/country/"+country_id+ '/', "thumbnail"));
+
+        countryRepository.save(entity);
+        return entity;
+    }
+
+    public List getAllCountry() {
+        return countryRepository.getAll();
     }
 }

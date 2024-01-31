@@ -53,7 +53,7 @@ public class TourService {
     final private ServiceSearchingRepository serviceSearchingRepository;
     final private S3FileService s3FileService;
 
-    public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files) throws IOException, InterruptedException {
+    public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files, String city_id) throws IOException, InterruptedException {
         UserEntity owner = userService.verifyIsOwner();
         ServiceEntity service = new ServiceEntity();
         ServiceDetailEntity tour = new ServiceDetailEntity();
@@ -65,7 +65,7 @@ public class TourService {
         service.setRating(0);
         service.setStatus(ServiceStatus.PENDING);
         service.setType(type);
-
+        service.setCity_id(city_id);
         service.setTitle(title);
         service.setId(id);
         tour.setId(id);
@@ -110,7 +110,7 @@ public class TourService {
         return rs;
     }
 
-    public ServiceDetailDTO editTour(String service_id,ServiceType type,String title, String description, String highlight, String note, Currency currency, Language primary_language, Float min_price) {
+    public ServiceDetailDTO editTour(String service_id,ServiceType type,String title, String description, String highlight, String note, Currency currency, Language primary_language, Float min_price, String city_id) {
         ServiceEntity entity = serviceRepository.find(service_id);
         ServiceDetailEntity detail = tourRepository.find(service_id);
         ServiceSearchingEntity searching = serviceSearchingRepository.find(service_id);
@@ -136,6 +136,8 @@ public class TourService {
             detail.setCurrency(currency);
         if (primary_language!=null)
             detail.setPrimary_language(primary_language);
+        if (city_id!=null)
+            entity.setCity_id(city_id);
 
         serviceRepository.save(entity);
         tourRepository.save(detail);

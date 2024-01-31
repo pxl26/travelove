@@ -27,6 +27,8 @@ public class ServiceEntity {
 
     private String thumbnail;
 
+    private String city_id;
+
     @Enumerated(EnumType.STRING)
     private ServiceType type;
 

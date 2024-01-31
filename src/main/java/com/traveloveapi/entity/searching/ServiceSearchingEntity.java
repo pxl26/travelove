@@ -22,4 +22,5 @@ public class ServiceSearchingEntity {
 
     private float min_price;
 
+    private String city_name;
 }

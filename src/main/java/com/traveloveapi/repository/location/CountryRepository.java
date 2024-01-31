@@ -6,6 +6,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class CountryRepository {
     @PersistenceContext
@@ -22,5 +24,9 @@ public class CountryRepository {
     @Transactional
     public void save(CountryEntity entity) {
         entityManager.persist(entity);
+    }
+
+    public List getAll() {
+        return entityManager.createQuery("FROM CountryEntity m").getResultList();
     }
 }

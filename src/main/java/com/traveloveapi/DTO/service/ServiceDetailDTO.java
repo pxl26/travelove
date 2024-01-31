@@ -33,6 +33,7 @@ public class ServiceDetailDTO {
     private Currency currency;
     private Language primary_language;
     private ArrayList<MediaEntity> gallery;
+    private String city_id;
 
     public ServiceDetailDTO(ServiceEntity service, ServiceDetailEntity tour, ArrayList<MediaEntity> media) {
         id = service.getId();
@@ -52,6 +53,7 @@ public class ServiceDetailDTO {
         currency = tour.getCurrency();
         primary_language = tour.getPrimary_language();
         gallery = media;
+        city_id = service.getCity_id();
     }
 
 }

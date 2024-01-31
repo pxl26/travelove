@@ -75,16 +75,16 @@ public class S3FileService {
         return rs.getObjectSummaries();
     }
 
-    public void multipleFileUpload(String key_prefix, ArrayList<File> file_list)  {
-        for (File file: file_list)
-            System.out.println("Name: " + file.getName() + '\n' + "Path: "+ file.getAbsolutePath());
-        try {
-            transferManager.uploadFileList("travelove-data", key_prefix, new File("."), file_list).waitForCompletion();
-        } catch (Exception ex) {
-            System.out.println(ex);
-            throw new SaveFileException();
-        }
-    }
+//    public void multipleFileUpload(String key_prefix, ArrayList<File> file_list)  {
+//        for (File file: file_list)
+//            System.out.println("Name: " + file.getName() + '\n' + "Path: "+ file.getAbsolutePath());
+//        try {
+//            transferManager.uploadFileList("travelove-data", key_prefix, new File("."), file_list).waitForCompletion();
+//        } catch (Exception ex) {
+//            System.out.println(ex);
+//            throw new SaveFileException();
+//        }
+//    }
 
     public byte[] downloadFile(String path) {
         try {

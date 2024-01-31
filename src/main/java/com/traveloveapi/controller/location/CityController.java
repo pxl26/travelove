@@ -16,11 +16,20 @@ import org.springframework.web.multipart.MultipartFile;
 public class CityController {
     final private CityService cityService;
     final private UserService userService;
+
     @PostMapping
     @Tag(name = "SPRINT 4: Admin side")
     public CityEntity createCity(@RequestParam String city_name, @RequestParam String country_name, @RequestParam String country_id, @RequestParam String location, @RequestParam String description, @RequestParam String time_zone, @RequestParam Currency currency, @RequestParam String best_time, @RequestParam String dont_miss, @RequestParam MultipartFile cover_pic, @RequestParam MultipartFile thumb) {
         if (!userService.isAdmin())
             throw new ForbiddenException();
         return cityService.create(city_name, country_id, country_name, cover_pic, thumb, location, description, time_zone, currency, best_time, dont_miss);
+    }
+
+    @PutMapping
+    @Tag(name = "SPRINT 4: Admin side")
+    public CityEntity editCity(@RequestParam String city_id, @RequestParam(required = false) String city_name, @RequestParam(required = false) String country_name, @RequestParam(required = false) String country_id, @RequestParam(required = false) String location, @RequestParam(required = false) String description, @RequestParam(required = false) String time_zone, @RequestParam(required = false) Currency currency, @RequestParam(required = false) String best_time, @RequestParam(required = false) String dont_miss, @RequestParam(required = false) MultipartFile cover_pic, @RequestParam(required = false) MultipartFile thumb) {
+        if (!userService.isAdmin())
+            throw new ForbiddenException();
+        return cityService.edit(city_id, city_name, country_name, country_id, cover_pic, thumb, location, description, time_zone, currency, best_time, dont_miss);
     }
 }

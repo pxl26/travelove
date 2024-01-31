@@ -28,13 +28,12 @@ public class TourController {
     final private TourService tourService;
     @PostMapping("/new")
     @Tag(name = "SPRINT 2")
-    public ServiceDetailDTO createService(@RequestParam ServiceType service_type, @RequestParam String title, @RequestParam String description, @RequestParam String highlight, @RequestParam String note, @RequestParam MultipartFile[] files, @RequestParam Currency currency, @RequestParam Language primary_language) throws IOException, InterruptedException {
-        return tourService.createNewService(service_type, title, description, highlight, note,currency,primary_language, files);
+    public ServiceDetailDTO createService(@RequestParam ServiceType service_type, @RequestParam String title, @RequestParam String description, @RequestParam String highlight, @RequestParam String note, @RequestParam MultipartFile[] files, @RequestParam Currency currency, @RequestParam Language primary_language, @RequestParam String city_id) throws IOException, InterruptedException {
+        return tourService.createNewService(service_type, title, description, highlight, note,currency,primary_language, files, city_id);
     }
 
     @GetMapping("/pending")
     @Tags({
-            @Tag(name = "SPRINT 2"),
             @Tag(name = "SPRINT 2")
     })
     public ArrayList<ServiceDetailDTO> getPendingService(@RequestParam(required = false) String owner) {
@@ -45,7 +44,7 @@ public class TourController {
 
     @PutMapping
     @Tag(name = "SPRINT 4: Service owner side")
-    public ServiceDetailDTO editService(@RequestParam String service_id,@RequestParam(required = false) ServiceType service_type, @RequestParam(required = false) String title, @RequestParam(required = false) String description, @RequestParam(required = false) String highlight, @RequestParam(required = false) String note, @RequestParam(required = false) Currency currency, @RequestParam(required = false) Language primary_language, @RequestParam(required = false) float min_price) {
-        return tourService.editTour(service_id, service_type, title, description,highlight,note, currency, primary_language, min_price);
+    public ServiceDetailDTO editService(@RequestParam String service_id,@RequestParam(required = false) ServiceType service_type, @RequestParam(required = false) String title, @RequestParam(required = false) String description, @RequestParam(required = false) String highlight, @RequestParam(required = false) String note, @RequestParam(required = false) Currency currency, @RequestParam(required = false) Language primary_language, @RequestParam(required = false) float min_price, @RequestParam(required = false) String city_id) {
+        return tourService.editTour(service_id, service_type, title, description,highlight,note, currency, primary_language, min_price, city_id);
     }
 }

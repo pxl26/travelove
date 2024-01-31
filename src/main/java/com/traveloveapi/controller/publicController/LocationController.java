@@ -5,6 +5,7 @@ import com.traveloveapi.entity.location.CountryEntity;
 import com.traveloveapi.service.location.CityService;
 import com.traveloveapi.service.location.CountryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,20 @@ public class LocationController {
     }
 
     @GetMapping("/country/all-city")
+    @Tags({
+            @Tag(name = "SPRINT 4: User side"),
+            @Tag(name = "SPRINT 4: Admin side"),
+            @Tag(name = "SPRINT 4: Service owner side")})
     public List getAllCity(@RequestParam(required = false) String country_id, @RequestParam(required = false) String country_name) {
         return countryService.getAllCity(country_id, country_name);
+    }
+
+    @GetMapping("/country/all-country")
+    @Tags({
+            @Tag(name = "SPRINT 4: User side"),
+            @Tag(name = "SPRINT 4: Admin side"),
+            @Tag(name = "SPRINT 4: Service owner side")})
+    public List getAllCountry() {
+        return countryService.getAllCountry();
     }
 }
