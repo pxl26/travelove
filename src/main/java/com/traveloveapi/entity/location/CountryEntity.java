@@ -1,8 +1,8 @@
 package com.traveloveapi.entity.location;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.traveloveapi.constrain.Currency;
+import com.traveloveapi.constrain.Language;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -12,15 +12,24 @@ public class CountryEntity {
     @Id
     private String id;
 
-    private String name;
+    private String country_name;
 
-    private String cover_picture;
+    private String cover_pic;
+
+    private String thumbnail;
 
     private String description;
 
+
     private String location;
 
-    private String language;
+    @Enumerated(EnumType.STRING)
+    private Language language;
 
-    private String greatest_time;
+    private String time_zone;
+
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
+
+    private String best_time;
 }

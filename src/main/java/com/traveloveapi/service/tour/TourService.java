@@ -211,17 +211,13 @@ public class TourService {
     private ArrayList<MediaEntity> saveTourGallery(String tour_id, MultipartFile[] file_list) {
         ArrayList<MediaEntity> rs = new ArrayList<>();
         int k = 0;
-        ArrayList<File> list = new ArrayList<>();
         for (MultipartFile file: file_list) {
-            String file_name = UUID.randomUUID().toString() + '.' + FileSupporter.getExtensionName(file_list[k].getOriginalFilename());
-            list.add(FileHandler.convertMultiPartToFile(file_list[k],file_name));
-            System.out.println(list.get(k).getName());
             MediaEntity media = new MediaEntity();
             media.setId(UUID.randomUUID().toString());
             media.setType("GALLERY-MEDIA");
             media.setSeq(k);
             media.setRef_id(tour_id);
-            media.setPath("public/service/"+tour_id+'/'+s3FileService.uploadFile(list.get(k++), "public/service/"+tour_id+"/"));
+            media.setPath(s3FileService.uploadFile(file, "public/service/"+tour_id+'/',UUID.randomUUID().toString()));
             mediaRepository.save(media);
             rs.add(media);
         }

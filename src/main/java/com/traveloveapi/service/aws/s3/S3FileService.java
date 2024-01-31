@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -36,24 +37,36 @@ public class S3FileService {
     }
 
 
-    public String uploadFile(File file, String path) {
-        String file_name = file.getName();
-        String extension = FileSupporter.getExtensionName(file_name);
-        String file_id = UUID.randomUUID().toString();
-        String key = path + file_id+'.'+extension;
-        fileUpload(bucket,key,file);
-        file.delete();
-        return file_id+'.'+extension;
-    }
+//    public String uploadFile(File file, String path) {
+//        String file_name = file.getName();
+//        String extension = FileSupporter.getExtensionName(file_name);
+//        String file_id = UUID.randomUUID().toString();
+//        String key = path + file_id+'.'+extension;
+//        fileUpload(bucket,key,file);
+//        file.delete();
+//        return file_id+'.'+extension;
+//    }
 
-    private UploadResult fileUpload(String bucket_name, String key, File file)  {
+//    private UploadResult fileUpload(String bucket_name, String key, File file)  {
+//        try {
+//            return transferManager.upload(bucket_name,key,file).waitForUploadResult();
+//        }
+//            catch (Exception ex) {
+//                System.out.println(ex);
+//            }
+//        return null;
+//    }
+
+
+    public String uploadFile(MultipartFile file, String path, String file_name)  {
+        String full_name = file_name + FileSupporter.getExtensionName(Objects.requireNonNull(file.getOriginalFilename()));
         try {
-            return transferManager.upload(bucket_name,key,file).waitForUploadResult();
+            transferManager.upload(bucket, path + full_name,file.getInputStream(),  null).waitForUploadResult();
         }
-            catch (Exception ex) {
-                System.out.println(ex);
-            }
-        return null;
+        catch (Exception ex) {
+            throw new SaveFileException();
+        }
+        return path + full_name;
     }
 
     public List<S3ObjectSummary> getRandomWallPaper() {
