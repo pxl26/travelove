@@ -59,7 +59,7 @@ public class S3FileService {
 
 
     public String uploadFile(MultipartFile file, String path, String file_name)  {
-        String full_name = file_name + FileSupporter.getExtensionName(Objects.requireNonNull(file.getOriginalFilename()));
+        String full_name = file_name + '.' + FileSupporter.getExtensionName(Objects.requireNonNull(file.getOriginalFilename()));
         try {
             transferManager.upload(bucket, path + full_name,file.getInputStream(),  null).waitForUploadResult();
         }
