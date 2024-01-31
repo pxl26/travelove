@@ -53,7 +53,7 @@ public class TourService {
     final private ServiceSearchingRepository serviceSearchingRepository;
     final private S3FileService s3FileService;
 
-    public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files, float min_price) throws IOException, InterruptedException {
+    public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files) throws IOException, InterruptedException {
         UserEntity owner = userService.verifyIsOwner();
         ServiceEntity service = new ServiceEntity();
         ServiceDetailEntity tour = new ServiceDetailEntity();
@@ -65,7 +65,6 @@ public class TourService {
         service.setRating(0);
         service.setStatus(ServiceStatus.PENDING);
         service.setType(type);
-        service.setMin_price(min_price);
 
         service.setTitle(title);
         service.setId(id);

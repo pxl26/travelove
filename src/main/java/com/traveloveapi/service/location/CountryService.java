@@ -3,6 +3,7 @@ package com.traveloveapi.service.location;
 import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.Language;
 import com.traveloveapi.entity.location.CountryEntity;
+import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.repository.location.CountryRepository;
 import com.traveloveapi.service.aws.s3.S3FileService;
 import com.traveloveapi.utility.FileSupporter;
@@ -35,5 +36,13 @@ public class CountryService {
 
         countryRepository.save(entity);
         return entity;
+    }
+
+    public CountryEntity getCountry(String id, String name) {
+        if (id!=null)
+            return countryRepository.findById(id);
+        if (name!=null)
+            return countryRepository.findByName(name);
+        throw new CustomException("Require 1 param at least", 400);
     }
 }

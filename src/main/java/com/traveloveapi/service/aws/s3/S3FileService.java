@@ -66,7 +66,7 @@ public class S3FileService {
         catch (Exception ex) {
             throw new SaveFileException();
         }
-        return path + full_name;
+        return  (path + full_name).replace(" ", "%20");
     }
 
     public List<S3ObjectSummary> getRandomWallPaper() {
