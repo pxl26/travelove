@@ -10,6 +10,7 @@ public class HomePageController {
     public String homepage() {
         return
                 "<head>" +
+                        "<meta name=\"zalo-platform-site-verification\" content=\"FFIVTl_046rzwRnLbC0nJLtHXagnfrGSCJ0o\" />" +
                         "<title>One Piece</title>" +
                         "</head><body><h1>Thời đại mới đã đến!!!</h1>" +
                         "<a href=\"/swagger-ui.html\"> API DOCS </a>" +
