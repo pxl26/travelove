@@ -1,8 +1,7 @@
 package com.traveloveapi.entity.searching;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.traveloveapi.constrain.SearchingType;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
@@ -10,12 +9,14 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 @Entity
 @Data
 @Indexed
-@Table(name = "service_searching")
-public class ServiceSearchingEntity {
+@Table(name = "searching")
+public class SearchingEntity {
     @Id
-    private String service_id;
+    private String ref_id;
 
     @FullTextField
+    private String data;
+
     private String title;
 
     private String thumbnail;
@@ -23,4 +24,9 @@ public class ServiceSearchingEntity {
     private float min_price;
 
     private String city_name;
+
+    private String country_name;
+
+    @Enumerated(EnumType.STRING)
+    private SearchingType type;
 }

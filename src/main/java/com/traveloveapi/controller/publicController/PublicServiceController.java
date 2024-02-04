@@ -7,7 +7,7 @@ import com.traveloveapi.DTO.service.ServiceStatusByDateDTO;
 import com.traveloveapi.DTO.service_package.GroupOptionDTO;
 import com.traveloveapi.DTO.service_package.PackageInfoDTO;
 import com.traveloveapi.exception.CustomException;
-import com.traveloveapi.repository.searching.ServiceSearchingRepository;
+import com.traveloveapi.repository.searching.SearchingRepository;
 import com.traveloveapi.service.BillService;
 import com.traveloveapi.service.logging.ActivityLoggingService;
 import com.traveloveapi.service.tour.TourService;
@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +26,7 @@ import java.util.List;
 public class PublicServiceController {
     final private TourService tourService;
     final private BillService billService;
-    final private ServiceSearchingRepository serviceSearchingRepository;
+    final private SearchingRepository searchingRepository;
     final private ActivityLoggingService activityLoggingService;
     @GetMapping("/tour")
     @Tag(name = "SPRINT 2")
@@ -86,11 +85,5 @@ public class PublicServiceController {
 //            result.add(status);
 //        }
         return result;
-    }
-
-    @Tag(name = "SPRINT 4: User side")
-    @GetMapping("/search")
-    public List search(@RequestParam String title) {
-        return serviceSearchingRepository.findByTitle(title, 0, 5);
     }
 }

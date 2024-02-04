@@ -2,12 +2,17 @@ package com.traveloveapi.service.location;
 
 import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.Language;
+import com.traveloveapi.constrain.SearchingType;
 import com.traveloveapi.entity.location.CountryEntity;
+import com.traveloveapi.entity.searching.SearchingEntity;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.repository.location.CityRepository;
 import com.traveloveapi.repository.location.CountryRepository;
+import com.traveloveapi.repository.searching.SearchingRepository;
 import com.traveloveapi.service.aws.s3.S3FileService;
+import com.traveloveapi.service.searching.SearchingService;
 import com.traveloveapi.utility.FileSupporter;
+import com.traveloveapi.utility.SearchingSupporter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +28,8 @@ public class CountryService {
     final private CountryRepository countryRepository;
     final private S3FileService s3FileService;
     final private CityRepository cityRepository;
+    final private SearchingRepository searchingRepository;
+    final private SearchingService searchingService;
 
 
     public CountryEntity createCountry(String name, MultipartFile cover_pic, String location, MultipartFile thumb, String description, String time_zone, Currency currency, String best_time, Language language) {
@@ -39,7 +46,15 @@ public class CountryService {
         entity.setCover_pic(s3FileService.uploadFile(cover_pic,"public/country/"+ entity.getId() + '/',"cover"));
         entity.setThumbnail(s3FileService.uploadFile(thumb,"public/country/"+ entity.getId() + '/',"thumbnail"));
 
+
+        SearchingEntity searching = new SearchingEntity();
+        searching.setTitle(name);
+        searching.setData(SearchingSupporter.sanitize(name));
+        searching.setRef_id(entity.getId());
+        searching.setType(SearchingType.COUNTRY);
+
         countryRepository.save(entity);
+        searchingRepository.save(searching);
         return entity;
     }
 
@@ -62,7 +77,7 @@ public class CountryService {
     public CountryEntity edit(String country_id,String country_name, MultipartFile cover_pic, String location, MultipartFile thumbnail, String description, String time_zone, Currency currency, String best_time, Language language) {
         CountryEntity entity = countryRepository.findById(country_id);
         if (country_name!=null) {
-
+            searchingService.changeCountryName(entity.getCountry_name(), country_name, country_id);
             entity.setCountry_name(country_name);
         }
         if (location!=null)

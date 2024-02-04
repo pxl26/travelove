@@ -1,5 +1,6 @@
 package com.traveloveapi.service.tour;
 
+import com.traveloveapi.DTO.service.ServiceCard;
 import com.traveloveapi.DTO.service.ServiceDetailDTO;
 import com.traveloveapi.DTO.service_package.*;
 import com.traveloveapi.DTO.service_package.create_package.CreatePackagePersonType;
@@ -9,7 +10,8 @@ import com.traveloveapi.entity.MediaEntity;
 import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.ServiceDetailEntity;
 import com.traveloveapi.entity.UserEntity;
-import com.traveloveapi.entity.searching.ServiceSearchingEntity;
+import com.traveloveapi.entity.location.CityEntity;
+import com.traveloveapi.entity.searching.SearchingEntity;
 import com.traveloveapi.entity.service_package.disable_option.DisableOptionEntity;
 import com.traveloveapi.entity.service_package.option_special.OptionSpecialEntity;
 import com.traveloveapi.entity.service_package.package_group.PackageGroupEntity;
@@ -20,18 +22,17 @@ import com.traveloveapi.exception.ForbiddenException;
 import com.traveloveapi.repository.MediaRepository;
 import com.traveloveapi.repository.ServiceDetailRepository;
 import com.traveloveapi.repository.ServiceRepository;
-import com.traveloveapi.repository.searching.ServiceSearchingRepository;
+import com.traveloveapi.repository.searching.SearchingRepository;
 import com.traveloveapi.repository.service_package.*;
 import com.traveloveapi.service.aws.s3.S3FileService;
+import com.traveloveapi.service.location.CityService;
 import com.traveloveapi.service.user.UserService;
-import com.traveloveapi.utility.FileHandler;
-import com.traveloveapi.utility.FileSupporter;
+import com.traveloveapi.utility.SearchingSupporter;
 import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -50,8 +51,9 @@ public class TourService {
     final private PackagePersonTypeRepository packagePersonTypeRepository;
     final private PackageGroupRepository packageGroupRepository;
     final private PackageOptionRepository packageOptionRepository;
-    final private ServiceSearchingRepository serviceSearchingRepository;
+    final private SearchingRepository searchingRepository;
     final private S3FileService s3FileService;
+    final private CityService cityService;
 
     public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files, String city_id) throws IOException, InterruptedException {
         UserEntity owner = userService.verifyIsOwner();
@@ -63,6 +65,7 @@ public class TourService {
         service.setService_owner(owner.getId());
         service.setSold(0);
         service.setRating(0);
+        service.setVote_quantity(0);
         service.setStatus(ServiceStatus.PENDING);
         service.setType(type);
         service.setCity_id(city_id);
@@ -81,12 +84,13 @@ public class TourService {
         tourRepository.save(tour);
 
         //---------- CREATE SEARCHING RECORD
-        ServiceSearchingEntity entity = new ServiceSearchingEntity();
-        entity.setService_id(service.getId());
+        SearchingEntity entity = new SearchingEntity();
+        entity.setRef_id(service.getId());
         entity.setTitle(service.getTitle());
+        entity.setData(SearchingSupporter.sanitize(service.getTitle()));
         entity.setThumbnail(service.getThumbnail());
         entity.setMin_price(service.getMin_price());
-        serviceSearchingRepository.save(entity);
+        searchingRepository.save(entity);
 
         return new ServiceDetailDTO(service, tour, media);
     }
@@ -113,7 +117,7 @@ public class TourService {
     public ServiceDetailDTO editTour(String service_id,ServiceType type,String title, String description, String highlight, String note, Currency currency, Language primary_language, Float min_price, String city_id) {
         ServiceEntity entity = serviceRepository.find(service_id);
         ServiceDetailEntity detail = tourRepository.find(service_id);
-        ServiceSearchingEntity searching = serviceSearchingRepository.find(service_id);
+        SearchingEntity searching = searchingRepository.find(service_id);
         if (!SecurityContext.getUserID().equals(entity.getService_owner()))
             throw new ForbiddenException();
         if (type!=null)
@@ -197,6 +201,23 @@ public class TourService {
             result.getPackage_group().add(dto);
         }
         return result;
+    }
+
+    public ServiceCard createCard(String service_id) {
+        ServiceEntity service = serviceRepository.find(service_id);
+        ServiceCard rs = new ServiceCard();
+        rs.setService_id(service_id);
+        rs.setSold(service.getSold());
+        rs.setTitle(service.getTitle());
+        rs.setRating(service.getRating());
+        rs.setMin_price(service.getMin_price());
+        rs.setThumbnail(service.getThumbnail());
+
+        CityEntity city = cityService.get(service.getCity_id());
+        rs.setCity(city.getName());
+        rs.setCountry(city.getCountry_name());
+
+        return rs;
     }
     public ServiceEntity changeStatus(SensorAction action, String tour_id) {
         userService.verifyIsAdmin();

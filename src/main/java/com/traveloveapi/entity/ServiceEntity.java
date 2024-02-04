@@ -23,6 +23,8 @@ public class ServiceEntity {
 
     private float rating;
 
+    private int vote_quantity;
+
     private int sold;
 
     private String thumbnail;

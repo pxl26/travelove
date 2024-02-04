@@ -19,10 +19,10 @@ public class CountryController {
     final private UserService userService;
     @PostMapping
     @Tag(name = "SPRINT 4: Admin side")
-    public CountryEntity create(@RequestParam String name, @RequestParam MultipartFile cover_pic, @RequestParam String location, @RequestParam MultipartFile thumb, @RequestParam String description, @RequestParam String time_zone, @RequestParam Currency currency, @RequestParam String best_time, @RequestParam Language language) {
+    public CountryEntity create(@RequestParam String name, @RequestParam MultipartFile cover_pic, @RequestParam String location, @RequestParam MultipartFile thumbnail, @RequestParam String description, @RequestParam String time_zone, @RequestParam Currency currency, @RequestParam String best_time, @RequestParam Language language) {
         if (!userService.isAdmin())
             throw new ForbiddenException();
-        return countryService.createCountry(name, cover_pic, location, thumb, description, time_zone, currency, best_time, language);
+        return countryService.createCountry(name, cover_pic, location, thumbnail, description, time_zone, currency, best_time, language);
     }
 
     @PutMapping

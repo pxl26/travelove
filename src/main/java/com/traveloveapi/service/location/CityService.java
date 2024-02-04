@@ -1,10 +1,14 @@
 package com.traveloveapi.service.location;
 
 import com.traveloveapi.constrain.Currency;
+import com.traveloveapi.constrain.SearchingType;
 import com.traveloveapi.entity.location.CityEntity;
+import com.traveloveapi.entity.searching.SearchingEntity;
 import com.traveloveapi.repository.location.CityRepository;
+import com.traveloveapi.repository.searching.SearchingRepository;
 import com.traveloveapi.service.aws.s3.S3FileService;
 import com.traveloveapi.service.searching.SearchingService;
+import com.traveloveapi.utility.SearchingSupporter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +21,7 @@ public class CityService {
     final private CityRepository cityRepository;
     final private S3FileService s3FileService;
     final private SearchingService searchingService;
+    final private SearchingRepository searchingRepository;
 
     public CityEntity create(String city_name, String country_id, String country_name, MultipartFile cover_pic, MultipartFile thumbnail, String location, String description, String time_zone, Currency currency, String best_time, String do_not_miss) {
         CityEntity entity = new CityEntity();
@@ -34,6 +39,15 @@ public class CityService {
 
         entity.setCover_pic(s3FileService.uploadFile(cover_pic, "public/city/" + entity.getId() + '/', "cover"));
         entity.setThumbnail(s3FileService.uploadFile(thumbnail, "public/city/" + entity.getId() + '/', "thumbnail"));
+
+        SearchingEntity searching = new SearchingEntity();
+        searching.setRef_id(entity.getId());
+        searching.setData(SearchingSupporter.sanitize(city_name));
+        searching.setTitle(city_name);
+        searching.setType(SearchingType.CITY);
+        searching.setCountry_name(country_name);
+
+        searchingRepository.save(searching);
         cityRepository.save(entity);
         return entity;
     }
@@ -45,7 +59,7 @@ public class CityService {
     public CityEntity edit(String id,String city_name, String country_id, String country_name, MultipartFile cover_pic, MultipartFile thumbnail, String location, String description, String time_zone, Currency currency, String best_time, String do_not_miss) {
         CityEntity entity = cityRepository.findById(id);
         if (city_name!=null) {
-            searchingService.changeCityName(entity.getName(), city_name);
+            searchingService.changeCityName(entity.getName(), city_name, id);
             entity.setName(city_name);
         }
         if (country_id!=null)
