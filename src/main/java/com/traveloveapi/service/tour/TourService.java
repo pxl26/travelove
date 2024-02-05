@@ -89,6 +89,7 @@ public class TourService {
         entity.setTitle(service.getTitle());
         entity.setData(SearchingSupporter.sanitize(service.getTitle()));
         entity.setThumbnail(service.getThumbnail());
+        entity.setType(SearchingType.TOUR);
         entity.setMin_price(service.getMin_price());
         searchingRepository.save(entity);
 
