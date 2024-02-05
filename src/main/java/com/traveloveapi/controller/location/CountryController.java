@@ -1,5 +1,6 @@
 package com.traveloveapi.controller.location;
 
+import com.traveloveapi.DTO.location.CreateCountryRequestDTO;
 import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.Language;
 import com.traveloveapi.entity.location.CountryEntity;
@@ -19,10 +20,10 @@ public class CountryController {
     final private UserService userService;
     @PostMapping
     @Tag(name = "SPRINT 4: Admin side")
-    public CountryEntity create(@RequestParam String name, @RequestParam MultipartFile cover_pic, @RequestParam String location, @RequestParam MultipartFile thumbnail, @RequestParam String description, @RequestParam String time_zone, @RequestParam Currency currency, @RequestParam String best_time, @RequestParam Language language) {
+    public CountryEntity create(@RequestBody CreateCountryRequestDTO req, @RequestParam MultipartFile cover_pic, @RequestParam MultipartFile thumbnail) {
         if (!userService.isAdmin())
             throw new ForbiddenException();
-        return countryService.createCountry(name, cover_pic, location, thumbnail, description, time_zone, currency, best_time, language);
+        return countryService.createCountry(req.getName(), cover_pic, req.getLocation(), thumbnail, req.getDescription(), req.getTime_zone(), req.getCurrency(), req.getBest_time(), req.getLanguage());
     }
 
     @PutMapping

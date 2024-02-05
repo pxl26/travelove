@@ -1,5 +1,6 @@
 package com.traveloveapi.controller.location;
 
+import com.traveloveapi.DTO.location.CreateCityRequestDTO;
 import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.entity.location.CityEntity;
 import com.traveloveapi.exception.ForbiddenException;
@@ -19,10 +20,10 @@ public class CityController {
 
     @PostMapping
     @Tag(name = "SPRINT 4: Admin side")
-    public CityEntity createCity(@RequestParam String city_name, @RequestParam String country_name, @RequestParam String country_id, @RequestParam String location, @RequestParam String description, @RequestParam String time_zone, @RequestParam Currency currency, @RequestParam String best_time, @RequestParam String dont_miss, @RequestParam MultipartFile cover_pic, @RequestParam MultipartFile thumbnail) {
+    public CityEntity createCity(@RequestBody CreateCityRequestDTO req, @RequestParam MultipartFile cover_pic, @RequestParam MultipartFile thumbnail) {
         if (!userService.isAdmin())
             throw new ForbiddenException();
-        return cityService.create(city_name, country_id, country_name, cover_pic, thumbnail, location, description, time_zone, currency, best_time, dont_miss);
+        return cityService.create(req.getCity_name(), req.getCountry_id(), req.getCountry_name(), cover_pic, thumbnail, req.getLocation(), req.getDescription(), req.getTime_zone(), req.getCurrency(), req.getBest_time(), req.getDont_miss());
     }
 
     @PutMapping

@@ -58,7 +58,6 @@ public class RegisterService {
             throw new IncorrectKeyException();
         String id = UUID.randomUUID().toString();
         newUser.setId(id);
-        userRepository.save(newUser);
 
         UserDetailEntity detail = new UserDetailEntity();
         detail.setUser_id(id);
@@ -66,6 +65,7 @@ public class RegisterService {
         detail.setUsername(username);
         detail.setCreate_at(new Timestamp(System.currentTimeMillis()));
         userDetailRepository.save(detail);
+        userRepository.save(newUser);
 
         return JwtProvider.generateTokenResponse(id, newUser.getRole());
     }
