@@ -4,8 +4,10 @@ import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.Language;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class CreateCountryRequestDTO {
+public class CreateCountryRequestDTO implements Serializable {
     private String name;
     private String location;
     private String description;

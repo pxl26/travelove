@@ -1,5 +1,7 @@
 package com.traveloveapi.controller.location;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.traveloveapi.DTO.location.CreateCountryRequestDTO;
 import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.Language;
@@ -20,10 +22,10 @@ public class CountryController {
     final private UserService userService;
     @PostMapping
     @Tag(name = "SPRINT 4: Admin side")
-    public CountryEntity create(@RequestBody CreateCountryRequestDTO req, @RequestParam MultipartFile cover_pic, @RequestParam MultipartFile thumbnail) {
+    public CountryEntity create(@RequestParam String name, @RequestParam String location, @RequestParam String description, @RequestParam String time_zone, @RequestParam Currency currency, @RequestParam String best_time, @RequestParam Language language,@RequestParam MultipartFile cover_pic,@ModelAttribute MultipartFile thumbnail) throws JsonProcessingException {
         if (!userService.isAdmin())
             throw new ForbiddenException();
-        return countryService.createCountry(req.getName(), cover_pic, req.getLocation(), thumbnail, req.getDescription(), req.getTime_zone(), req.getCurrency(), req.getBest_time(), req.getLanguage());
+        return countryService.createCountry(name, cover_pic, location, thumbnail, description, time_zone, currency, best_time, language);
     }
 
     @PutMapping
