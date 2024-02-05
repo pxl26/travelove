@@ -1,5 +1,6 @@
 package com.traveloveapi.controller.publicController;
 
+import com.traveloveapi.DTO.location.CityDTO;
 import com.traveloveapi.entity.location.CityEntity;
 import com.traveloveapi.entity.location.CountryEntity;
 import com.traveloveapi.service.location.CityService;
@@ -28,7 +29,7 @@ public class LocationController {
 
     @GetMapping("/city")
     @Tag(name = "SPRINT 4: User side")
-    public CityEntity getCity(@RequestParam String city_id) {
+    public CityDTO getCity(@RequestParam String city_id) {
         return cityService.get(city_id);
     }
 

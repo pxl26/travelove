@@ -1,5 +1,6 @@
 package com.traveloveapi.service.tour;
 
+import com.traveloveapi.DTO.location.CityDTO;
 import com.traveloveapi.DTO.service.ServiceCard;
 import com.traveloveapi.DTO.service.ServiceDetailDTO;
 import com.traveloveapi.DTO.service_package.*;
@@ -55,7 +56,7 @@ public class TourService {
     final private S3FileService s3FileService;
     final private CityService cityService;
 
-    public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files, String city_id) throws IOException, InterruptedException {
+    public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files,String[] gallery_description, String city_id) throws IOException, InterruptedException {
         UserEntity owner = userService.verifyIsOwner();
         ServiceEntity service = new ServiceEntity();
         ServiceDetailEntity tour = new ServiceDetailEntity();
@@ -78,7 +79,7 @@ public class TourService {
         tour.setCurrency(currency);
         tour.setPrimary_language(primary_language);
 
-        ArrayList<MediaEntity> media = saveTourGallery(id,files);
+        ArrayList<MediaEntity> media = saveTourGallery(id,files, gallery_description);
         service.setThumbnail(media.get(0).getPath());
         serviceRepository.save(service);
         tourRepository.save(tour);
@@ -214,9 +215,9 @@ public class TourService {
         rs.setMin_price(service.getMin_price());
         rs.setThumbnail(service.getThumbnail());
 
-        CityEntity city = cityService.get(service.getCity_id());
-        rs.setCity(city.getName());
-        rs.setCountry(city.getCountry_name());
+        CityDTO city = cityService.get(service.getCity_id());
+        rs.setCity(city.getCity_name());
+        rs.setCountry(city.getCountry());
 
         return rs;
     }
@@ -231,7 +232,7 @@ public class TourService {
         return entity;
     }
 
-    private ArrayList<MediaEntity> saveTourGallery(String tour_id, MultipartFile[] file_list) {
+    private ArrayList<MediaEntity> saveTourGallery(String tour_id, MultipartFile[] file_list, String[] description) {
         ArrayList<MediaEntity> rs = new ArrayList<>();
         int k = 0;
         for (MultipartFile file: file_list) {
@@ -240,6 +241,7 @@ public class TourService {
             media.setType("GALLERY-MEDIA");
             media.setSeq(k);
             media.setRef_id(tour_id);
+            media.setDescription(description[k++]);
             media.setPath(s3FileService.uploadFile(file, "public/service/"+tour_id+'/',UUID.randomUUID().toString()));
             mediaRepository.save(media);
             rs.add(media);

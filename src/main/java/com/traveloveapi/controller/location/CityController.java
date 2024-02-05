@@ -1,5 +1,6 @@
 package com.traveloveapi.controller.location;
 
+import com.traveloveapi.DTO.location.CityDTO;
 import com.traveloveapi.DTO.location.CreateCityRequestDTO;
 import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.entity.location.CityEntity;
@@ -20,10 +21,10 @@ public class CityController {
 
     @PostMapping
     @Tag(name = "SPRINT 4: Admin side")
-    public CityEntity createCity(@RequestParam String city_name, @RequestParam String country_id, @RequestParam String country_name, @RequestParam String location, @RequestParam String description, @RequestParam String time_zone, @RequestParam Currency currency, @RequestParam String best_time, @RequestParam String dont_miss, @RequestParam MultipartFile cover_pic, @RequestParam MultipartFile thumbnail) {
+    public CityDTO createCity(@RequestParam String city_name, @RequestParam String country_id, @RequestParam String country_name, @RequestParam String location, @RequestParam String description, @RequestParam String time_zone, @RequestParam Currency currency, @RequestParam String best_time, @RequestParam String dont_miss, @RequestParam MultipartFile cover_pic, @RequestParam MultipartFile thumbnail, @RequestParam MultipartFile[] gallery, @RequestParam String [] gallery_description) {
         if (!userService.isAdmin())
             throw new ForbiddenException();
-        return cityService.create(city_name, country_id, country_name, cover_pic, thumbnail, location, description, time_zone, currency, best_time, dont_miss);
+        return cityService.create(city_name, country_id, country_name, thumbnail, location, description, time_zone, currency, best_time, dont_miss, gallery, gallery_description);
     }
 
     @PutMapping
