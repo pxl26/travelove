@@ -127,6 +127,7 @@ public class TourService {
         if(title!=null) {
             entity.setTitle(title);
             searching.setTitle(title);
+            searching.setData(SearchingSupporter.sanitize(title));
         }
         if (min_price!=null) {
             entity.setMin_price(min_price);
@@ -147,6 +148,7 @@ public class TourService {
 
         serviceRepository.save(entity);
         tourRepository.save(detail);
+        searchingRepository.save(searching);
         return new ServiceDetailDTO(entity, detail, mediaRepository.find(service_id, "GALLERY-MEDIA"));
     }
 
