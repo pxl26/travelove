@@ -1,6 +1,7 @@
 package com.traveloveapi.service.collection;
 
 import com.traveloveapi.DTO.collection.CollectionDTO;
+import com.traveloveapi.constrain.CollectionDisplay;
 import com.traveloveapi.entity.collection.CollectionDetailEntity;
 import com.traveloveapi.entity.collection.CollectionEntity;
 import com.traveloveapi.repository.collection.CollectionDetailRepository;
@@ -19,10 +20,12 @@ public class CollectionService {
     final private CollectionDetailRepository collectionDetailRepository;
     final private TourService tourService;
 
-    public CollectionDTO create(String name, String[] service_list) {
+    public CollectionDTO create(String name, String[] service_list, CollectionDisplay display_on, String ref_id) {
         CollectionEntity entity = new CollectionEntity();
         entity.setId(UUID.randomUUID().toString());
         entity.setName(name);
+        entity.setDisplay_on(display_on);
+        entity.setRef_id(ref_id);
         collectionRepository.save(entity);
         int k=0;
         for (String ele: service_list) {
@@ -34,6 +37,15 @@ public class CollectionService {
         }
 
         return get(entity.getId());
+    }
+    public ArrayList<CollectionDTO> getCollectionList(CollectionDisplay display_at, String ref_id) {
+        ArrayList<CollectionEntity> data = collectionRepository.getList(display_at, ref_id);
+        if (data.isEmpty())
+            return new ArrayList<>();
+        ArrayList<CollectionDTO> rs = new ArrayList<>();
+        for (CollectionEntity ele: data)
+            rs.add(get(ele.getId()));
+        return rs;
     }
 
     public CollectionDTO get(String id) {

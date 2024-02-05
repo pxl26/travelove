@@ -1,8 +1,7 @@
 package com.traveloveapi.entity.collection;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.traveloveapi.constrain.CollectionDisplay;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -11,5 +10,11 @@ import lombok.Data;
 public class CollectionEntity {
     @Id
     private String id;
+
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private CollectionDisplay display_on;
+
+    private String ref_id;
 }
