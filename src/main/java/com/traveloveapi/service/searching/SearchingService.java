@@ -16,24 +16,25 @@ public class SearchingService {
     public void changeCityName(String old_name, String new_name,String id) {
         ArrayList<SearchingEntity> list = searchingRepository.getByCity(old_name);
         for (SearchingEntity ele:list) {
-            ele.setData(SearchingSupporter.sanitize(new_name));
             ele.setCity_name(new_name);
             searchingRepository.save(ele);
         }
         SearchingEntity entity = searchingRepository.find(id);
         entity.setTitle(new_name);
+        entity.setData(SearchingSupporter.sanitize(new_name));
         searchingRepository.save(entity);
     }
 
     public void changeCountryName(String old_name, String new_name, String id) {
         ArrayList<SearchingEntity> list = searchingRepository.getByCountry(old_name);
         for (SearchingEntity ele:list) {
-            ele.setData(SearchingSupporter.sanitize(new_name));
+
             ele.setCountry_name(new_name);
             searchingRepository.save(ele);
         }
         SearchingEntity entity = searchingRepository.find(id);
         entity.setTitle(new_name);
+        entity.setData(SearchingSupporter.sanitize(new_name));
         searchingRepository.save(entity);
     }
 }
