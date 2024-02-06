@@ -6,6 +6,7 @@ import com.traveloveapi.DTO.service_package.GroupOptionDTO;
 import com.traveloveapi.DTO.service_package.SpecialDateDTO;
 import com.traveloveapi.DTO.service_package.create_package.*;
 import com.traveloveapi.entity.ServiceEntity;
+import com.traveloveapi.entity.searching.SearchingEntity;
 import com.traveloveapi.entity.service_package.disable_option.DisableOptionEntity;
 import com.traveloveapi.entity.service_package.limit.PackageLimitEntity;
 import com.traveloveapi.entity.service_package.option_special.OptionSpecialEntity;
@@ -14,6 +15,7 @@ import com.traveloveapi.entity.service_package.package_option.PackageOptionEntit
 import com.traveloveapi.entity.service_package.person_type.PackagePersonTypeEntity;
 import com.traveloveapi.entity.service_package.special_date.SpecialDateEntity;
 import com.traveloveapi.repository.ServiceRepository;
+import com.traveloveapi.repository.searching.SearchingRepository;
 import com.traveloveapi.repository.service_package.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,10 +30,8 @@ public class PackageService {
     final private PackageDisableOptionRepository packageDisableOptionRepository;
     final private PackageLimitRepository packageLimitRepository;
     final private PackagePersonTypeRepository packagePersonTypeRepository;
-    final private BillDetailOptionRepository billDetailOptionRepository;
-    final private BillDetailPersonTypeRepository billDetailPersonTypeRepository;
-    final private BillRepository billRepository;
     final private SpecialDateRepository specialDateRepository;
+    final private SearchingRepository searchingRepository;
 
     final private ServiceRepository serviceRepository;
 
@@ -39,6 +39,10 @@ public class PackageService {
         String service_id = data.getService_id();
         ServiceEntity serviceEntity = serviceRepository.find(service_id);
         serviceEntity.setMin_price(data.getMin_price());
+        serviceRepository.save(serviceEntity);
+
+        SearchingEntity searching = searchingRepository.find(service_id);
+        searching.setMin_price(searching.getMin_price());
         serviceRepository.save(serviceEntity);
 
         ArrayList<CreatePackageGroup> groupList = data.getPackage_group();
