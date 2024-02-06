@@ -52,3 +52,5 @@ logs
 !/data
 !/.dockerignore
 !/temp_s3/
+!/SearchingEntity/
+/ServiceSearchingEntity/
