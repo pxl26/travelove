@@ -206,6 +206,14 @@ public class TourService {
         return result;
     }
 
+    public ArrayList<ServiceCard> getTourByCity(String city_id) {
+        ArrayList<ServiceEntity> list = serviceRepository.findByCity(city_id);
+        ArrayList<ServiceCard> rs = new ArrayList<>();
+        for (ServiceEntity ele: list)
+            rs.add(createCard(ele.getId()));
+        return rs;
+    }
+
     public ServiceCard createCard(String service_id) {
         ServiceEntity service = serviceRepository.find(service_id);
         ServiceCard rs = new ServiceCard();

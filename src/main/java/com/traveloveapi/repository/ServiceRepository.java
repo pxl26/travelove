@@ -26,6 +26,13 @@ public class ServiceRepository {
         return (ArrayList<ServiceEntity>) entityManager.createQuery("FROM ServiceEntity m WHERE m.status=:status and m.service_owner=:owner").setParameter("status",status).setParameter("owner",owner).getResultList();
     }
 
+    public ArrayList<ServiceEntity> findByCity(String city_id) {
+        List raw = entityManager.createQuery("FROM ServiceEntity m WHERE m.city_id=:id").setParameter("id",city_id).getResultList();
+        if (raw.isEmpty())
+            return new ArrayList<>();
+        return (ArrayList<ServiceEntity>) raw;
+    }
+
     public List search(String input, int limit, int offset) {
         return Search.session(entityManager).search(ServiceEntity.class).where(f -> f.match().field("title").matching(input)).fetchHits(20);
     }
