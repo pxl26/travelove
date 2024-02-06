@@ -38,6 +38,10 @@ public class LocationController {
     }
 
     @GetMapping("/city/all-service")
+    @Tags({
+            @Tag(name = "SPRINT 4: User side"),
+            @Tag(name = "SPRINT 4: Admin side")
+    })
     public ArrayList<ServiceCard> getAllTour(@RequestParam String city_id) {
         return tourService.getTourByCity(city_id);
     }
