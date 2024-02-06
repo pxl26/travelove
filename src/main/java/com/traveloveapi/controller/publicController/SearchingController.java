@@ -1,13 +1,12 @@
 package com.traveloveapi.controller.publicController;
 
+import com.traveloveapi.entity.searching.SearchingEntity;
 import com.traveloveapi.repository.searching.SearchingRepository;
 import com.traveloveapi.utility.SearchingSupporter;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,4 +23,10 @@ public class SearchingController {
         return searchingRepository.findByTitle(input, 0, 5);
     }
 
+    @PostMapping
+    @Operation(hidden = true)
+    public SearchingEntity create(@RequestBody SearchingEntity req) {
+        searchingRepository.save(req);
+        return req;
+    }
 }
