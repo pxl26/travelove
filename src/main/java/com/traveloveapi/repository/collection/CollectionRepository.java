@@ -26,9 +26,9 @@ public class CollectionRepository {
     public ArrayList<CollectionEntity> getList(CollectionDisplay type, String ref) {
         ArrayList<CollectionEntity> rs;
         if (type==CollectionDisplay.HOME_PAGE)
-            rs = (ArrayList<CollectionEntity>) entityManager.createQuery("FROM CollectionEntity m WHERE m.display_at=:type").setParameter("type",type.toString()).getResultList();
+            rs = (ArrayList<CollectionEntity>) entityManager.createQuery("FROM CollectionEntity m WHERE m.display_on=:type").setParameter("type",type.toString()).getResultList();
         else
-            rs = (ArrayList<CollectionEntity>) entityManager.createQuery("FROM CollectionEntity  m WHERE m.display_at=:type AND m.ref_id=:ref").setParameter("type",type).setParameter("ref",ref).getResultList();
+            rs = (ArrayList<CollectionEntity>) entityManager.createQuery("FROM CollectionEntity  m WHERE m.display_on=:type AND m.ref_id=:ref").setParameter("type",type).setParameter("ref",ref).getResultList();
 
         return rs;
     }

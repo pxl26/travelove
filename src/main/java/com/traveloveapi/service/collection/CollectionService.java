@@ -4,6 +4,7 @@ import com.traveloveapi.DTO.collection.CollectionDTO;
 import com.traveloveapi.constrain.CollectionDisplay;
 import com.traveloveapi.entity.collection.CollectionDetailEntity;
 import com.traveloveapi.entity.collection.CollectionEntity;
+import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.repository.collection.CollectionDetailRepository;
 import com.traveloveapi.repository.collection.CollectionRepository;
 import com.traveloveapi.service.tour.TourService;
@@ -51,8 +52,12 @@ public class CollectionService {
     public CollectionDTO get(String id) {
         CollectionDTO rs = new CollectionDTO();
         CollectionEntity entity = collectionRepository.find(id);
+        if (entity==null)
+            throw new CustomException("Collection not found", 404);
         rs.setId(id);
         rs.setName(entity.getName());
+        rs.setDisplay_on(entity.getDisplay_on());
+        rs.setRef_id(entity.getRef_id());
         ArrayList<CollectionDetailEntity> list = collectionDetailRepository.find(id);
         rs.setService_list(new ArrayList<>());
         for (CollectionDetailEntity ele: list)
