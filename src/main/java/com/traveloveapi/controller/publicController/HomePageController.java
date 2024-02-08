@@ -13,7 +13,7 @@ public class HomePageController {
                         "<title>One Piece</title>" +
                         "</head><body><h1>Thời đại mới đã đến!!!</h1>" +
                         "<a href=\"/swagger-ui.html\"> API DOCS </a>" +
-                        "<img style=\"object-fit:cover;width:100%;\" src=\"https://storage.travelovecompany.com/2000x2000/wall_paper.jpg\">" +
+                        "<img style=\"object-fit:cover;width:100%;\" src=\"https://travelove-data.s3.ap-southeast-1.amazonaws.com/public/wall_paper.jpg\">" +
                         "</body>";
     }
 }

@@ -30,13 +30,13 @@ public class CollectionPublicController {
     }
 
     @GetMapping("/city")
-    @Tag(name = "SPRINT : User side")
+    @Tag(name = "SPRINT 4: User side")
     public ArrayList<CollectionDTO> getByCity(@RequestParam String city_id) {
         return collectionService.getCollectionList(CollectionDisplay.CITY, city_id);
     }
 
     @GetMapping("/country")
-    @Tag(name = "SPRINT : Country")
+    @Tag(name = "SPRINT 4: User side")
     public ArrayList<CollectionDTO> getByCountry(@RequestParam String country_id) {
         return collectionService.getCollectionList(CollectionDisplay.COUNTRY, country_id);
     }
