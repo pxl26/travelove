@@ -16,6 +16,8 @@ public class ActivityLogEntity {
     private String user_id;
 //    @Temporal(TemporalType.TIMESTAMP)
     private Date time;
+
+    @Enumerated(EnumType.STRING)
     private UserAction action;
     private String ref_action;
     private String note;

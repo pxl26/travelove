@@ -29,7 +29,7 @@ public class UserActivityController {
 
     @GetMapping("/viewed-tour")
     @Tag(name = "SPRINT 4: User side")
-    public ArrayList<ViewedTourDTO> getViewedTour(@RequestParam int page) {
-        return activityLoggingService.getViewedTour(SecurityContext.getUserID(), page);
+    public ArrayList<ViewedTourDTO> getViewedTour() {
+        return activityLoggingService.getViewedTour(SecurityContext.getUserID());
     }
 }
