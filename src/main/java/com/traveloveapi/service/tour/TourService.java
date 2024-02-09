@@ -7,10 +7,7 @@ import com.traveloveapi.DTO.service_package.*;
 import com.traveloveapi.DTO.service_package.create_package.CreatePackagePersonType;
 import com.traveloveapi.DTO.service_package.create_package.CreateSpecialOption;
 import com.traveloveapi.constrain.*;
-import com.traveloveapi.entity.MediaEntity;
-import com.traveloveapi.entity.ServiceEntity;
-import com.traveloveapi.entity.ServiceDetailEntity;
-import com.traveloveapi.entity.UserEntity;
+import com.traveloveapi.entity.*;
 import com.traveloveapi.entity.location.CityEntity;
 import com.traveloveapi.entity.searching.SearchingEntity;
 import com.traveloveapi.entity.service_package.disable_option.DisableOptionEntity;
@@ -28,6 +25,7 @@ import com.traveloveapi.repository.service_package.*;
 import com.traveloveapi.service.aws.s3.S3FileService;
 import com.traveloveapi.service.location.CityService;
 import com.traveloveapi.service.user.UserService;
+import com.traveloveapi.service.wish_list.WishListService;
 import com.traveloveapi.utility.SearchingSupporter;
 import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +53,7 @@ public class TourService {
     final private SearchingRepository searchingRepository;
     final private S3FileService s3FileService;
     final private CityService cityService;
+    final private WishListService wishListService;
 
     public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files,String[] gallery_description, String city_id) throws IOException, InterruptedException {
         UserEntity owner = userService.verifyIsOwner();
@@ -91,16 +90,18 @@ public class TourService {
         entity.setData(SearchingSupporter.sanitize(service.getTitle()));
         entity.setThumbnail(service.getThumbnail());
         entity.setType(SearchingType.TOUR);
+        entity.setCity_name(cityService.getCityName(service.getCity_id()));
         searchingRepository.save(entity);
 
-        return new ServiceDetailDTO(service, tour, media);
+        return new ServiceDetailDTO(service, tour, media,false);
     }
 
     public ServiceDetailDTO getTour(String id) {
         ServiceEntity service = serviceRepository.find(id);
         ServiceDetailEntity tour = tourRepository.find(id);
         ArrayList<MediaEntity> media = mediaRepository.find(id, "GALLERY-MEDIA");
-        return new ServiceDetailDTO(service, tour, media);
+
+        return new ServiceDetailDTO(service, tour, media, !SecurityContext.isAnonymous() && wishListService.isWish(SecurityContext.getUserID(), id));
     }
 
     public ArrayList<ServiceDetailDTO> getPendingTour(String service_owner) {
@@ -148,7 +149,7 @@ public class TourService {
         serviceRepository.save(entity);
         tourRepository.save(detail);
         searchingRepository.save(searching);
-        return new ServiceDetailDTO(entity, detail, mediaRepository.find(service_id, "GALLERY-MEDIA"));
+        return new ServiceDetailDTO(entity, detail, mediaRepository.find(service_id, "GALLERY-MEDIA"), !SecurityContext.isAnonymous() && wishListService.isWish(SecurityContext.getUserID(), service_id));
     }
 
 

@@ -22,6 +22,11 @@ public class WishListRepository {
         return query.getResultList();
     }
 
+    public List find(String user_id) {
+        Query query = entityManager.createQuery("FROM WishListEntity m WHERE m.user_id=:user ORDER BY m.create_at").setParameter("user", user_id);
+        return query.getResultList();
+    }
+
     @Transactional
     public void save(WishListEntity entity) {
         entityManager.persist(entity);

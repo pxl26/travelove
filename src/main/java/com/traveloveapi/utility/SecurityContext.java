@@ -27,4 +27,8 @@ public class SecurityContext {
     static public String getUserID() {
         return SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
     }
+
+    static public boolean isAnonymous(){
+        return getUserID().equals("anonymousUser");
+    }
 }

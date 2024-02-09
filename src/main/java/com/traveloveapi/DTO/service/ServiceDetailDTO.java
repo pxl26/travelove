@@ -35,7 +35,9 @@ public class ServiceDetailDTO {
     private ArrayList<MediaEntity> gallery;
     private String city_id;
 
-    public ServiceDetailDTO(ServiceEntity service, ServiceDetailEntity tour, ArrayList<MediaEntity> media) {
+    private boolean wish;
+
+    public ServiceDetailDTO(ServiceEntity service, ServiceDetailEntity tour, ArrayList<MediaEntity> media, boolean isWish) {
         id = service.getId();
         title = service.getTitle();
         service_owner = service.getService_owner();
@@ -54,6 +56,8 @@ public class ServiceDetailDTO {
         primary_language = tour.getPrimary_language();
         gallery = media;
         city_id = service.getCity_id();
+
+        wish = isWish;
     }
 
 }

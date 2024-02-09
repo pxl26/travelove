@@ -87,6 +87,11 @@ public class CityService {
         return rs;
     }
 
+
+    public String getCityName(String city_id) {
+        return cityRepository.findById(city_id).getName();
+    }
+
     public CityEntity edit(String id,String city_name, String country_id, String country_name, MultipartFile cover_pic, MultipartFile thumbnail, String location, String description, String time_zone, Currency currency, String best_time, String do_not_miss) {
         CityEntity entity = cityRepository.findById(id);
         if (city_name!=null) {
