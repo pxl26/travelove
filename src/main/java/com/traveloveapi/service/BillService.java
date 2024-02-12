@@ -5,6 +5,7 @@ import com.traveloveapi.DTO.service_package.BillRequest;
 import com.traveloveapi.DTO.service_package.GroupOptionDTO;
 import com.traveloveapi.DTO.service_package.PackageGroupDTO;
 import com.traveloveapi.DTO.service_package.bill.CreateBillPersonType;
+import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import com.traveloveapi.entity.service_package.bill_detail_option.BillDetailOptionEntity;
 import com.traveloveapi.entity.service_package.bill_detail_person_type.BillDetailPersonTypeEntity;
@@ -47,6 +48,7 @@ public class BillService {
         bill.setTotal(getTotalForBill(data.getService_id(),data.getDate(), data.getPerson_types(), data.getOptions()));
         bill.setDate(data.getDate());
         bill.setCreate_at(new Timestamp(System.currentTimeMillis()));
+        bill.setStatus(BillStatus.PENDING);
         int num_ticket = 0;
         for (CreateBillPersonType ele: data.getPerson_types())
             num_ticket+=ele.getQuantity();

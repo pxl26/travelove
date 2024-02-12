@@ -1,5 +1,6 @@
 package com.traveloveapi.repository.service_package;
 
+import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -28,6 +29,10 @@ public class BillRepository {
 
     public ArrayList<BillEntity> findByService(String service_id, Date date) {
         return (ArrayList<BillEntity>) entityManager.createQuery("FROM BillEntity m WHERE m.service_id=:id AND m.date=:date").setParameter("id",service_id).setParameter("date",date).getResultList();
+    }
+
+    public ArrayList<BillEntity> findAvailableService(String service_id, Date date) {
+        return (ArrayList<BillEntity>) entityManager.createQuery("FROM BillEntity m WHERE m.service_id=:id AND m.date=:date AND m.status!=:status").setParameter("id",service_id).setParameter("date",date).setParameter("status", BillStatus.CANCELED).getResultList();
     }
 
     @Transactional
