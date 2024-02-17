@@ -28,6 +28,8 @@ public class PaymentService {
     private String payment_service_host;
     public GatewayResponse getPaymentGateway(String bill_id, String bank_code) {
         BillEntity bill = billRepository.find(bill_id);
+        if (bill==null)
+            throw new CustomException("Bill not found", 404);
         int amount = (int) bill.getTotal();
         String order_description = "Thanhtoanhoadonchotour" + bill.getService_id();
         String order_type = "Thanhtoan";
