@@ -30,6 +30,10 @@ public class PaymentService {
         BillEntity bill = billRepository.find(bill_id);
         if (bill==null)
             throw new CustomException("Bill not found", 404);
+        if (bill.getStatus()==BillStatus.PAID)
+            throw new CustomException("Bill was paid", 400);
+        if (bill.getStatus()==BillStatus.CANCELED)
+            throw new CustomException("Bill was canceled", 400);
         int amount = (int) bill.getTotal();
         String order_description = "Thanhtoanhoadonchotour" + bill.getService_id();
         String order_type = "Thanhtoan";
