@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.DTO.oauth.google.GoogleTokenResponse;
 import com.traveloveapi.DTO.payment.GatewayResponse;
+import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.repository.service_package.BillRepository;
@@ -16,6 +17,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.Timestamp;
 
 @RequiredArgsConstructor
 @Service
@@ -50,5 +52,16 @@ public class PaymentService {
             throw new CustomException("Cannot map data from payment server", 500);
         }
         return gateway_data;
+    }
+
+    public void updateBillWasPaid(String bill_id){
+        BillEntity bill = billRepository.find(bill_id);
+        bill.setStatus(BillStatus.PAID);
+        bill.setUpdate_at(new Timestamp(System.currentTimeMillis()));
+        billRepository.save(bill);
+    }
+
+    public BillEntity getBill(String bill_id) {
+        return billRepository.find(bill_id);
     }
 }

@@ -56,7 +56,7 @@ public class TourService {
     final private WishListService wishListService;
 
     public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files,String[] gallery_description, String city_id) throws IOException, InterruptedException {
-        UserEntity owner = userService.verifyIsOwner();
+        UserEntity owner = userService.verifyIsTourOwner();
         ServiceEntity service = new ServiceEntity();
         ServiceDetailEntity tour = new ServiceDetailEntity();
 
@@ -184,8 +184,8 @@ public class TourService {
         //-----set disable option
         ArrayList<DisableOptionEntity> disableList = packageDisableOptionRepository.findByService(service_id);
         for (DisableOptionEntity entity: disableList) {
-            GroupOptionDTO option_1 = new GroupOptionDTO(entity.getGroup_1(), entity.getOption_1());
-            GroupOptionDTO option_2 = new GroupOptionDTO(entity.getGroup_2(), entity.getOption_2());
+            GroupOptionDTO option_1 = new GroupOptionDTO(null,entity.getGroup_1(), null,entity.getOption_1());
+            GroupOptionDTO option_2 = new GroupOptionDTO(null, entity.getGroup_2(), null,entity.getOption_2());
             ArrayList<GroupOptionDTO> option_pair = new ArrayList<>();
             option_pair.add(option_1);
             option_pair.add(option_2);

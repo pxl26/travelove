@@ -26,6 +26,8 @@ public class BillEntity {
 
     private Date date;
 
+    private Timestamp update_at;
+
     @Enumerated(EnumType.STRING)
     private BillStatus status;
 }

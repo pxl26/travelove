@@ -6,6 +6,8 @@ import com.traveloveapi.DTO.service_package.GroupOptionDTO;
 import com.traveloveapi.DTO.service_package.PackageGroupDTO;
 import com.traveloveapi.DTO.service_package.bill.CreateBillPersonType;
 import com.traveloveapi.constrain.BillStatus;
+import com.traveloveapi.constrain.Role;
+import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import com.traveloveapi.entity.service_package.bill_detail_option.BillDetailOptionEntity;
 import com.traveloveapi.entity.service_package.bill_detail_person_type.BillDetailPersonTypeEntity;
@@ -14,7 +16,10 @@ import com.traveloveapi.entity.service_package.package_group.PackageGroupEntity;
 import com.traveloveapi.entity.service_package.package_option.PackageOptionEntity;
 import com.traveloveapi.entity.service_package.person_type.PackagePersonTypeEntity;
 import com.traveloveapi.entity.service_package.special_date.SpecialDateEntity;
+import com.traveloveapi.exception.ForbiddenException;
+import com.traveloveapi.repository.UserRepository;
 import com.traveloveapi.repository.service_package.*;
+import com.traveloveapi.service.user.UserService;
 import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,7 +41,20 @@ public class BillService {
     final private PackageGroupRepository packageGroupRepository;
     final private PackageLimitRepository packageLimitRepository;
     final private PackagePersonTypeRepository packagePersonTypeRepository;
+    final private UserRepository userRepository;
+    final private UserService userService;
 
+
+    public BillDTO getBill(String bill_id) {
+        BillEntity bill = billRepository.find(bill_id);
+        UserEntity user = userRepository.find(SecurityContext.getUserID());
+        // ---- AUTH FOR ACCESS: Bill owner + Admin + Tour owner (Own tour)
+        if (user.getRole()!= Role.ADMIN&&(user.getRole()==Role.TOUR_OWNER && !userService.verifyIsOwner(bill.getService_id(),user.getId()))&&(user.getRole()==Role.USER&&user.getId()!=SecurityContext.getUserID()))
+            throw new ForbiddenException();
+
+        return null;
+
+    }
     public BillDTO createNewBill(BillRequest data) {
         String id = UUID.randomUUID().toString();
         String user_id = SecurityContext.getUserID();

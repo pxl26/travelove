@@ -54,3 +54,6 @@ redis:
 
 payment:
     host: http://localhost:5000/api/payment/create-payment
+oauth:
+    google:
+        host: https://d2vkugt3apsttq.cloudfront.net

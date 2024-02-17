@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,8 @@ import java.io.IOException;
 @RequestMapping("/auth/oauth/google")
 @RequiredArgsConstructor
 public class GoogleController {
+    @Value("${oauth.google.host}")
+    private String web_host;
     private String client_id="226555921335-sg94jf64gf5lq0rdfbo4ulr28i2u8fqu.apps.googleusercontent.com";
     private String scope="https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile";
     //private String redirect_uri="http%3A%2F%2Flocalhost%3A8080%2Fauth%2Foauth%2Fgoogle";
@@ -40,7 +43,6 @@ public class GoogleController {
     public void login(@RequestParam String code, HttpServletResponse response) throws IOException {
         System.out.println("Code la: " + code);
         TokenResponse token = googleService.login(code);
-        response.sendRedirect("https://travelove.vercel.app/callback/auth/google?accessToken="+token.getAccess_token()+"&refreshToken="+token.getRefresh_token());
- //       response.sendRedirect("http://localhost:8080");
+        response.sendRedirect(web_host + "/callback/auth/google?accessToken="+token.getAccess_token()+"&refreshToken="+token.getRefresh_token());
     }
 }

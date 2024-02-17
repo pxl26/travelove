@@ -6,6 +6,8 @@ import lombok.*;
 @Setter
 @Getter
 public class GroupOptionDTO {
+    private String group_name;
     private int group_number;
+    private String option_name;
     private int option_number;
 }
