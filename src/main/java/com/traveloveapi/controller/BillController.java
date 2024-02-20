@@ -4,6 +4,7 @@ import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.DTO.payment.GatewayResponse;
 import com.traveloveapi.DTO.service_package.BillDTO;
 import com.traveloveapi.DTO.service_package.BillRequest;
+import com.traveloveapi.constrain.PayMethod;
 import com.traveloveapi.entity.OtpEntity;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import com.traveloveapi.exception.CustomException;
@@ -35,14 +36,14 @@ public class BillController {
 
     @GetMapping("/payment-gateway")
     @Tag(name = "SPRINT 5: User")
-    public GatewayResponse getPaymentGateway(@RequestParam String order_id) {
-        return paymentService.getPaymentGateway(order_id, "NCB");
+    public GatewayResponse getPaymentGateway(@RequestParam String order_id, @RequestParam PayMethod method) {
+        return paymentService.getPaymentGateway(order_id, "", method);
     }
 
     @PostMapping("/update")
     @Operation(hidden = true)
-    public SimpleResponse updateStatus(@RequestParam String order_id, @RequestParam String bank_code, @RequestParam String status_code) {
-        if (status_code.equals("00")) {
+    public SimpleResponse updateStatus(@RequestParam String order_id, @RequestParam String bank_code, @RequestParam String status_code,@RequestParam PayMethod method) {
+        if ((status_code.equals("00")&&method==PayMethod.VNPAY) || (status_code.equals("1")&&method==PayMethod.ZALOPAY)) {
             paymentService.updateBillWasPaid(order_id);
         }
         return new SimpleResponse("Hello payment", 200);

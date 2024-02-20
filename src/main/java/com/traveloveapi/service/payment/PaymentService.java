@@ -5,6 +5,7 @@ import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.DTO.oauth.google.GoogleTokenResponse;
 import com.traveloveapi.DTO.payment.GatewayResponse;
 import com.traveloveapi.constrain.BillStatus;
+import com.traveloveapi.constrain.PayMethod;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.exception.ForbiddenException;
@@ -30,9 +31,12 @@ public class PaymentService {
     final private BillRepository billRepository;
     final private UserService userService;
 
-    @Value("${payment.host}")
-    private String payment_service_host;
-    public GatewayResponse getPaymentGateway(String bill_id, String bank_code) {
+    @Value("${payment.vnpay}")
+    private String vnpay_endpoint;
+
+    @Value("${payment.zalopay}")
+    private String zalopay_endpoint;
+    public GatewayResponse getPaymentGateway(String bill_id, String bank_code, PayMethod method) {
         BillEntity bill = billRepository.find(bill_id);
         if (bill==null)
             throw new CustomException("Bill not found", 404);
@@ -41,9 +45,9 @@ public class PaymentService {
         if (bill.getStatus()==BillStatus.CANCELED)
             throw new CustomException("Bill was canceled", 400);
         int amount = (int) bill.getTotal();
-        String order_description = "Thanhtoanhoadonchotour" + bill.getService_id();
+        String order_description = "Thanh%20toán%20cho%20tour:%20" + bill.getService_id();
         String order_type = "Thanhtoan";
-        String request_url = payment_service_host + "?bank_code="+bank_code+"&amount="+amount+"&order_description="+order_description+"&order_type="+order_type + "&order_id="+bill_id;
+        String request_url = (method==PayMethod.VNPAY ? vnpay_endpoint : zalopay_endpoint) + "?bank_code="+bank_code+"&amount="+amount+"&order_description="+order_description+"&order_type="+order_type + "&order_id="+bill_id;
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(request_url)).method("POST",HttpRequest.BodyPublishers.noBody()).build();
 
         HttpResponse<String> response = null;
@@ -63,6 +67,8 @@ public class PaymentService {
         catch (Exception ex) {
             throw new CustomException("Cannot map data from payment server", 500);
         }
+        if (gateway_data.getUrl()==null)
+            throw new CustomException("Duplicated order id", 400);
         return gateway_data;
     }
 
