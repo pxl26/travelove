@@ -20,6 +20,6 @@ public class OtpRepository {
     }
 
     public OtpEntity find (String id) {
-        return (OtpEntity) entityManager.createQuery("FROM OtpEntity otp WHERE otp.id=:id").setParameter("id",id).getSingleResult();
+        return entityManager.find(OtpEntity.class, id);
     }
 }

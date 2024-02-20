@@ -5,6 +5,7 @@ import com.traveloveapi.DTO.TokenResponse;
 import com.traveloveapi.DTO.registration.EmailRegistrationRequest;
 import com.traveloveapi.DTO.registration.UsernameRegistrationRequest;
 import com.traveloveapi.entity.OtpEntity;
+import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.exception.ExpiredCodeException;
 import com.traveloveapi.exception.IncorrectCodeException;
 import com.traveloveapi.repository.OtpRepository;
@@ -50,6 +51,8 @@ public class RegisterController {
     @PostMapping("/email/verify-code")
     public TokenResponse vertify(@RequestParam String id, @RequestParam String code) {
         OtpEntity otpEntity = otpRepository.find(id);
+        if (otpEntity==null)
+            throw new CustomException("Id not found", 400);
         if (!code.equals(otpEntity.getCode()))
             throw new IncorrectCodeException();
         if (otpEntity.getExpiration().getTime() < System.currentTimeMillis())
