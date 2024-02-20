@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class BillRepository {
@@ -19,22 +20,40 @@ public class BillRepository {
         return entityManager.find(BillEntity.class, id);
     }
 
-    public ArrayList<BillEntity> findByUser(String user_id) {
-        return (ArrayList<BillEntity>) entityManager.createQuery("FROM BillEntity  bill WHERE bill.user_id=:id").setParameter("id",user_id).getResultList();
-    }
-
     public ArrayList<BillEntity> findByService(String service_id) {
-        return (ArrayList<BillEntity>) entityManager.createQuery("FROM BillEntity  m WHERE m.service_id=:id").setParameter("id",service_id).getResultList();
+        List temp = entityManager.createQuery("FROM BillEntity  m WHERE m.service_id=:id").setParameter("id",service_id).getResultList();
+        if (temp!=null)
+            return (ArrayList<BillEntity>) temp;
+        return new ArrayList<>();
     }
 
     public ArrayList<BillEntity> findByService(String service_id, Date date) {
-        return (ArrayList<BillEntity>) entityManager.createQuery("FROM BillEntity m WHERE m.service_id=:id AND m.date=:date").setParameter("id",service_id).setParameter("date",date).getResultList();
+        List temp = entityManager.createQuery("FROM BillEntity m WHERE m.service_id=:id AND m.date=:date").setParameter("id",service_id).setParameter("date",date).getResultList();
+        if (temp!=null)
+            return (ArrayList<BillEntity>) temp;
+        return new ArrayList<>();
     }
 
     public ArrayList<BillEntity> findAvailableService(String service_id, Date date) {
-        return (ArrayList<BillEntity>) entityManager.createQuery("FROM BillEntity m WHERE m.service_id=:id AND m.date=:date AND m.status!=:status").setParameter("id",service_id).setParameter("date",date).setParameter("status", BillStatus.CANCELED).getResultList();
+        List temp = entityManager.createQuery("FROM BillEntity m WHERE m.service_id=:id AND m.date=:date AND m.status!=:status").setParameter("id",service_id).setParameter("date",date).setParameter("status", BillStatus.CANCELED).getResultList();
+        if (temp!=null)
+            return (ArrayList<BillEntity>) temp;
+        return new ArrayList<>();
     }
 
+    public ArrayList<BillEntity> findByUser(String user_id) {
+        List temp = entityManager.createQuery("FROM BillEntity  m WHERE m.user_id=:id ORDER BY m.create_at").setParameter("id",user_id).getResultList();
+        if (temp!=null)
+            return (ArrayList<BillEntity>) temp;
+        return new ArrayList<>();
+    }
+
+    public ArrayList<BillEntity> findByTour(String tour_id) {
+        List temp = entityManager.createQuery("FROM BillEntity  m WHERE m.service_id=:id ORDER BY m.create_at").setParameter("id",tour_id).getResultList();
+        if (temp!=null)
+            return (ArrayList<BillEntity>) temp;
+        return new ArrayList<>();
+    }
     @Transactional
     public void save(BillEntity entity) {
         entityManager.persist(entity);

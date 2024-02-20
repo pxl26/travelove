@@ -7,7 +7,10 @@ import com.traveloveapi.DTO.payment.GatewayResponse;
 import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import com.traveloveapi.exception.CustomException;
+import com.traveloveapi.exception.ForbiddenException;
 import com.traveloveapi.repository.service_package.BillRepository;
+import com.traveloveapi.service.user.UserService;
+import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,12 +20,15 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 @RequiredArgsConstructor
 @Service
 public class PaymentService {
     final private BillRepository billRepository;
+    final private UserService userService;
 
     @Value("${payment.host}")
     private String payment_service_host;
@@ -69,5 +75,19 @@ public class PaymentService {
 
     public BillEntity getBill(String bill_id) {
         return billRepository.find(bill_id);
+    }
+
+    public ArrayList<BillEntity> getBillByUser(String user_id) {
+        if (!SecurityContext.getUserID().equals(user_id) && !userService.isAdmin())
+            throw new ForbiddenException();
+        return billRepository.findByUser(user_id);
+    }
+
+    public ArrayList<BillEntity> getBillByTour(String tour_id, Date date) {
+        if (!userService.isAdmin() && !userService.verifyIsOwner(tour_id, SecurityContext.getUserID()))
+            throw new ForbiddenException();
+        if (date!=null)
+            return billRepository.findByService(tour_id, date);
+        return billRepository.findByService(tour_id);
     }
 }
