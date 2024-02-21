@@ -84,14 +84,7 @@ public class TourService {
         tourRepository.save(tour);
 
         //---------- CREATE SEARCHING RECORD
-        SearchingEntity entity = new SearchingEntity();
-        entity.setRef_id(service.getId());
-        entity.setTitle(service.getTitle());
-        entity.setData(SearchingSupporter.sanitize(service.getTitle()));
-        entity.setThumbnail(service.getThumbnail());
-        entity.setType(SearchingType.TOUR);
-        entity.setCity_name(cityService.getCityName(service.getCity_id()));
-        searchingRepository.save(entity);
+        //makeSearchable(service);
 
         return new ServiceDetailDTO(service, tour, media,false);
     }
@@ -233,13 +226,26 @@ public class TourService {
     }
     public ServiceEntity changeStatus(SensorAction action, String tour_id) {
         userService.verifyIsAdmin();
-        ServiceEntity entity = serviceRepository.find(tour_id);
-        if (action==SensorAction.ACCEPT)
-            entity.setStatus(ServiceStatus.VERIFIED);
+        ServiceEntity service = serviceRepository.find(tour_id);
+        if (action==SensorAction.ACCEPT) {
+            service.setStatus(ServiceStatus.VERIFIED);
+            makeSearchable(service);
+        }
         else
-            entity.setStatus(ServiceStatus.DECLINED);
-        serviceRepository.save(entity);
-        return entity;
+            service.setStatus(ServiceStatus.DECLINED);
+        serviceRepository.save(service);
+        return service;
+    }
+
+    private void makeSearchable(ServiceEntity service) {
+        SearchingEntity entity = new SearchingEntity();
+        entity.setRef_id(service.getId());
+        entity.setTitle(service.getTitle());
+        entity.setData(SearchingSupporter.sanitize(service.getTitle()));
+        entity.setThumbnail(service.getThumbnail());
+        entity.setType(SearchingType.TOUR);
+        entity.setCity_name(cityService.getCityName(service.getCity_id()));
+        searchingRepository.save(entity);
     }
 
     private ArrayList<MediaEntity> saveTourGallery(String tour_id, MultipartFile[] file_list, String[] description) {
