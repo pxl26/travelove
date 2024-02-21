@@ -27,4 +27,9 @@ public class UserRepository {
     public void save(UserEntity entity){
             entityManager.persist(entity);
     }
+
+    @Transactional
+    public void update(UserEntity entity){
+        entityManager.merge(entity);
+    }
 }

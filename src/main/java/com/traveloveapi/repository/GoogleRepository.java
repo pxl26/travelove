@@ -19,4 +19,7 @@ public class GoogleRepository {
 
     @Transactional
     public void save(GoogleEntity entity) {entityManager.persist(entity);}
+
+    @Transactional
+    public void update(GoogleEntity entity) {entityManager.merge(entity);}
 }

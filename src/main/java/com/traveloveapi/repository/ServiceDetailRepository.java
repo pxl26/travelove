@@ -20,5 +20,10 @@ public class ServiceDetailRepository {
         entityManager.persist(entity);
     }
 
+
+    @Transactional
+    public void update(ServiceDetailEntity entity) {
+        entityManager.merge(entity);
+    }
     //------------------------
 }

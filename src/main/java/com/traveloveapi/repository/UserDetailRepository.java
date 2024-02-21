@@ -46,4 +46,9 @@ public class UserDetailRepository {
     public void save(UserDetailEntity entity) {
         entityManager.persist(entity);
     }
+
+    @Transactional
+    public void update(UserDetailEntity entity) {
+        entityManager.merge(entity);
+    }
 }

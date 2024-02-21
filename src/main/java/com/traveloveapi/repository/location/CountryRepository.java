@@ -26,6 +26,11 @@ public class CountryRepository {
         entityManager.persist(entity);
     }
 
+    @Transactional
+    public void update(CountryEntity entity) {
+        entityManager.merge(entity);
+    }
+
     public List getAll() {
         return entityManager.createQuery("FROM CountryEntity m").getResultList();
     }

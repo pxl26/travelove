@@ -31,4 +31,9 @@ public class WishListRepository {
     public void save(WishListEntity entity) {
         entityManager.persist(entity);
     }
+
+    @Transactional
+    public void update(WishListEntity entity) {
+        entityManager.merge(entity);
+    }
 }

@@ -74,13 +74,13 @@ public class UserProfileService {
         detail.setGender(gender!=null ? gender : detail.getGender());
         detail.setBirth(birth!=null ? birth : detail.getBirth());
         detail.setRegion(region!=null ? region : detail.getRegion());
-        userDetailRepository.save(detail);
+        userDetailRepository.update(detail);
 
         UserEntity user = userRepository.find(SecurityContext.getUserID());
         user.setFull_name(full_name!=null ? full_name : user.getFull_name());
         if (avatar!=null)
             user.setAvatar(fileService.savePublicImage(avatar));
-        userRepository.save(user);
+        userRepository.update(user);
 
         return findUserById(SecurityContext.getUserID());
     }

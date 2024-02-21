@@ -18,6 +18,11 @@ public class CollectionDetailRepository {
         entityManager.persist(entity);
     }
 
+    @Transactional
+    public void update(CollectionDetailEntity entity) {
+        entityManager.merge(entity);
+    }
+
     public ArrayList<CollectionDetailEntity> find(String collection_id) {
         return (ArrayList<CollectionDetailEntity>) entityManager.createQuery("FROM CollectionDetailEntity m WHERE m.collection_id=:id ORDER BY m.seq").setParameter("id", collection_id).getResultList();
     }

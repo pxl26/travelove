@@ -30,7 +30,7 @@ public class UserService {
         if (detail.getPassword()==null || passwordEncoder.matches(old_password, detail.getPassword()))  //password is match
         {
             detail.setPassword(passwordEncoder.encode(new_password));
-            userDetailRepository.save(detail);
+            userDetailRepository.update(detail);
             return true;
         }
         else

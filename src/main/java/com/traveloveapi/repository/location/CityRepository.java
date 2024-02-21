@@ -23,6 +23,11 @@ public class CityRepository {
         entityManager.persist(entity);
     }
 
+    @Transactional
+    public void update(CityEntity entity) {
+        entityManager.merge(entity);
+    }
+
     public List getAllCityByICountryId(String country_id) {
         return entityManager.createQuery("FROM CityEntity m WHERE m.country_id=:id").setParameter("id",country_id).getResultList();
     }

@@ -76,7 +76,7 @@ public class PaymentService {
         BillEntity bill = billRepository.find(bill_id);
         bill.setStatus(BillStatus.PAID);
         bill.setUpdate_at(new Timestamp(System.currentTimeMillis()));
-        billRepository.save(bill);
+        billRepository.update(bill);
     }
 
     public BillEntity getBill(String bill_id) {

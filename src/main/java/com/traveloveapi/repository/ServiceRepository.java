@@ -48,4 +48,9 @@ public class ServiceRepository {
     public void save(ServiceEntity entity) {
         entityManager.persist(entity);
     }
+
+    @Transactional
+    public void update(ServiceEntity entity) {
+        entityManager.merge(entity);
+    }
 }

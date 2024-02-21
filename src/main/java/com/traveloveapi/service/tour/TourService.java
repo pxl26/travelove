@@ -141,9 +141,9 @@ public class TourService {
         if (city_id!=null)
             entity.setCity_id(city_id);
 
-        serviceRepository.save(entity);
-        tourRepository.save(detail);
-        searchingRepository.save(searching);
+        serviceRepository.update(entity);
+        tourRepository.update(detail);
+        searchingRepository.update(searching);
         return new ServiceDetailDTO(entity, detail, mediaRepository.find(service_id, "GALLERY-MEDIA"), !SecurityContext.isAnonymous() && wishListService.isWish(SecurityContext.getUserID(), service_id));
     }
 
@@ -235,7 +235,7 @@ public class TourService {
         }
         else
             service.setStatus(ServiceStatus.DECLINED);
-        serviceRepository.save(service);
+        serviceRepository.update(service);
         return service;
     }
 

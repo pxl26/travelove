@@ -19,6 +19,11 @@ public class CollectionRepository {
         entityManager.persist(entity);
     }
 
+    @Transactional
+    public void update(CollectionEntity entity) {
+        entityManager.merge(entity);
+    }
+
     public CollectionEntity find(String id) {
         return entityManager.find(CollectionEntity.class, id);
     }

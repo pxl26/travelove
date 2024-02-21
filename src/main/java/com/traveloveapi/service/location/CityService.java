@@ -119,7 +119,7 @@ public class CityService {
         if (thumbnail!=null)
             entity.setCover_pic(s3FileService.uploadFile(thumbnail, "public/country/", UUID.randomUUID().toString()));
 
-        cityRepository.save(entity);
+        cityRepository.update(entity);
         return entity;
     }
 }

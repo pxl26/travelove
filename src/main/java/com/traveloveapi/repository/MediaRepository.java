@@ -22,6 +22,11 @@ public class MediaRepository {
     public void save(MediaEntity entity) {
         entityManager.persist(entity);
     }
+
+    @Transactional
+    public void update(MediaEntity entity) {
+        entityManager.merge(entity);
+    }
     //    ----------------------------------------
 
     public ArrayList<MediaEntity> find(String ref_id, String type) {

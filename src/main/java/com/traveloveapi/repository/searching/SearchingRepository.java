@@ -21,6 +21,10 @@ public class SearchingRepository {
         entityManager.persist(entity);
     }
 
+    @Transactional
+    public void update(SearchingEntity entity) {
+        entityManager.merge(entity);
+    }
     public List<SearchingEntity> findByTitle(String input, int offset, int limit) {
         System.out.println("SEARCH REPO");
         return Search.session(entityManager).search(SearchingEntity.class).where(f->f.match().field("data").matching(input)).fetchHits(offset, limit);
