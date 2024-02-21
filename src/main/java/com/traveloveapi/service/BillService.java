@@ -97,7 +97,7 @@ public class BillService {
         rs.setService_id(bill.getService_id());
         rs.setOptions(data.getOptions());
         rs.setPerson_types(data.getPerson_types());
-
+        rs.setStatus(BillStatus.PENDING);
         return rs;
     }
 
