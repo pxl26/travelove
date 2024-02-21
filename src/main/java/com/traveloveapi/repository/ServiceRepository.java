@@ -37,7 +37,7 @@ public class ServiceRepository {
     }
 
     public List search(String input, int limit, int offset) {
-        List temp = Search.session(entityManager).search(ServiceEntity.class).where(f -> f.match().field("title").matching(input)).fetchHits(20);
+        return Search.session(entityManager).search(ServiceEntity.class).where(f -> f.match().field("title").matching(input)).fetchHits(20);
     }
 
     @Transactional
