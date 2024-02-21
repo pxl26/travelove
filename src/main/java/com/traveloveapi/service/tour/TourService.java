@@ -90,7 +90,9 @@ public class TourService {
     }
 
     public ServiceDetailDTO getTour(String id) {
-        ServiceEntity service = serviceRepository.find(id);
+        ServiceEntity service = userService.isAdmin() ? serviceRepository.findAdmin(id) : serviceRepository.find(id);
+        if (service==null&& userService.verifyIsOwner(id, SecurityContext.getUserID()))
+            service = serviceRepository.findAdmin(id);
         ServiceDetailEntity tour = tourRepository.find(id);
         ArrayList<MediaEntity> media = mediaRepository.find(id, "GALLERY-MEDIA");
 
@@ -226,7 +228,7 @@ public class TourService {
     }
     public ServiceEntity changeStatus(SensorAction action, String tour_id) {
         userService.verifyIsAdmin();
-        ServiceEntity service = serviceRepository.find(tour_id);
+        ServiceEntity service = serviceRepository.findAdmin(tour_id);
         if (action==SensorAction.ACCEPT) {
             service.setStatus(ServiceStatus.VERIFIED);
             makeSearchable(service);

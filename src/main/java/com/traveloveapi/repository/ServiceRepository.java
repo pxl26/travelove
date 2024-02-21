@@ -23,6 +23,10 @@ public class ServiceRepository {
             return null;
         return rs;
     }
+
+    public ServiceEntity findAdmin(String id) {
+        return entityManager.find(ServiceEntity.class, id);
+    }
     public ArrayList<ServiceEntity> findByStatus(ServiceStatus status, String owner) {
         if (owner.isEmpty())
             return (ArrayList<ServiceEntity>) entityManager.createQuery("FROM ServiceEntity m WHERE m.status=:status").setParameter("status",status).getResultList();
