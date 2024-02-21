@@ -58,4 +58,16 @@ public class BillRepository {
     public void save(BillEntity entity) {
         entityManager.persist(entity);
     }
+
+    @Transactional
+    public void update(BillEntity entity) {
+        entityManager.merge(entity);
+    }
+
+    public ArrayList<BillEntity> getAllPending() {
+        List temp = entityManager.createQuery("FROM BillEntity m WHERE m.status=:status").setParameter("status", BillStatus.PENDING).getResultList();
+        if (temp!=null)
+            return (ArrayList<BillEntity>) temp;
+        return new ArrayList<>();
+    }
 }
