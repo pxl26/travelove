@@ -1,5 +1,6 @@
 package com.traveloveapi.controller.service.tour.package_service;
 
+import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.DTO.service_package.CheckAvailableRequest;
 import com.traveloveapi.DTO.service_package.CreatePackageDTO;
 import com.traveloveapi.service.BillService;
@@ -17,8 +18,9 @@ public class ServicePackageController {
     final private BillService billService;
     @PostMapping
     @Tag(name = "SPRINT 2")
-    public void addPackage(@RequestBody CreatePackageDTO data) {
+    public SimpleResponse addPackage(@RequestBody CreatePackageDTO data) {
         packageService.addPackage(data);
+        return new SimpleResponse("Done", 200);
     }
 
     @Tag(name = "SPRINT 2")
