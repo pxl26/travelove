@@ -37,7 +37,7 @@ public class PackageService {
 
     public void addPackage(CreatePackageDTO data) {
         String service_id = data.getService_id();
-        ServiceEntity serviceEntity = serviceRepository.find(service_id);
+        ServiceEntity serviceEntity = serviceRepository.findAdmin(service_id);
         serviceEntity.setMin_price(data.getMin_price());
         serviceRepository.save(serviceEntity);
 
