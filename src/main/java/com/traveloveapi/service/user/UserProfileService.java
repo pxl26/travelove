@@ -9,20 +9,21 @@ import com.traveloveapi.exception.ForbiddenException;
 import com.traveloveapi.repository.UserDetailRepository;
 import com.traveloveapi.repository.UserRepository;
 import com.traveloveapi.constrain.Role;
-import com.traveloveapi.service.local_file.FileService;
+import com.traveloveapi.service.aws.s3.S3FileService;
 import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserProfileService {
     final private UserRepository userRepository;
     final private UserDetailRepository userDetailRepository;
-    final private FileService fileService;
+    final private S3FileService s3FileService;
 
     public UserProfile findUserById(String id) {
         UserDetailEntity detail = userDetailRepository.find(id);
@@ -79,7 +80,7 @@ public class UserProfileService {
         UserEntity user = userRepository.find(SecurityContext.getUserID());
         user.setFull_name(full_name!=null ? full_name : user.getFull_name());
         if (avatar!=null)
-            user.setAvatar(fileService.savePublicImage(avatar));
+            user.setAvatar(s3FileService.uploadFile(avatar, "public/avatar/", UUID.randomUUID().toString()));
         userRepository.update(user);
 
         return findUserById(SecurityContext.getUserID());

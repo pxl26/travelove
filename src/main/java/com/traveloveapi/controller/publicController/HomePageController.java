@@ -18,10 +18,10 @@ public class HomePageController {
                         "            } \n" +
                         "            \n" +
                         "            div.absolute {\n" +
-                        "              border-radius: 5px;\n" +
-                        "              position: absolute;\n" +
+                        "              border-radius: 5px;padding: 10px;\n" +
+                        "              position: fixed;\n" +
                         "              top: 80px;\n" +
-                        "              left: 0;\n" +
+                        "              left: 20;\n" +
                         "              background-color: aliceblue;\n" +
                         "              opacity: 0.5;\n" +
                         "            }\n" +

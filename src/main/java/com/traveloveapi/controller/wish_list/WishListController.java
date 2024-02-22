@@ -4,6 +4,7 @@ import com.traveloveapi.DTO.WishList.WishListDTO;
 import com.traveloveapi.entity.WishListEntity;
 import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.repository.WishListRepository;
+import com.traveloveapi.service.wish_list.WishListService;
 import com.traveloveapi.utility.SecurityContext;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.UUID;
 public class WishListController {
     final private WishListRepository wishListRepository;
     final private ServiceRepository serviceRepository;
+    final private WishListService wishListService;
 
 
     @GetMapping
@@ -40,6 +42,12 @@ public class WishListController {
     @PostMapping
     @Tag(name = "SPRINT 4")
     public WishListEntity addWishService(@RequestParam String service_id) {
+        if (wishListService.isWish(SecurityContext.getUserID(), service_id))
+        {
+            WishListEntity rs = wishListRepository.find(SecurityContext.getUserID(), service_id);
+            wishListRepository.delete(rs);
+            return rs;
+        }
         WishListEntity entity = new WishListEntity();
         entity.setId(UUID.randomUUID().toString());
         entity.setService_id(service_id);

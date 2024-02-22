@@ -251,6 +251,7 @@ public class TourService {
         entity.setThumbnail(service.getThumbnail());
         entity.setType(SearchingType.TOUR);
         entity.setCity_name(cityService.getCityName(service.getCity_id()));
+        entity.setMin_price(service.getMin_price());
         searchingRepository.save(entity);
     }
 
