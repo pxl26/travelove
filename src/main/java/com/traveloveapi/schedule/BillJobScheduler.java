@@ -1,4 +1,4 @@
-package com.traveloveapi.controller.schedule;
+package com.traveloveapi.schedule;
 
 import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.entity.service_package.bill.BillEntity;

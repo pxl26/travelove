@@ -16,7 +16,7 @@ import java.util.List;
 public class SearchingController {
     final private SearchingRepository searchingRepository;
 
-    @Tag(name = "SPRINT 4: User side")
+    @Tag(name = "SPRINT 4")
     @GetMapping
     public List search(@RequestParam String input) {
         input = SearchingSupporter.sanitize(input);

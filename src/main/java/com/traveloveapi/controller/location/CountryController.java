@@ -21,7 +21,7 @@ public class CountryController {
     final private CountryService countryService;
     final private UserService userService;
     @PostMapping
-    @Tag(name = "SPRINT 4: Admin side")
+    @Tag(name = "SPRINT 4")
     public CountryEntity create(@RequestParam String name, @RequestParam String location, @RequestParam String description, @RequestParam String time_zone, @RequestParam Currency currency, @RequestParam String best_time, @RequestParam Language language,@RequestParam MultipartFile cover_pic,@ModelAttribute MultipartFile thumbnail) throws JsonProcessingException {
         if (!userService.isAdmin())
             throw new ForbiddenException();
@@ -29,7 +29,7 @@ public class CountryController {
     }
 
     @PutMapping
-    @Tag(name = "SPRINT 4: Admin side")
+    @Tag(name = "SPRINT 4")
     public CountryEntity edit(@RequestParam String country_id, @RequestParam(required = false) String country_name, @RequestParam(required = false) MultipartFile cover_pic, @RequestParam(required = false) String location, @RequestParam(required = false) MultipartFile thumbnail, @RequestParam(required = false) String description, @RequestParam(required = false) String time_zone, @RequestParam(required = false) Currency currency, @RequestParam(required = false) String best_time, @RequestParam(required = false) Language language) {
         if (!userService.isAdmin())
             throw new ForbiddenException();

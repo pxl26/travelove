@@ -20,7 +20,7 @@ public class CityController {
     final private UserService userService;
 
     @PostMapping
-    @Tag(name = "SPRINT 4: Admin side")
+    @Tag(name = "SPRINT 4")
     public CityDTO createCity(@RequestParam String city_name, @RequestParam String country_id, @RequestParam String country_name, @RequestParam String location, @RequestParam String description, @RequestParam String time_zone, @RequestParam Currency currency, @RequestParam String best_time, @RequestParam String dont_miss, @RequestParam MultipartFile thumbnail, @RequestParam MultipartFile[] gallery, @RequestParam String [] gallery_description) {
         if (!userService.isAdmin())
             throw new ForbiddenException();
@@ -28,7 +28,7 @@ public class CityController {
     }
 
     @PutMapping
-    @Tag(name = "SPRINT 4: Admin side")
+    @Tag(name = "SPRINT 4")
     public CityEntity editCity(@RequestParam String city_id, @RequestParam(required = false) String city_name, @RequestParam(required = false) String country_name, @RequestParam(required = false) String country_id, @RequestParam(required = false) String location, @RequestParam(required = false) String description, @RequestParam(required = false) String time_zone, @RequestParam(required = false) Currency currency, @RequestParam(required = false) String best_time, @RequestParam(required = false) String dont_miss, @RequestParam(required = false) MultipartFile cover_pic, @RequestParam(required = false) MultipartFile thumb) {
         if (!userService.isAdmin())
             throw new ForbiddenException();

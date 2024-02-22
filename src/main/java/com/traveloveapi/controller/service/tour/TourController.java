@@ -43,7 +43,7 @@ public class TourController {
     }
 
     @PutMapping
-    @Tag(name = "SPRINT 4: Service owner side")
+    @Tag(name = "SPRINT 4")
     public ServiceDetailDTO editService(@RequestParam String service_id,@RequestParam(required = false) ServiceType service_type, @RequestParam(required = false) String title, @RequestParam(required = false) String description, @RequestParam(required = false) String highlight, @RequestParam(required = false) String note, @RequestParam(required = false) Currency currency, @RequestParam(required = false) Language primary_language, @RequestParam(required = false) float min_price, @RequestParam(required = false) String city_id) {
         return tourService.editTour(service_id, service_type, title, description,highlight,note, currency, primary_language, min_price, city_id);
     }

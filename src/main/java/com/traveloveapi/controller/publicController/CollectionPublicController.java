@@ -18,25 +18,25 @@ import java.util.ArrayList;
 public class CollectionPublicController {
     final private CollectionService collectionService;
     @GetMapping
-    @Tag(name = "SPRINT 4: User side")
+    @Tag(name = "SPRINT 4")
     public CollectionDTO get(@RequestParam String id) {
         return collectionService.get(id);
     }
 
     @GetMapping("/home-page")
-    @Tag(name = "SPRINT 4: User side")
+    @Tag(name = "SPRINT 4")
     public ArrayList<CollectionDTO> getHomepage() {
         return collectionService.getCollectionList(CollectionDisplay.HOME_PAGE, null);
     }
 
     @GetMapping("/city")
-    @Tag(name = "SPRINT 4: User side")
+    @Tag(name = "SPRINT 4")
     public ArrayList<CollectionDTO> getByCity(@RequestParam String city_id) {
         return collectionService.getCollectionList(CollectionDisplay.CITY, city_id);
     }
 
     @GetMapping("/country")
-    @Tag(name = "SPRINT 4: User side")
+    @Tag(name = "SPRINT 4")
     public ArrayList<CollectionDTO> getByCountry(@RequestParam String country_id) {
         return collectionService.getCollectionList(CollectionDisplay.COUNTRY, country_id);
     }

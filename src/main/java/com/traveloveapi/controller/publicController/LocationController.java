@@ -26,40 +26,33 @@ public class LocationController {
     final private CityService cityService;
     final private TourService tourService;
     @GetMapping("/country")
-    @Tag(name = "SPRINT 4: User side")
+    @Tag(name = "SPRINT 4")
     public CountryEntity getCountry(@RequestParam(required = false) String id, @RequestParam(required = false) String country_name) {
         return countryService.getCountry(id, country_name);
     }
 
     @GetMapping("/city")
-    @Tag(name = "SPRINT 4: User side")
+    @Tag(name = "SPRINT 4")
     public CityDTO getCity(@RequestParam String city_id) {
         return cityService.get(city_id);
     }
 
     @GetMapping("/city/all-service")
     @Tags({
-            @Tag(name = "SPRINT 4: User side"),
-            @Tag(name = "SPRINT 4: Admin side")
+            @Tag(name = "SPRINT 4")
     })
     public ArrayList<ServiceCard> getAllTour(@RequestParam String city_id) {
         return tourService.getTourByCity(city_id);
     }
 
     @GetMapping("/country/all-city")
-    @Tags({
-            @Tag(name = "SPRINT 4: User side"),
-            @Tag(name = "SPRINT 4: Admin side"),
-            @Tag(name = "SPRINT 4: Service owner side")})
+    @Tags({@Tag(name = "SPRINT 4")})
     public List getAllCity(@RequestParam(required = false) String country_id, @RequestParam(required = false) String country_name) {
         return countryService.getAllCity(country_id, country_name);
     }
 
     @GetMapping("/country/all-country")
-    @Tags({
-            @Tag(name = "SPRINT 4: User side"),
-            @Tag(name = "SPRINT 4: Admin side"),
-            @Tag(name = "SPRINT 4: Service owner side")})
+    @Tags({@Tag(name = "SPRINT 4"),})
     public List getAllCountry() {
         return countryService.getAllCountry();
     }

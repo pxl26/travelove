@@ -21,14 +21,14 @@ public class UserActivityController {
     final private ActivityLoggingService activityLoggingService;
 
     @GetMapping
-    @Tag(name = "SPRINT 4: User side")
+    @Tag(name = "SPRINT 4")
     @Operation(description = "Show activity logs", hidden = true)
     public ArrayList<ActivityLogEntity> getMyActivityLog(@RequestParam int page) {
         return activityLoggingService.getMyActivityLog(page);
     }
 
     @GetMapping("/viewed-tour")
-    @Tag(name = "SPRINT 4: User side")
+    @Tag(name = "SPRINT 4")
     public ArrayList<ViewedTourDTO> getViewedTour() {
         return activityLoggingService.getViewedTour(SecurityContext.getUserID());
     }

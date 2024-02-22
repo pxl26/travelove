@@ -24,7 +24,7 @@ public class WishListController {
 
 
     @GetMapping
-    @Tag(name = "SPRINT 4: Wish list")
+    @Tag(name = "SPRINT 4")
     public List getWishList(@RequestParam int page) {
         int page_size = 7;
         List raw_data =  wishListRepository.find(SecurityContext.getUserID(),page_size*page, page_size);
@@ -38,7 +38,7 @@ public class WishListController {
     }
 
     @PostMapping
-    @Tag(name = "SPRINT 4: Wish list")
+    @Tag(name = "SPRINT 4")
     public WishListEntity addWishService(@RequestParam String service_id) {
         WishListEntity entity = new WishListEntity();
         entity.setId(UUID.randomUUID().toString());

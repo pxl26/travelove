@@ -14,7 +14,7 @@ public class CollectionController {
     final private CollectionService collectionService;
 
     @PostMapping
-    @Tag(name = "SPRINT 4: Admin side")
+    @Tag(name = "SPRINT 4")
     public CollectionDTO create(@RequestBody CreateCollectionDTO request) {
         return collectionService.create(request.getCollection_name(), request.getService_list(), request.getDisplay_on(), request.getRef_id());
     }
