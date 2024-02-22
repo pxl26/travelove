@@ -3,6 +3,8 @@ package com.traveloveapi.controller.publicController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Controller
 public class HomePageController {
     @RequestMapping("/")

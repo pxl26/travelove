@@ -9,12 +9,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/public/search")
 public class SearchingController {
     final private SearchingRepository searchingRepository;
+
+    @GetMapping("/test")
+    public String test() {
+        return UUID.randomUUID().toString().replace("-","");
+    }
 
     @Tag(name = "SPRINT 4")
     @GetMapping

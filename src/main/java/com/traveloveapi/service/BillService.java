@@ -56,7 +56,7 @@ public class BillService {
 
     }
     public BillDTO createNewBill(BillRequest data) {
-        String id = UUID.randomUUID().toString();
+        String id = UUID.randomUUID().toString().replace("-","");
         String user_id = SecurityContext.getUserID();
 
         BillEntity bill = new BillEntity();
