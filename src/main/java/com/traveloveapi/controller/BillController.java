@@ -46,7 +46,9 @@ public class BillController {
         if ((status_code.equals("00")&&method==PayMethod.VNPAY) || (status_code.equals("1")&&method==PayMethod.ZALOPAY)) {
             paymentService.updateBillWasPaid(order_id);
         }
-        return new SimpleResponse("Hello payment", 200);
+        else
+            paymentService.updateBillWasCancelled(order_id);
+        return new SimpleResponse("Oke payment", 200);
     }
 
     @GetMapping

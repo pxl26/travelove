@@ -79,6 +79,13 @@ public class PaymentService {
         billRepository.update(bill);
     }
 
+    public void updateBillWasCancelled(String bill_id){
+        BillEntity bill = billRepository.find(bill_id);
+        bill.setStatus(BillStatus.CANCELED);
+        bill.setUpdate_at(new Timestamp(System.currentTimeMillis()));
+        billRepository.update(bill);
+    }
+
     public BillEntity getBill(String bill_id) {
         return billRepository.find(bill_id);
     }

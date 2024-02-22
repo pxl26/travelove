@@ -57,6 +57,6 @@ public class UserService {
     }
 
     public boolean verifyIsOwner(String tour_id, String user_id) {
-        return serviceRepository.find(tour_id).getService_owner().equals(user_id);
+        return serviceRepository.findAdmin(tour_id).getService_owner().equals(user_id);
     }
 }
