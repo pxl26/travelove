@@ -54,3 +54,4 @@ logs
 !/temp_s3/
 !/SearchingEntity/
 /ServiceSearchingEntity/
+/SearchingEntity/
