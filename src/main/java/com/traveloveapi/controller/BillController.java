@@ -35,7 +35,7 @@ public class BillController {
     }
 
     @GetMapping("/payment-gateway")
-    @Tag(name = "SPRINT 5: User")
+    @Tag(name = "SPRINT 5")
     public GatewayResponse getPaymentGateway(@RequestParam String order_id, @RequestParam PayMethod method) {
         return paymentService.getPaymentGateway(order_id, "", method);
     }

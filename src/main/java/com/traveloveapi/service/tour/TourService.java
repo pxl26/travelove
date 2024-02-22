@@ -90,7 +90,11 @@ public class TourService {
     }
 
     public ServiceDetailDTO getTour(String id) {
-        ServiceEntity service = userService.isAdmin() ? serviceRepository.findAdmin(id) : serviceRepository.find(id);
+        ServiceEntity service;
+        if (SecurityContext.isAnonymous())
+            service = serviceRepository.find(id);
+        else
+            service = userService.isAdmin() ? serviceRepository.findAdmin(id) : serviceRepository.find(id);
         if (service==null&& userService.verifyIsOwner(id, SecurityContext.getUserID()))
             service = serviceRepository.findAdmin(id);
         ServiceDetailEntity tour = tourRepository.find(id);
