@@ -39,11 +39,7 @@ public class PackageService {
         String service_id = data.getService_id();
         ServiceEntity serviceEntity = serviceRepository.findAdmin(service_id);
         serviceEntity.setMin_price(data.getMin_price());
-        serviceRepository.save(serviceEntity);
-
-        SearchingEntity searching = searchingRepository.find(service_id);
-        searching.setMin_price(searching.getMin_price());
-        serviceRepository.save(serviceEntity);
+        serviceRepository.update(serviceEntity);
 
         ArrayList<CreatePackageGroup> groupList = data.getPackage_group();
         for (CreatePackageGroup groups: groupList) {
