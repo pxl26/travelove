@@ -1,6 +1,7 @@
 package com.traveloveapi.controller.service.tour;
 
 import com.traveloveapi.DTO.service.CreateTourDTO;
+import com.traveloveapi.DTO.service.ServiceCard;
 import com.traveloveapi.DTO.service.ServiceDetailDTO;
 import com.traveloveapi.DTO.service.ServiceStatusByDateDTO;
 import com.traveloveapi.constrain.Currency;
@@ -46,5 +47,11 @@ public class TourController {
     @Tag(name = "SPRINT 4")
     public ServiceDetailDTO editService(@RequestParam String service_id,@RequestParam(required = false) ServiceType service_type, @RequestParam(required = false) String title, @RequestParam(required = false) String description, @RequestParam(required = false) String highlight, @RequestParam(required = false) String note, @RequestParam(required = false) Currency currency, @RequestParam(required = false) Language primary_language, @RequestParam(required = false) float min_price, @RequestParam(required = false) String city_id) {
         return tourService.editTour(service_id, service_type, title, description,highlight,note, currency, primary_language, min_price, city_id);
+    }
+
+    @GetMapping("/card")
+    @Tag(name = "SPRINT 5")
+    public ServiceCard getCard(@RequestParam String tour_id) {
+        return tourService.createCard(tour_id);
     }
 }
