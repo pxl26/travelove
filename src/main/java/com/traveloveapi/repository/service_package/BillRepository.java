@@ -42,7 +42,7 @@ public class BillRepository {
     }
 
     public ArrayList<BillEntity> findByUser(String user_id) {
-        List temp = entityManager.createQuery("FROM BillEntity  m WHERE m.user_id=:id ORDER BY m.create_at").setParameter("id",user_id).getResultList();
+        List temp = entityManager.createQuery("FROM BillEntity  m WHERE m.user_id=:id ORDER BY m.create_at DESC").setParameter("id",user_id).getResultList();
         if (temp!=null)
             return (ArrayList<BillEntity>) temp;
         return new ArrayList<>();
