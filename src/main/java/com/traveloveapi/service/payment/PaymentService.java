@@ -1,14 +1,14 @@
 package com.traveloveapi.service.payment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.traveloveapi.DTO.SimpleResponse;
-import com.traveloveapi.DTO.oauth.google.GoogleTokenResponse;
 import com.traveloveapi.DTO.payment.GatewayResponse;
 import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.constrain.PayMethod;
+import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.exception.ForbiddenException;
+import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.repository.service_package.BillRepository;
 import com.traveloveapi.service.user.UserService;
 import com.traveloveapi.utility.SecurityContext;
@@ -30,6 +30,7 @@ import java.util.ArrayList;
 public class PaymentService {
     final private BillRepository billRepository;
     final private UserService userService;
+    final private ServiceRepository serviceRepository;
 
     @Value("${payment.vnpay}")
     private String vnpay_endpoint;
@@ -77,6 +78,9 @@ public class PaymentService {
         bill.setStatus(BillStatus.PAID);
         bill.setUpdate_at(new Timestamp(System.currentTimeMillis()));
         billRepository.update(bill);
+        ServiceEntity service = serviceRepository.findAdmin(bill.getService_id());
+        service.setSold(service.getSold()+1);
+        serviceRepository.update(service);
     }
 
     public void updateBillWasCancelled(String bill_id){

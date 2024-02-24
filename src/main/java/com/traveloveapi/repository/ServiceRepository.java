@@ -40,6 +40,13 @@ public class ServiceRepository {
         return (ArrayList<ServiceEntity>) raw;
     }
 
+    public ArrayList<ServiceEntity> findByOwner(String id) {
+        List raw = entityManager.createQuery("FROM ServiceEntity m WHERE m.service_owner=:id ORDER BY m.status").setParameter("id",id).getResultList();
+        if (raw.isEmpty())
+            return new ArrayList<>();
+        return (ArrayList<ServiceEntity>) raw;
+    }
+
     public List search(String input, int limit, int offset) {
         return Search.session(entityManager).search(ServiceEntity.class).where(f -> f.match().field("title").matching(input)).fetchHits(20);
     }

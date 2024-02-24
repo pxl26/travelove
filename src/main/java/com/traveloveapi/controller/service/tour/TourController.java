@@ -7,6 +7,7 @@ import com.traveloveapi.DTO.service.ServiceStatusByDateDTO;
 import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.Language;
 import com.traveloveapi.constrain.ServiceType;
+import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.service.tour.TourService;
 import com.traveloveapi.service.user.UserService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -53,5 +54,11 @@ public class TourController {
     @Tag(name = "SPRINT 5")
     public ServiceCard getCard(@RequestParam String tour_id) {
         return tourService.createCard(tour_id);
+    }
+
+    @GetMapping("/owner")
+    @Tag(name = "SPRINT 5")
+    public ArrayList<ServiceEntity> getListTourByOwner(@RequestParam String owner_id) {
+        return tourService.getTourByOwner(owner_id);
     }
 }
