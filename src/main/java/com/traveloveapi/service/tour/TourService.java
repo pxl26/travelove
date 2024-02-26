@@ -276,8 +276,10 @@ public class TourService {
     }
 
     public ArrayList<ServiceEntity> getTourByOwner(String owner_id) {
-        if (!userService.isAdmin() && SecurityContext.getUserID().equals(owner_id))
+        if (owner_id==null)
+            return serviceRepository.findByOwner(SecurityContext.getUserID());
+        if (!userService.isAdmin() && !SecurityContext.getUserID().equals(owner_id))
             throw new ForbiddenException();
-        return serviceRepository.findByOwner(owner_id);
+        return serviceRepository.findByOwner(SecurityContext.getUserID());
     }
 }
