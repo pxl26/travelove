@@ -45,7 +45,7 @@ public class BillService {
     final private UserService userService;
 
 
-    public BillDTO getBill(String bill_id) {
+    public BillDTO getBillDetail(String bill_id) {
         BillEntity bill = billRepository.find(bill_id);
         UserEntity user = userRepository.find(SecurityContext.getUserID());
         // ---- AUTH FOR ACCESS: Bill owner + Admin + Tour owner (Own tour)
@@ -53,8 +53,8 @@ public class BillService {
             throw new ForbiddenException();
 
         return null;
-
     }
+
     public BillDTO createNewBill(BillRequest data) {
         String id = UUID.randomUUID().toString().replace("-","");
         String user_id = SecurityContext.getUserID();

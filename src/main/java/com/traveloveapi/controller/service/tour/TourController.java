@@ -30,8 +30,8 @@ public class TourController {
     final private TourService tourService;
     @PostMapping("/new")
     @Tag(name = "SPRINT 2")
-    public ServiceDetailDTO createService(@RequestParam ServiceType service_type, @RequestParam String title, @RequestParam String description, @RequestParam String highlight, @RequestParam String note, @RequestParam MultipartFile[] files,@RequestParam String[] gallery_description, @RequestParam Currency currency, @RequestParam Language primary_language, @RequestParam String city_id) throws IOException, InterruptedException {
-        return tourService.createNewService(service_type, title, description, highlight, note,currency,primary_language, files, gallery_description, city_id);
+    public ServiceDetailDTO createService(@RequestParam ServiceType service_type, @RequestParam String title, @RequestParam String description, @RequestParam String highlight, @RequestParam String note, @RequestParam MultipartFile[] files,@RequestParam String[] gallery_description, @RequestParam Currency currency, @RequestParam Language primary_language, @RequestParam String city_id, @RequestParam String location, @RequestParam String address) throws IOException, InterruptedException {
+        return tourService.createNewService(service_type, title, description, highlight, note,currency,primary_language, files, gallery_description, city_id, location, address);
     }
 
     @GetMapping("/pending")

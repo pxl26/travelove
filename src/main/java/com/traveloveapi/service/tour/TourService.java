@@ -55,7 +55,7 @@ public class TourService {
     final private CityService cityService;
     final private WishListService wishListService;
 
-    public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files,String[] gallery_description, String city_id) throws IOException, InterruptedException {
+    public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files,String[] gallery_description, String city_id, String location, String address) throws IOException, InterruptedException {
         UserEntity owner = userService.verifyIsTourOwner();
         ServiceEntity service = new ServiceEntity();
         ServiceDetailEntity tour = new ServiceDetailEntity();
@@ -77,6 +77,8 @@ public class TourService {
         tour.setHighlight(highlight);
         tour.setCurrency(currency);
         tour.setPrimary_language(primary_language);
+        tour.setAddress(address);
+        tour.setLocation(location);
 
         ArrayList<MediaEntity> media = saveTourGallery(id,files, gallery_description);
         service.setThumbnail(media.get(0).getPath());

@@ -17,11 +17,6 @@ import java.util.UUID;
 public class SearchingController {
     final private SearchingRepository searchingRepository;
 
-    @GetMapping("/test")
-    public String test() {
-        return UUID.randomUUID().toString().replace("-","");
-    }
-
     @Tag(name = "SPRINT 4")
     @GetMapping
     public List search(@RequestParam String input) {
