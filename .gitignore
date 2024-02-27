@@ -55,3 +55,4 @@ logs
 !/SearchingEntity/
 /ServiceSearchingEntity/
 /SearchingEntity/
+!/rootkey.csv
