@@ -1,12 +1,22 @@
 package com.traveloveapi.repository.service_package;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.traveloveapi.constrain.BillStatus;
+import com.traveloveapi.entity.ServiceEntity;
+import com.traveloveapi.entity.join_entity.JoinBillDetail;
+import com.traveloveapi.entity.join_entity.Test;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
+import com.traveloveapi.entity.service_package.bill_detail_person_type.BillDetailPersonTypeEntity;
+import com.traveloveapi.entity.service_package.package_group.PackageGroupEntity;
+import com.traveloveapi.entity.service_package.package_option.PackageOptionEntity;
+import com.traveloveapi.exception.CustomException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.lang.reflect.Field;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +30,35 @@ public class BillRepository {
         return entityManager.find(BillEntity.class, id);
     }
 
-    public void getBillDetail(String bill_id) {
-        List rs = entityManager.createQuery("FROM BillEntity bill JOIN BillDetailOptionEntity option ON bill.id=option.bill_id WHERE bill.id=:id").setParameter("id", bill_id).getResultList();
+    public List getBillDetail(String bill_id) {
+//        List rs = entityManager.createQuery("(SELECT )(SELECT bill,service FROM BillEntity bill JOIN ServiceEntity service ON service.id=bill.service_id WHERE bill.id=:id)").setParameter("id", bill_id).getResultList();
+//        List rs = entityManager.createQuery("SELECT bill, service, person, option, pk_group FROM BillEntity bill JOIN ServiceEntity service ON bill.service_id=service.id AND bill.id=:id JOIN BillDetailPersonTypeEntity person ON bill.id=person.bill_id JOIN BillDetailOptionEntity bill_option ON bill.id=bill_option.bill_id JOIN PackageOptionEntity option ON service.id=option.service_id AND bill_option.group_number=option.group_number AND bill_option.option_number=option.option_number JOIN PackageGroupEntity pk_group ON service.id=pk_group.service_id AND pk_group.group_number=option.group_number").setParameter("id",bill_id).getResultList();
+        ArrayList<Object> rs = (ArrayList<Object>) entityManager.createQuery("SELECT bill, service, person, option, pk_group FROM BillEntity bill JOIN ServiceEntity service ON bill.service_id=service.id AND bill.id=:id JOIN BillDetailPersonTypeEntity person ON bill.id=person.bill_id JOIN BillDetailOptionEntity bill_option ON bill.id=bill_option.bill_id JOIN PackageOptionEntity option ON service.id=option.service_id AND bill_option.group_number=option.group_number AND bill_option.option_number=option.option_number JOIN PackageGroupEntity pk_group ON service.id=pk_group.service_id AND pk_group.group_number=option.group_number").setParameter("id",bill_id).getResultList();
+        ArrayList<JoinBillDetail> result = new ArrayList<>();
         for (Object ele: rs)
-            System.out.println(ele);
+        {
+            try {
+//                Class<?> clazz = ele.getClass();
+//                Field field = BillEntity.class.getField("id");
+//                Object fieldValue = field.get(ele);
+//                System.out.println("ID la: " + field.toString());
+                if (ele instanceof ArrayList<?>)
+                    System.out.println("DUNG ROI NE");
+                if (ele instanceof BillEntity)
+                    System.out.println("DUNG ROI NE");
+            }
+            catch (Exception ex) {
+                System.out.println(ex);
+            }
+             //Note, this can throw an exception if the field doesn't exist.
+            ;//            ServiceEntity tour = (ServiceEntity) ele.get(1);
+//            BillDetailPersonTypeEntity person = (BillDetailPersonTypeEntity) ele.get(2);
+//            PackageOptionEntity option = (PackageOptionEntity) ele.get(3);
+//            PackageGroupEntity group = (PackageGroupEntity) ele.get(4);
+        }
+        System.out.println("size: " + rs.size());
+        ArrayList<BillDetailPersonTypeEntity> temp = new ArrayList<>();
+        return result;
     }
 
     public ArrayList<BillEntity> findByService(String service_id) {

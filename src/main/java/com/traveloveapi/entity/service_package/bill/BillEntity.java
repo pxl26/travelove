@@ -3,13 +3,16 @@ package com.traveloveapi.entity.service_package.bill;
 import com.traveloveapi.constrain.BillStatus;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "bill")
 @Data
+@NoArgsConstructor
 public class BillEntity {
     @Id
     private String id;
@@ -30,4 +33,11 @@ public class BillEntity {
 
     @Enumerated(EnumType.STRING)
     private BillStatus status;
+
+    public BillEntity(ArrayList<String> input) {
+        id = input.get(0);
+        service_id = input.get(1);
+        user_id = input.get(2);
+
+    }
 }

@@ -20,6 +20,7 @@ import com.traveloveapi.exception.ForbiddenException;
 import com.traveloveapi.repository.MediaRepository;
 import com.traveloveapi.repository.ServiceDetailRepository;
 import com.traveloveapi.repository.ServiceRepository;
+import com.traveloveapi.repository.location.CityRepository;
 import com.traveloveapi.repository.searching.SearchingRepository;
 import com.traveloveapi.repository.service_package.*;
 import com.traveloveapi.service.aws.s3.S3FileService;
@@ -54,6 +55,7 @@ public class TourService {
     final private S3FileService s3FileService;
     final private CityService cityService;
     final private WishListService wishListService;
+    final private CityRepository cityRepository;
 
     public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files,String[] gallery_description, String city_id, String location, String address) throws IOException, InterruptedException {
         UserEntity owner = userService.verifyIsTourOwner();
@@ -217,7 +219,9 @@ public class TourService {
     }
 
     public ServiceCard createCard(String service_id) {
-        ServiceEntity service = serviceRepository.find(service_id);
+        ServiceEntity service = serviceRepository.findAdmin(service_id);
+        ServiceDetailEntity detail = tourRepository.find(service_id);
+        CityEntity city = cityRepository.findById(service.getCity_id());
         ServiceCard rs = new ServiceCard();
         rs.setService_id(service_id);
         rs.setSold(service.getSold());
@@ -225,11 +229,10 @@ public class TourService {
         rs.setRating(service.getRating());
         rs.setMin_price(service.getMin_price());
         rs.setThumbnail(service.getThumbnail());
-
-        CityDTO city = cityService.get(service.getCity_id());
-        rs.setCity(city.getCity_name());
-        rs.setCountry(city.getCountry());
-
+        rs.setCurrency(detail.getCurrency());
+        rs.setCity(city.getName());
+        rs.setCountry(city.getCountry_name());
+        rs.setStatus(service.getStatus());
         return rs;
     }
     public ServiceEntity changeStatus(SensorAction action, String tour_id) {
