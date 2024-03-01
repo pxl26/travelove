@@ -28,6 +28,7 @@ public class SearchingEntity {
 
     private String country_name;
 
+    @Enumerated(EnumType.STRING)
     private Currency currency;
 
     @Enumerated(EnumType.STRING)
