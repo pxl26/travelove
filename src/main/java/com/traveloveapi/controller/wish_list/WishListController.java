@@ -2,8 +2,10 @@ package com.traveloveapi.controller.wish_list;
 
 import com.traveloveapi.DTO.WishList.WishListDTO;
 import com.traveloveapi.entity.WishListEntity;
+import com.traveloveapi.repository.ServiceDetailRepository;
 import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.repository.WishListRepository;
+import com.traveloveapi.service.tour.TourService;
 import com.traveloveapi.service.wish_list.WishListService;
 import com.traveloveapi.utility.SecurityContext;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,6 +25,7 @@ public class WishListController {
     final private WishListRepository wishListRepository;
     final private ServiceRepository serviceRepository;
     final private WishListService wishListService;
+    final private ServiceDetailRepository serviceDetailRepository;
 
 
     @GetMapping
@@ -35,7 +38,7 @@ public class WishListController {
             return rs;
         ArrayList<WishListEntity> data = (ArrayList<WishListEntity>)(raw_data);
         for (WishListEntity entity: data)
-            rs.add(new WishListDTO(entity,serviceRepository.find(entity.getService_id())));
+            rs.add(new WishListDTO(entity,serviceRepository.find(entity.getService_id()), serviceDetailRepository.find(entity.getService_id()).getCurrency()));
         return rs;
     }
 

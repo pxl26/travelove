@@ -1,5 +1,6 @@
 package com.traveloveapi.DTO.WishList;
 
+import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.WishListEntity;
 import lombok.Data;
@@ -14,8 +15,9 @@ public class WishListDTO {
     private String title;
     private String thumb;
     private float min_price;
+    private Currency currency;
 
-    public WishListDTO(WishListEntity entity, ServiceEntity service) {
+    public WishListDTO(WishListEntity entity, ServiceEntity service, Currency cur) {
         id = entity.getId();
         service_id = entity.getService_id();
         create_at = entity.getCreate_at();
@@ -23,5 +25,6 @@ public class WishListDTO {
         title = service.getTitle();
         thumb = service.getThumbnail();
         min_price = service.getMin_price();
+        currency = cur;
     }
 }
