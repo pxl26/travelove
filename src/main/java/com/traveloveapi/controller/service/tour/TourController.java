@@ -58,7 +58,7 @@ public class TourController {
 
     @GetMapping("/owner")
     @Tag(name = "SPRINT 5")
-    public ArrayList<ServiceEntity> getListTourByOwner(@RequestParam(required = false) String owner_id) {
+    public ArrayList<ServiceCard> getListTourByOwner(@RequestParam(required = false) String owner_id) {
         return tourService.getTourByOwner(owner_id);
     }
 }

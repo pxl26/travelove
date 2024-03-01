@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -35,6 +37,12 @@ public class UserService {
         }
         else
             throw new IncorrectPasswordException();
+    }
+
+    public ArrayList<UserEntity> getAllOwner() {
+        if (!isAdmin())
+            throw new ForbiddenException();
+        return userRepository.getAllTourOwner();
     }
 
     public UserEntity verifyIsAdmin() {

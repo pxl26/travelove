@@ -1,6 +1,8 @@
 package com.traveloveapi.repository;
 
+import com.traveloveapi.constrain.Role;
 import com.traveloveapi.entity.UserDetailEntity;
+import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.exception.UserNotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -42,6 +44,7 @@ public class UserDetailRepository {
             throw new UserNotFoundException();
         return (UserDetailEntity) list.get(0);
     }
+
     @Transactional
     public void save(UserDetailEntity entity) {
         entityManager.persist(entity);

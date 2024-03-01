@@ -278,11 +278,16 @@ public class TourService {
         return rs;
     }
 
-    public ArrayList<ServiceEntity> getTourByOwner(String owner_id) {
+    public ArrayList<ServiceCard> getTourByOwner(String owner_id) {
+        ArrayList<ServiceCard> rs = new ArrayList<>();
+        ArrayList<ServiceEntity> tour;
         if (owner_id==null)
-            return serviceRepository.findByOwner(SecurityContext.getUserID());
-        if (!userService.isAdmin() && !SecurityContext.getUserID().equals(owner_id))
+            tour = serviceRepository.findByOwner(SecurityContext.getUserID());
+        else if (!userService.isAdmin() && !SecurityContext.getUserID().equals(owner_id))
             throw new ForbiddenException();
-        return serviceRepository.findByOwner(SecurityContext.getUserID());
+        else tour = serviceRepository.findByOwner(SecurityContext.getUserID());
+        for (ServiceEntity ele: tour)
+            rs.add(this.createCard(ele.getId()));
+        return rs;
     }
 }
