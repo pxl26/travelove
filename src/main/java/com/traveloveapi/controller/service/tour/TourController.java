@@ -8,6 +8,8 @@ import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.Language;
 import com.traveloveapi.constrain.ServiceType;
 import com.traveloveapi.entity.ServiceEntity;
+import com.traveloveapi.entity.feedback.FeedbackEntity;
+import com.traveloveapi.service.feedback.FeedbackService;
 import com.traveloveapi.service.tour.TourService;
 import com.traveloveapi.service.user.UserService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 @RequestMapping("/service")
 public class TourController {
     final private TourService tourService;
+    final private FeedbackService feedbackService;
     @PostMapping("/new")
     @Tag(name = "SPRINT 2")
     public ServiceDetailDTO createService(@RequestParam ServiceType service_type, @RequestParam String title, @RequestParam String description, @RequestParam String highlight, @RequestParam String note, @RequestParam MultipartFile[] files,@RequestParam String[] gallery_description, @RequestParam Currency currency, @RequestParam Language primary_language, @RequestParam String city_id, @RequestParam String location, @RequestParam String address) throws IOException, InterruptedException {
@@ -60,5 +63,11 @@ public class TourController {
     @Tag(name = "SPRINT 5")
     public ArrayList<ServiceCard> getListTourByOwner(@RequestParam(required = false) String owner_id) {
         return tourService.getTourByOwner(owner_id);
+    }
+
+    @PostMapping("/feedback")
+    @Tag(name = "SPRINT 8")
+    public FeedbackEntity createFeedback(String ref_id, int rating, String content, String bill_id, MultipartFile[] files) {
+        return feedbackService.createFeedback(ref_id, rating, content, bill_id, files);
     }
 }

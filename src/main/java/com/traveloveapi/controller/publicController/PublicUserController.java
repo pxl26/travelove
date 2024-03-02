@@ -1,26 +1,13 @@
 package com.traveloveapi.controller.publicController;
 
 import com.traveloveapi.DTO.SimpleResponse;
-import com.traveloveapi.DTO.registration.EmailRegistrationRequest;
 import com.traveloveapi.DTO.user.UserDTO;
 import com.traveloveapi.DTO.user.UserProfile;
-import com.traveloveapi.configuration.RedisConfig;
-import com.traveloveapi.configuration.User;
 import com.traveloveapi.service.user.UserProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPooled;
-import redis.clients.jedis.search.FTCreateParams;
-import redis.clients.jedis.search.IndexDataType;
-import redis.clients.jedis.search.schemafields.NumericField;
-import redis.clients.jedis.search.schemafields.TagField;
-import redis.clients.jedis.search.schemafields.TextField;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/public/user")
