@@ -98,4 +98,11 @@ public class BillRepository {
             return (ArrayList<BillEntity>) temp;
         return new ArrayList<>();
     }
+
+    public ArrayList<String> getOptionInBill(String bill_id) {
+        List temp = entityManager.createQuery("SELECT option.name FROM BillDetailOptionEntity bill_option JOIN BillEntity bill ON bill.id=:id AND bill.id=bill_option.bill_id JOIN PackageOptionEntity option ON option.service_id=bill.service_id AND option.group_number=bill_option.group_number AND option.option_number=bill_option.option_number").setParameter("id",bill_id).getResultList();
+        if (temp==null)
+            return new ArrayList<>();
+        return (ArrayList<String>) temp;
+    }
 }

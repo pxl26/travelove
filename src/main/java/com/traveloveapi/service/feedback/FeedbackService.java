@@ -48,19 +48,21 @@ public class FeedbackService {
         feedback.setContent(content);
         feedback.setBill_id(bill_id);
         feedback.setCreate_at(new Timestamp(System.currentTimeMillis()));
+        feedback.setHas_media(files!=null);
         ArrayList<MediaEntity> media_list = new ArrayList<>();
         int k=0;
-        for (MultipartFile file: files) {
-            MediaEntity media = new MediaEntity();
-            String id = UUID.randomUUID().toString();
-            media.setId(id);
-            media.setType("FEEDBACK");
-            media.setRef_id(feedback.getId());
-            media.setSeq(k++);
-            media.setPath(s3FileService.uploadFile(file, "public/service/" + feedback.getRef_id() + "/feedback/", id));
-            media_list.add(media);
-            mediaRepository.save(media);
-        }
+        if (files!=null)
+            for (MultipartFile file: files) {
+                MediaEntity media = new MediaEntity();
+                String id = UUID.randomUUID().toString();
+                media.setId(id);
+                media.setType("FEEDBACK");
+                media.setRef_id(feedback.getId());
+                media.setSeq(k++);
+                media.setPath(s3FileService.uploadFile(file, "public/service/" + feedback.getRef_id() + "/feedback/", id));
+                media_list.add(media);
+                mediaRepository.save(media);
+            }
         feedbackRepository.save(feedback);
         return feedback;
     }
@@ -69,16 +71,27 @@ public class FeedbackService {
         FeedbackEntity feedback = feedbackRepository.find(id);
         ArrayList<MediaEntity> media = mediaRepository.find(feedback.getId(), "FEEDBACK");
         UserEntity user = userRepository.find(feedback.getUser_id());
-        return new FeedbackDTO(feedback, media, user);
+        return new FeedbackDTO(feedback, media, user, billRepository.getOptionInBill(feedback.getBill_id()));
     }
 
     public FeedbackDTO getFeedback(FeedbackEntity feedback) {
         ArrayList<MediaEntity> media = mediaRepository.find(feedback.getId(), "FEEDBACK");
         UserEntity user = userRepository.find(feedback.getUser_id());
-        return new FeedbackDTO(feedback, media, user);
+
+        return new FeedbackDTO(feedback, media, user, billRepository.getOptionInBill(feedback.getBill_id()));
     }
-    public ArrayList<FeedbackDTO> getByTour(String tour_id, Integer from, Integer to) {
-        ArrayList<FeedbackEntity> feedback_list = feedbackRepository.getByTour(tour_id, from, to);
+    public ArrayList<FeedbackDTO> getByTour(String tour_id, Integer from, Integer to, int page) {
+        ArrayList<FeedbackEntity> feedback_list = feedbackRepository.getByTour(tour_id, from, to, page);
+        if (feedback_list.isEmpty())
+            return new ArrayList<>();
+        ArrayList<FeedbackDTO> rs = new ArrayList<>();
+        for (FeedbackEntity ele: feedback_list)
+            rs.add(getFeedback(ele));
+        return rs;
+    }
+
+    public ArrayList<FeedbackDTO> getFeedbackHasMedia(String tour_id, int page) {
+        ArrayList<FeedbackEntity> feedback_list = feedbackRepository.getHasMedia(tour_id, page);
         if (feedback_list.isEmpty())
             return new ArrayList<>();
         ArrayList<FeedbackDTO> rs = new ArrayList<>();

@@ -26,4 +26,6 @@ public class FeedbackEntity {
     private String bill_id;
 
     private Timestamp create_at;
+
+    private boolean has_media;
 }

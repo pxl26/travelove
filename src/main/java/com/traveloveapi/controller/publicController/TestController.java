@@ -18,6 +18,6 @@ public class TestController {
     final private BillRepository billRepository;
     @GetMapping
     public List test(@RequestParam String id) {
-        return billRepository.getBillDetail(id);
+        return billRepository.getOptionInBill(id);
     }
 }

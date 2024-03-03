@@ -19,9 +19,10 @@ public class FeedbackDTO {
     private int rating;
     private String content;
     private ArrayList<String> media;
+    private ArrayList<String> option_list;
     private Timestamp create_at;
 
-    public FeedbackDTO(FeedbackEntity feedback, ArrayList<MediaEntity> media_list, UserEntity user) {
+    public FeedbackDTO(FeedbackEntity feedback, ArrayList<MediaEntity> media_list, UserEntity user, ArrayList<String> options) {
         id = feedback.getId();
         user_id = feedback.getUser_id();
         service_id = feedback.getRef_id();
@@ -36,5 +37,7 @@ public class FeedbackDTO {
         media = new ArrayList<>();
         for (MediaEntity ele: media_list)
             media.add(ele.getPath());
+
+        option_list = options;
     }
 }
