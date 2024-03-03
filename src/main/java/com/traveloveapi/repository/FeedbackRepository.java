@@ -23,8 +23,8 @@ public class FeedbackRepository {
         return entityManager.find(FeedbackEntity.class, id);
     }
 
-    public ArrayList<FeedbackEntity> getByTour(String tour_id) {
-        List temp = entityManager.createQuery("FROM FeedbackEntity m WHERE m.ref_id=:id").setParameter("id",tour_id).getResultList();
+    public ArrayList<FeedbackEntity> getByTour(String tour_id, int from, int to) {
+        List temp = entityManager.createQuery("FROM FeedbackEntity m WHERE m.ref_id=:id AND m.rating>=:from AND m.rating<=:to").setParameter("id",tour_id).setParameter("from", from).setParameter("to",to).getResultList();
         if (temp==null)
             return new ArrayList<>();
         return (ArrayList<FeedbackEntity>) temp;

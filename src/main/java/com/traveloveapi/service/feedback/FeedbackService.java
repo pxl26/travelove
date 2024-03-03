@@ -77,8 +77,8 @@ public class FeedbackService {
         UserEntity user = userRepository.find(feedback.getUser_id());
         return new FeedbackDTO(feedback, media, user);
     }
-    public ArrayList<FeedbackDTO> getByTour(String tour_id) {
-        ArrayList<FeedbackEntity> feedback_list = feedbackRepository.getByTour(tour_id);
+    public ArrayList<FeedbackDTO> getByTour(String tour_id, Integer from, Integer to) {
+        ArrayList<FeedbackEntity> feedback_list = feedbackRepository.getByTour(tour_id, from, to);
         if (feedback_list.isEmpty())
             return new ArrayList<>();
         ArrayList<FeedbackDTO> rs = new ArrayList<>();
