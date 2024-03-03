@@ -13,3 +13,5 @@
 /logs/
 /SearchingEntity/
 /ServiceSearchingEntity/
+/src/test/
+/.run/

@@ -56,3 +56,5 @@ logs
 /ServiceSearchingEntity/
 /SearchingEntity/
 !/rootkey.csv
+!/src/test/
+!/.run/
