@@ -59,4 +59,4 @@ payment:
 #    zalopay: http://localhost:5000/api/zalopay/create-payment
 oauth:
     google:
-        host: https://d2vkugt3apsttq.cloudfront.net
+        host: https://d2jeikvp07uoyw.cloudfront.net

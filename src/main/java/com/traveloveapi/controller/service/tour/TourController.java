@@ -67,7 +67,7 @@ public class TourController {
 
     @PostMapping("/feedback")
     @Tag(name = "SPRINT 8")
-    public FeedbackEntity createFeedback(String ref_id, int rating, String content, String bill_id, MultipartFile[] files) {
-        return feedbackService.createFeedback(ref_id, rating, content, bill_id, files);
+    public FeedbackEntity createFeedback(int rating, String content, String bill_id, MultipartFile[] files) {
+        return feedbackService.createFeedback(rating, content, bill_id, files);
     }
 }

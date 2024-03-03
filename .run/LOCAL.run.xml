@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="LOCAL" type="Application" factoryName="Application">
     <envs>
-      <env name="ACCESS" value="AKIA3AG4GPMUXVANJ6C5" />
-      <env name="SECRET" value="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" />
+      <env name="ACCESS" value="AKIA3AG4GPMU4AP766ZL" />
+      <env name="SECRET" value="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" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.traveloveapi.TraveloveApplication" />
     <module name="api" />

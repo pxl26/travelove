@@ -83,7 +83,7 @@ public class PublicServiceController {
 
     @GetMapping("/feedback")
     @Tag(name = "SPRINT 8")
-    public FeedbackDTO getFeedback(String id) {
-        return feedbackService.getFeedback(id);
+    public ArrayList<FeedbackDTO> getFeedback(@RequestParam String tour_id) {
+        return feedbackService.getByTour(tour_id);
     }
 }
