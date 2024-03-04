@@ -4,6 +4,7 @@ import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.DTO.payment.GatewayResponse;
 import com.traveloveapi.DTO.service_package.BillDTO;
 import com.traveloveapi.DTO.service_package.BillRequest;
+import com.traveloveapi.DTO.service_package.bill.BillDetailDTO;
 import com.traveloveapi.constrain.PayMethod;
 import com.traveloveapi.entity.OtpEntity;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
@@ -53,19 +54,17 @@ public class BillController {
 
     @GetMapping
     @Tag(name = "SPRINT 5")
-    public ArrayList<BillEntity> getBill(@RequestParam(required = false) String bill_id, @RequestParam(required = false) String tour_id, @RequestParam(required = false) Date date) {
-        if (bill_id!=null) {
-            BillEntity temp = paymentService.getBill(bill_id);
-            if (temp==null)
-                return new ArrayList<>();
-            ArrayList<BillEntity> rs = new ArrayList<>();
-            rs.add(temp);
-            return rs;
-        }
+    public ArrayList<BillEntity> getBill(@RequestParam(required = false) String tour_id, @RequestParam(required = false) Date date) {
         if (tour_id==null && date!=null)
             throw new CustomException("tour_id and date must be a pair", 400);
         if (tour_id==null)
             return paymentService.getBillByUser(SecurityContext.getUserID());
         return paymentService.getBillByTour(tour_id, date);
+    }
+
+    @GetMapping("/detail")
+    @Tag(name = "SPRINT 8")
+    public BillDetailDTO test(@RequestParam String bill_id) {
+        return billService.getBillDetail(bill_id);
     }
 }

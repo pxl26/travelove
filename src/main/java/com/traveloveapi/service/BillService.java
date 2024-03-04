@@ -4,10 +4,13 @@ import com.traveloveapi.DTO.service_package.BillDTO;
 import com.traveloveapi.DTO.service_package.BillRequest;
 import com.traveloveapi.DTO.service_package.GroupOptionDTO;
 import com.traveloveapi.DTO.service_package.PackageGroupDTO;
+import com.traveloveapi.DTO.service_package.bill.BillDetailDTO;
+import com.traveloveapi.DTO.service_package.bill.BillOption;
 import com.traveloveapi.DTO.service_package.bill.CreateBillPersonType;
 import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.constrain.Role;
 import com.traveloveapi.entity.UserEntity;
+import com.traveloveapi.entity.join_entity.JoinBillRow;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import com.traveloveapi.entity.service_package.bill_detail_option.BillDetailOptionEntity;
 import com.traveloveapi.entity.service_package.bill_detail_person_type.BillDetailPersonTypeEntity;
@@ -45,14 +48,72 @@ public class BillService {
     final private UserService userService;
 
 
-    public BillDTO getBillDetail(String bill_id) {
+    public BillDetailDTO getBillDetail(String bill_id) {
         BillEntity bill = billRepository.find(bill_id);
         UserEntity user = userRepository.find(SecurityContext.getUserID());
         // ---- AUTH FOR ACCESS: Bill owner + Admin + Tour owner (Own tour)
         if (user.getRole()!= Role.ADMIN&&(user.getRole()==Role.TOUR_OWNER && !userService.verifyIsOwner(bill.getService_id(),user.getId()))&&(user.getRole()==Role.USER&&user.getId()!=SecurityContext.getUserID()))
             throw new ForbiddenException();
 
-        return null;
+        //------------------------------
+        ArrayList<JoinBillRow> data = (ArrayList<JoinBillRow>) billRepository.getBillDetail(bill_id);
+
+        BillDetailDTO rs = new BillDetailDTO();
+        rs.setBill_id(data.get(0).getBill_id());
+        rs.setDate(data.get(0).getDate());
+        rs.setTotal(data.get(0).getTotal());
+        rs.setQuantity(data.get(0).getQuantity());
+        rs.setCreate_at(data.get(0).getCreate_at());
+        rs.setUpdate_at(data.get(0).getUpdate_at());
+        rs.setStatus(data.get(0).getStatus());
+        rs.setUser_id(data.get(0).getUser_id());
+
+        rs.setTour_id(data.get(0).getTour_id());
+        rs.setTour_title(data.get(0).getTour_name());
+        rs.setTour_rating(data.get(0).getRating());
+        rs.setTour_sold(data.get(0).getSold());
+        rs.setTour_thumbnail(data.get(0).getTour_thumbnail());
+        rs.setTour_currency(data.get(0).getCurrency());
+
+        rs.setPerson_type(new ArrayList<>());
+        rs.setOption(new ArrayList<>());
+        for (JoinBillRow ele: data)
+        {
+            if (rs.getPerson_type().isEmpty())
+            {
+                rs.getPerson_type().add(new CreateBillPersonType(ele.getPerson_type(), ele.getPerson_quantity()));
+            }
+            else
+            {
+                boolean k=true;
+                for (CreateBillPersonType i: rs.getPerson_type())
+                    if (i.getType().equals(ele.getPerson_type()))
+                    {
+                        k=false;
+                        break;
+                    }
+                if (k)
+                    rs.getPerson_type().add(new CreateBillPersonType(ele.getPerson_type(), ele.getPerson_quantity()));
+            }
+            //--------------------------
+            if (rs.getOption().isEmpty())
+            {
+                rs.getOption().add(new BillOption(ele.getGroup_name(), ele.getOption_name()));
+            }
+            else
+            {
+                boolean k=true;
+                for (BillOption i: rs.getOption())
+                    if (i.getGroup().equals(ele.getGroup_name()))
+                    {
+                        k=false;
+                        break;
+                    }
+                if (k)
+                    rs.getOption().add(new BillOption(ele.getGroup_name(), ele.getOption_name()));
+            }
+        }
+        return rs;
     }
 
     public BillDTO createNewBill(BillRequest data) {
