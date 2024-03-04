@@ -92,4 +92,10 @@ public class PublicServiceController {
     public ArrayList<FeedbackDTO> getFeedbackHasMedia(@RequestParam String tour_id, @RequestParam int page) {
         return feedbackService.getFeedbackHasMedia(tour_id, page);
     }
+
+    @GetMapping("/feedback/get-one")
+    @Tag(name = "SPRINT 8")
+    public FeedbackDTO getFeedbackById(@RequestParam String feedback_id) {
+        return feedbackService.getFeedback(feedback_id);
+    }
 }

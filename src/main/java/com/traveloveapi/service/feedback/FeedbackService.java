@@ -3,6 +3,7 @@ package com.traveloveapi.service.feedback;
 import com.traveloveapi.DTO.feedback.FeedbackDTO;
 import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.entity.MediaEntity;
+import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.entity.feedback.FeedbackEntity;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
@@ -10,6 +11,7 @@ import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.exception.ForbiddenException;
 import com.traveloveapi.repository.FeedbackRepository;
 import com.traveloveapi.repository.MediaRepository;
+import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.repository.UserRepository;
 import com.traveloveapi.repository.service_package.BillRepository;
 import com.traveloveapi.service.BillService;
@@ -33,9 +35,12 @@ public class FeedbackService {
     final private UserRepository userRepository;
     final private BillRepository billRepository;
     final private UserService userService;
+    final private ServiceRepository serviceRepository;
 
     public FeedbackEntity createFeedback(int rating, String content, String bill_id, MultipartFile[] files) {
         BillEntity bill = billRepository.find(bill_id);
+        if (bill.getFeedback_id()!=null)
+            throw new CustomException("Have feedback yet", 400);
         if (bill.getStatus()!= BillStatus.PAID)
             throw new CustomException("Bill have not paid yet", 400);
         if (!bill.getUser_id().equals(SecurityContext.getUserID()) && !userService.isAdmin())
@@ -63,7 +68,18 @@ public class FeedbackService {
                 media_list.add(media);
                 mediaRepository.save(media);
             }
+        ServiceEntity tour = serviceRepository.find(feedback.getRef_id());
+        tour.setRating((tour.getRating()*tour.getVote_quantity() + feedback.getRating())/(tour.getVote_quantity()+1));
+        tour.setVote_quantity(tour.getVote_quantity()+1);
+
+        bill.setFeedback_id(feedback.getId());
+
         feedbackRepository.save(feedback);
+        billRepository.update(bill);
+        serviceRepository.update(tour);
+
+
+
         return feedback;
     }
 

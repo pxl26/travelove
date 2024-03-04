@@ -67,6 +67,7 @@ public class BillService {
         rs.setUpdate_at(data.get(0).getUpdate_at());
         rs.setStatus(data.get(0).getStatus());
         rs.setUser_id(data.get(0).getUser_id());
+        rs.setFeedback_id(data.get(0).getFeedback_id());
 
         rs.setTour_id(data.get(0).getTour_id());
         rs.setTour_title(data.get(0).getTour_name());

@@ -33,4 +33,6 @@ public class JoinBillRow {
     private Currency currency;
 
     private String user_id;
+
+    private String feedback_id;
 }

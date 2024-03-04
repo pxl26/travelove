@@ -29,4 +29,5 @@ public class BillDetailDTO {
     private ArrayList<CreateBillPersonType> person_type;
     private ArrayList<BillOption> option;
 
+    private String feedback_id;
 }
