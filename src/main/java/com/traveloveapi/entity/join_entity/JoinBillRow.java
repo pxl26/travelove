@@ -35,4 +35,5 @@ public class JoinBillRow {
     private String user_id;
 
     private String feedback_id;
+    private String gateway_url;
 }

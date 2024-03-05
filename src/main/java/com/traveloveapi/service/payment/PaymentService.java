@@ -70,6 +70,8 @@ public class PaymentService {
         }
         if (gateway_data.getUrl()==null)
             throw new CustomException("Duplicated order id", 400);
+        bill.setGateway_url(gateway_data.getUrl());
+        billRepository.update(bill);
         return gateway_data;
     }
 

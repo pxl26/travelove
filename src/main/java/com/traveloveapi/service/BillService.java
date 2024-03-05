@@ -68,6 +68,7 @@ public class BillService {
         rs.setStatus(data.get(0).getStatus());
         rs.setUser_id(data.get(0).getUser_id());
         rs.setFeedback_id(data.get(0).getFeedback_id());
+        rs.setGateway_url(data.get(0).getGateway_url());
 
         rs.setTour_id(data.get(0).getTour_id());
         rs.setTour_title(data.get(0).getTour_name());

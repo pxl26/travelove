@@ -26,4 +26,5 @@ public class BillDTO {
     private ArrayList<GroupOptionDTO> options;
     private ArrayList<CreateBillPersonType> person_types;
     private BillStatus status;
+    private String gateway_url;
 }

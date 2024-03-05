@@ -30,4 +30,5 @@ public class BillDetailDTO {
     private ArrayList<BillOption> option;
 
     private String feedback_id;
+    private String gateway_url;
 }

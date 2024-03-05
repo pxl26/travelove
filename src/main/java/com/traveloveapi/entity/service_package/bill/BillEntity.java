@@ -36,10 +36,5 @@ public class BillEntity {
 
     private String feedback_id;
 
-    public BillEntity(ArrayList<String> input) {
-        id = input.get(0);
-        service_id = input.get(1);
-        user_id = input.get(2);
-
-    }
+    private String gateway_url;
 }
