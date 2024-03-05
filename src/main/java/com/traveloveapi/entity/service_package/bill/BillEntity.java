@@ -39,5 +39,6 @@ public class BillEntity {
 
     private String gateway_url;
 
+    @Enumerated(EnumType.STRING)
     private PayMethod pay_method;
 }
