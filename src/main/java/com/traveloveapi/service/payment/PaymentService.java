@@ -71,6 +71,7 @@ public class PaymentService {
         if (gateway_data.getUrl()==null)
             throw new CustomException("Duplicated order id", 400);
         bill.setGateway_url(gateway_data.getUrl());
+        bill.setPay_method(method);
         billRepository.update(bill);
         return gateway_data;
     }

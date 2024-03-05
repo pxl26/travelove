@@ -1,6 +1,7 @@
 package com.traveloveapi.entity.service_package.bill;
 
 import com.traveloveapi.constrain.BillStatus;
+import com.traveloveapi.constrain.PayMethod;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,4 +38,6 @@ public class BillEntity {
     private String feedback_id;
 
     private String gateway_url;
+
+    private PayMethod pay_method;
 }
