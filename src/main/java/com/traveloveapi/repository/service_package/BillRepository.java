@@ -3,6 +3,7 @@ package com.traveloveapi.repository.service_package;
 import com.traveloveapi.DTO.service_package.bill.BillDetailDTO;
 import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.constrain.Currency;
+import com.traveloveapi.constrain.PayMethod;
 import com.traveloveapi.entity.join_entity.JoinBillRow;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import jakarta.persistence.EntityManager;
@@ -25,12 +26,12 @@ public class BillRepository {
     }
 
     public List getBillDetail(String bill_id) {
-        List<Object> data = (List<Object>) entityManager.createQuery("SELECT bill.id, bill.total, bill.create_at, bill.update_at, bill.date, bill.status, bill.quantity, person.type, person.quantity, pk_group.title, option.name, service.title, service.id, service.thumbnail, service.rating, service.sold, detail.currency, bill.user_id, bill.feedback_id, bill.gateway_url FROM BillEntity bill JOIN ServiceEntity service ON bill.service_id=service.id AND bill.id=:id JOIN ServiceDetailEntity detail ON service.id=detail.id JOIN BillDetailPersonTypeEntity person ON bill.id=person.bill_id JOIN BillDetailOptionEntity bill_option ON bill.id=bill_option.bill_id JOIN PackageOptionEntity option ON service.id=option.service_id AND bill_option.group_number=option.group_number AND bill_option.option_number=option.option_number JOIN PackageGroupEntity pk_group ON service.id=pk_group.service_id AND pk_group.group_number=option.group_number").setParameter("id",bill_id).getResultList();
+        List<Object> data = (List<Object>) entityManager.createQuery("SELECT bill.id, bill.total, bill.create_at, bill.update_at, bill.date, bill.status, bill.quantity, person.type, person.quantity, pk_group.title, option.name, service.title, service.id, service.thumbnail, service.rating, service.sold, detail.currency, bill.user_id, bill.feedback_id, bill.gateway_url, bill.pay_method FROM BillEntity bill JOIN ServiceEntity service ON bill.service_id=service.id AND bill.id=:id JOIN ServiceDetailEntity detail ON service.id=detail.id JOIN BillDetailPersonTypeEntity person ON bill.id=person.bill_id JOIN BillDetailOptionEntity bill_option ON bill.id=bill_option.bill_id JOIN PackageOptionEntity option ON service.id=option.service_id AND bill_option.group_number=option.group_number AND bill_option.option_number=option.option_number JOIN PackageGroupEntity pk_group ON service.id=pk_group.service_id AND pk_group.group_number=option.group_number").setParameter("id",bill_id).getResultList();
         ArrayList<JoinBillRow> rs = new ArrayList<>();
         for (Object ele: data)
         {
             Object[] row = (Object[]) ele;
-            JoinBillRow a = new JoinBillRow((String) row[0], (Float) row[1], (Timestamp) row[2], (Timestamp) row[3], (Date) row[4], (BillStatus) row[5], (int)row[6], (String)row[7], (int)row[8], (String)row[9], (String)row[10], (String)row[11], (String)row[12], (String)row[13], (float)row[14], (int)row[15], (Currency) row[16], (String)row[17], (String)row[18], (String) row[19]);
+            JoinBillRow a = new JoinBillRow((String) row[0], (Float) row[1], (Timestamp) row[2], (Timestamp) row[3], (Date) row[4], (BillStatus) row[5], (int)row[6], (String)row[7], (int)row[8], (String)row[9], (String)row[10], (String)row[11], (String)row[12], (String)row[13], (float)row[14], (int)row[15], (Currency) row[16], (String)row[17], (String)row[18], (String) row[19], (PayMethod) row[20]);
             rs.add(a);
         }
         return rs;

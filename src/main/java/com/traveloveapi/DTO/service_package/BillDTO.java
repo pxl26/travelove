@@ -2,6 +2,7 @@ package com.traveloveapi.DTO.service_package;
 
 import com.traveloveapi.DTO.service_package.bill.CreateBillPersonType;
 import com.traveloveapi.constrain.BillStatus;
+import com.traveloveapi.constrain.PayMethod;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import com.traveloveapi.entity.service_package.bill_detail_option.BillDetailOptionEntity;
 import com.traveloveapi.entity.service_package.bill_detail_person_type.BillDetailPersonTypeEntity;
@@ -27,4 +28,5 @@ public class BillDTO {
     private ArrayList<CreateBillPersonType> person_types;
     private BillStatus status;
     private String gateway_url;
+    private PayMethod pay_method;
 }

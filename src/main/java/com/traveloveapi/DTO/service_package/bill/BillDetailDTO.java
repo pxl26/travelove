@@ -2,6 +2,7 @@ package com.traveloveapi.DTO.service_package.bill;
 
 import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.constrain.Currency;
+import com.traveloveapi.constrain.PayMethod;
 import lombok.Data;
 
 import java.sql.Date;
@@ -31,4 +32,5 @@ public class BillDetailDTO {
 
     private String feedback_id;
     private String gateway_url;
+    private PayMethod pay_method;
 }
