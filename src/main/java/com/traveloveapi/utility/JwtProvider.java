@@ -56,4 +56,15 @@ public class JwtProvider {
         response.setCreate_at(new Timestamp(System.currentTimeMillis()));
         return response;
     }
+    static public String generateVoucherKey(String voucher_id, long expiration) {
+        return JwtProvider.generateToken(voucher_id, expiration);
+    }
+
+    static public String getVoucherFromKey(String key) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(JWT_SECRET)
+                .parseClaimsJws(key)
+                .getBody();
+        return claims.getSubject();
+    }
 }

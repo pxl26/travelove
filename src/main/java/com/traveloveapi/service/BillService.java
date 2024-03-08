@@ -67,6 +67,8 @@ public class BillService {
         rs.setUpdate_at(data.get(0).getUpdate_at());
         rs.setStatus(data.get(0).getStatus());
         rs.setUser_id(data.get(0).getUser_id());
+        rs.setUser_avatar(data.get(0).getUser_avatar());
+        rs.setUser_full_name(data.get(0).getUser_full_name());
         rs.setFeedback_id(data.get(0).getFeedback_id());
         rs.setGateway_url(data.get(0).getGateway_url());
         rs.setPay_method(data.get(0).getPay_method());

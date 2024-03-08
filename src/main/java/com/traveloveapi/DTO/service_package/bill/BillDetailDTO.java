@@ -33,4 +33,6 @@ public class BillDetailDTO {
     private String feedback_id;
     private String gateway_url;
     private PayMethod pay_method;
+    private String user_avatar;
+    private String user_full_name;
 }
