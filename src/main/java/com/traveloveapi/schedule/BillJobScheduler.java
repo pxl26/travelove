@@ -28,6 +28,7 @@ public class BillJobScheduler {
             if (System.currentTimeMillis() - bill.getCreate_at().getTime() > 900000)
             {
                 bill.setStatus(BillStatus.CANCELED);
+                bill.setUpdate_at(new Timestamp(System.currentTimeMillis()));
                 billRepository.update(bill);
             }
 
