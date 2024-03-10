@@ -16,4 +16,5 @@ public class BillRequest {
     private ArrayList<GroupOptionDTO> options;
     private Date date;
     private ArrayList<CreateBillPersonType> person_types;
+    private String[] voucher_key_list;
 }

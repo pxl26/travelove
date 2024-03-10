@@ -1,4 +1,4 @@
-package com.traveloveapi.repository.service_package;
+package com.traveloveapi.repository.bill;
 
 import com.traveloveapi.DTO.service_package.bill.BillDetailDTO;
 import com.traveloveapi.constrain.BillStatus;

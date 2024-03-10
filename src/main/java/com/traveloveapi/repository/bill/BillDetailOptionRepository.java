@@ -1,4 +1,4 @@
-package com.traveloveapi.repository.service_package;
+package com.traveloveapi.repository.bill;
 
 import com.traveloveapi.entity.service_package.bill_detail_option.BillDetailOptionEntity;
 import jakarta.persistence.EntityManager;

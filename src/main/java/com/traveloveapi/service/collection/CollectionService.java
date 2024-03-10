@@ -2,8 +2,10 @@ package com.traveloveapi.service.collection;
 
 import com.traveloveapi.DTO.collection.CollectionDTO;
 import com.traveloveapi.constrain.CollectionDisplay;
+import com.traveloveapi.constrain.voucher.VoucherTargetType;
 import com.traveloveapi.entity.collection.CollectionDetailEntity;
 import com.traveloveapi.entity.collection.CollectionEntity;
+import com.traveloveapi.entity.voucher.VoucherEntity;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.repository.collection.CollectionDetailRepository;
 import com.traveloveapi.repository.collection.CollectionRepository;
@@ -64,5 +66,13 @@ public class CollectionService {
             rs.getService_list().add(tourService.createCard(ele.getService_id()));
 
         return rs;
+    }
+
+    public boolean isHave(String collection_id, String tour_id) {
+        ArrayList<CollectionDetailEntity> tour_list = collectionDetailRepository.find(collection_id);
+        for (CollectionDetailEntity ele: tour_list)
+            if (ele.getService_id().equals(tour_id))
+                return true;
+        return false;
     }
 }

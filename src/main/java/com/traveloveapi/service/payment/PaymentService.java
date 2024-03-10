@@ -9,7 +9,7 @@ import com.traveloveapi.entity.service_package.bill.BillEntity;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.exception.ForbiddenException;
 import com.traveloveapi.repository.ServiceRepository;
-import com.traveloveapi.repository.service_package.BillRepository;
+import com.traveloveapi.repository.bill.BillRepository;
 import com.traveloveapi.service.user.UserService;
 import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;

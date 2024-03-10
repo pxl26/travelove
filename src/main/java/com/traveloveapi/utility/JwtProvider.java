@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.traveloveapi.DTO.TokenResponse;
 import com.traveloveapi.constrain.Role;
+import com.traveloveapi.exception.CustomException;
 import io.jsonwebtoken.*;
 
 public class JwtProvider {
@@ -61,10 +62,17 @@ public class JwtProvider {
     }
 
     static public String getVoucherFromKey(String key) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(JWT_SECRET)
-                .parseClaimsJws(key)
-                .getBody();
-        return claims.getSubject();
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(JWT_SECRET)
+                    .parseClaimsJws(key)
+                    .getBody();
+            return claims.getSubject();
+        } catch (ExpiredJwtException ex) {
+            throw new CustomException("Expired voucher",400);
+        }
+        catch (MalformedJwtException | SignatureException ex) {
+            throw new CustomException("Malformed voucher key", 400);
+        }
     }
 }

@@ -4,9 +4,7 @@ import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.voucher.VoucherDiscountType;
 import com.traveloveapi.constrain.voucher.VoucherStatus;
 import com.traveloveapi.constrain.voucher.VoucherTargetType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -22,6 +20,7 @@ public class VoucherEntity {
 
     private String creator_id;
 
+    @Enumerated(EnumType.STRING)
     private VoucherStatus status;
 
     private String title;
@@ -36,6 +35,7 @@ public class VoucherEntity {
 
     private Timestamp end_at;
 
+    @Enumerated(EnumType.STRING)
     private VoucherDiscountType discount_type;
 
     private float fixed_discount;
@@ -46,8 +46,10 @@ public class VoucherEntity {
 
     private float max_discount;
 
+    @Enumerated(EnumType.STRING)
     private Currency currency;
 
+    @Enumerated(EnumType.STRING)
     private VoucherTargetType target_type;
 
     private String target_id;

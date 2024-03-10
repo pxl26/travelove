@@ -1,8 +1,7 @@
 package com.traveloveapi.entity.voucher;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.traveloveapi.constrain.voucher.VoucherRedeemStatus;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Time;
@@ -15,7 +14,7 @@ public class VoucherRedeemEntity {
     @Id
     private String id;
 
-    private String key;
+    private String redeem_key;
 
     private String user_id;
 
@@ -24,4 +23,7 @@ public class VoucherRedeemEntity {
     private Timestamp redeem_at;
 
     private Timestamp expire_at;
+
+    @Enumerated(EnumType.STRING)
+    private VoucherRedeemStatus status;
 }

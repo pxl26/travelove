@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class CollectionDetailRepository {
@@ -24,6 +25,9 @@ public class CollectionDetailRepository {
     }
 
     public ArrayList<CollectionDetailEntity> find(String collection_id) {
-        return (ArrayList<CollectionDetailEntity>) entityManager.createQuery("FROM CollectionDetailEntity m WHERE m.collection_id=:id ORDER BY m.seq").setParameter("id", collection_id).getResultList();
+        List temp =  entityManager.createQuery("FROM CollectionDetailEntity m WHERE m.collection_id=:id ORDER BY m.seq").setParameter("id", collection_id).getResultList();
+        if (temp==null)
+            return new ArrayList<>();
+        return (ArrayList<CollectionDetailEntity>) temp;
     }
 }

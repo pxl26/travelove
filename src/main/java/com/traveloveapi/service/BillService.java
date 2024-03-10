@@ -3,7 +3,6 @@ package com.traveloveapi.service;
 import com.traveloveapi.DTO.service_package.BillDTO;
 import com.traveloveapi.DTO.service_package.BillRequest;
 import com.traveloveapi.DTO.service_package.GroupOptionDTO;
-import com.traveloveapi.DTO.service_package.PackageGroupDTO;
 import com.traveloveapi.DTO.service_package.bill.BillDetailDTO;
 import com.traveloveapi.DTO.service_package.bill.BillOption;
 import com.traveloveapi.DTO.service_package.bill.CreateBillPersonType;
@@ -21,8 +20,12 @@ import com.traveloveapi.entity.service_package.person_type.PackagePersonTypeEnti
 import com.traveloveapi.entity.service_package.special_date.SpecialDateEntity;
 import com.traveloveapi.exception.ForbiddenException;
 import com.traveloveapi.repository.UserRepository;
+import com.traveloveapi.repository.bill.BillDetailOptionRepository;
+import com.traveloveapi.repository.bill.BillDetailPersonTypeRepository;
+import com.traveloveapi.repository.bill.BillRepository;
 import com.traveloveapi.repository.service_package.*;
 import com.traveloveapi.service.user.UserService;
+import com.traveloveapi.service.voucher.VoucherService;
 import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,6 +49,7 @@ public class BillService {
     final private PackagePersonTypeRepository packagePersonTypeRepository;
     final private UserRepository userRepository;
     final private UserService userService;
+    final private VoucherService voucherService;
 
 
     public BillDetailDTO getBillDetail(String bill_id) {
@@ -124,7 +128,6 @@ public class BillService {
     public BillDTO createNewBill(BillRequest data) {
         String id = UUID.randomUUID().toString().replace("-","");
         String user_id = SecurityContext.getUserID();
-
         BillEntity bill = new BillEntity();
         bill.setId(id);
         bill.setUser_id(user_id);
@@ -137,7 +140,9 @@ public class BillService {
         for (CreateBillPersonType ele: data.getPerson_types())
             num_ticket+=ele.getQuantity();
         bill.setQuantity(num_ticket);
+
         billRepository.save(bill);
+        voucherService.applyVouchers(data.getVoucher_key_list(), bill.getId());
 
         for (GroupOptionDTO option : data.getOptions()) {
             BillDetailOptionEntity bill_option = new BillDetailOptionEntity();

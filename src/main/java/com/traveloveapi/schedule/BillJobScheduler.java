@@ -2,14 +2,12 @@ package com.traveloveapi.schedule;
 
 import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
-import com.traveloveapi.repository.service_package.BillRepository;
+import com.traveloveapi.repository.bill.BillRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
-import java.time.Duration;
-import java.time.temporal.Temporal;
 import java.util.ArrayList;
 
 @Component
