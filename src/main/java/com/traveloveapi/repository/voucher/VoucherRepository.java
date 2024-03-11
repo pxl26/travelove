@@ -54,11 +54,11 @@ public class VoucherRepository {
 
     public ArrayList<VoucherDTO> getAvailableVoucherForTour(String tour_id, String user_id) {
         List<Object> data = (List<Object>)entityManager.createQuery(
-                "SELECT data.id, data.title FROM " +
-                        "(SELECT voucher.id id, voucher.title title " +
+                "SELECT data.id, data.title, data.detail FROM " +
+                        "(SELECT voucher.id id, voucher.title title, voucher.detail detail " +
                         "FROM  VoucherEntity voucher WHERE ((voucher.target_id=:tour_id AND voucher.target_type='TOUR') OR voucher.target_type='ALL') AND voucher.status='VERIFIED' AND (now() BETWEEN voucher.start_at AND voucher.end_at) AND voucher.stock>0 " +
                         "UNION " +
-                        "SELECT voucher.id id, voucher.title title " +
+                        "SELECT voucher.id id, voucher.title title, voucher.detail detail " +
                         "FROM CollectionDetailEntity collection_detail JOIN VoucherEntity voucher ON voucher.target_type='COLLECTION' AND collection_detail.service_id=:tour_id AND voucher.status='VERIFIED' AND voucher.stock>0 AND (now() BETWEEN voucher.start_at AND voucher.end_at)) " +
                         "as data " +
                         "WHERE data.id NOT IN " +

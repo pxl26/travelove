@@ -11,4 +11,5 @@ import lombok.Data;
 public class VoucherDTO {
     private String voucher_id;
     private String title;
+    private String detail;
 }
