@@ -200,6 +200,11 @@ public class VoucherService {
     }
 
 
+    public ArrayList<VoucherEntity> getAllPendingVoucher() {
+        if (!userService.isAdmin())
+            throw new ForbiddenException();
+        return voucherRepository.getAllPendingVoucher();
+    }
     public VoucherEntity verifyVoucher(String voucher_id) {
         VoucherEntity voucher = voucherRepository.find(voucher_id);
         voucher.setStatus(VoucherStatus.VERIFIED);

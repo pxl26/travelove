@@ -3,6 +3,7 @@ package com.traveloveapi.repository.voucher;
 import com.traveloveapi.DTO.voucher.RedeemVoucherDTO;
 import com.traveloveapi.DTO.voucher.VoucherDTO;
 import com.traveloveapi.constrain.voucher.VoucherRedeemStatus;
+import com.traveloveapi.constrain.voucher.VoucherStatus;
 import com.traveloveapi.constrain.voucher.VoucherTargetType;
 import com.traveloveapi.entity.MediaEntity;
 import com.traveloveapi.entity.voucher.VoucherEntity;
@@ -73,12 +74,13 @@ public class VoucherRepository {
         return rs;
     }
 
-    public ArrayList<VoucherEntity> getPendingVoucher(String tour_id) {
-        List raw = entityManager.createQuery("FROM VoucherEntity m WHERE  m.status='PENDING'").getResultList();
+    public ArrayList<VoucherEntity> getAllPendingVoucher() {
+        List raw = entityManager.createQuery("FROM VoucherEntity m WHERE  m.status=:status ORDER BY m.start_at").setParameter("status", VoucherStatus.PENDING).getResultList();
         if (raw.isEmpty())
             return new ArrayList<>();
         return (ArrayList<VoucherEntity>) raw;
     }
+
     @Transactional
     public void save(VoucherEntity entity) {
         entityManager.persist(entity);

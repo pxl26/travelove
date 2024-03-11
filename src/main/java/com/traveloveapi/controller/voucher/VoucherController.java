@@ -64,4 +64,11 @@ public class VoucherController {
     public VoucherRedeemEntity giveVoucher(@RequestParam String voucher_id, @RequestParam String redeem_user) {
         return voucherService.giveVoucher(voucher_id, redeem_user);
     }
+
+    @GetMapping("/pending-voucher")
+    @Tag(name = "SPRINT 9")
+    public ArrayList<VoucherEntity> getAllPendingVoucher() {
+        return voucherService.getAllPendingVoucher();
+    }
+
 }
