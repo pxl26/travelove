@@ -8,6 +8,7 @@ import com.traveloveapi.constrain.voucher.VoucherTargetType;
 import com.traveloveapi.entity.voucher.VoucherEntity;
 import com.traveloveapi.entity.voucher.VoucherRedeemEntity;
 import com.traveloveapi.service.voucher.VoucherService;
+import com.traveloveapi.utility.SecurityContext;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class VoucherController {
     @PostMapping("/redeem")
     @Tag(name = "SPRINT 9")
     public VoucherRedeemEntity redeemVoucher(@RequestParam String voucher_id) {
-        return voucherService.redeemVoucher(voucher_id);
+        return voucherService.redeemVoucher(voucher_id, SecurityContext.getUserID(),false);
     }
 
     @GetMapping("/my-voucher")
@@ -50,5 +51,17 @@ public class VoucherController {
     @Tag(name = "SPRINT 9")
     public ArrayList<VoucherDTO> getByTour(@RequestParam String tour_id) {
         return voucherService.getUsableVoucher(tour_id);
+    }
+
+    @GetMapping("/manage")
+    @Tag(name = "SPRINT 9")
+    public ArrayList<VoucherEntity> getVoucherByTourOwner(@RequestParam(required = false) String creator,@RequestParam VoucherTargetType type, @RequestParam(required = false) String target_id) {
+        return voucherService.getVoucherByCreator(creator==null ? SecurityContext.getUserID() : creator, type, target_id);
+    }
+
+    @PostMapping("/give-voucher")
+    @Tag(name = "SPRINT 9")
+    public VoucherRedeemEntity giveVoucher(@RequestParam String voucher_id, @RequestParam String redeem_user) {
+        return voucherService.giveVoucher(voucher_id, redeem_user);
     }
 }

@@ -113,6 +113,24 @@ public class VoucherService {
         return bill_amount;
     }
 
+    public VoucherRedeemEntity giveVoucher(String voucher_id, String received_user) {
+        VoucherEntity voucher = voucherRepository.find(voucher_id);
+
+        if (!userService.isAdmin()) {
+            if (voucher.getTarget_type()!=VoucherTargetType.TOUR)
+                throw new ForbiddenException();
+            if (!userService.verifyIsOwner(voucher.getTarget_id(), SecurityContext.getUserID()))
+                throw new ForbiddenException();
+        }
+        return redeemVoucher(voucher_id, received_user, true);
+    }
+
+    public ArrayList<VoucherEntity> getVoucherByCreator(String creator, VoucherTargetType type, String target_id) {
+        if (!userService.isAdmin() && !creator.equals(SecurityContext.getUserID()))
+            throw new ForbiddenException();
+        return voucherRepository.getByCreator(creator, type, target_id);
+    }
+
     public ArrayList<RedeemVoucherDTO> getVoucherByUser(String user_id, int page) {
         if (user_id!=null)
             if (!userService.isAdmin() && !user_id.equals(SecurityContext.getUserID()))
@@ -122,8 +140,8 @@ public class VoucherService {
         return voucherRedeemRepository.getByUser(user_id, page);
     }
 
-    public VoucherRedeemEntity redeemVoucher(String voucher_id) {
-        if (!voucherRepository.getVoucher(SecurityContext.getUserID(), voucher_id).isEmpty())
+    public VoucherRedeemEntity redeemVoucher(String voucher_id, String redeem_user, boolean isGiven) {
+        if (!voucherRepository.getVoucher(SecurityContext.getUserID(), voucher_id).isEmpty() && !isGiven)
             throw new CustomException("Only redeem one time", 400);
         VoucherEntity voucher = voucherRepository.find(voucher_id);
         if (voucher==null)
@@ -138,7 +156,7 @@ public class VoucherService {
         VoucherRedeemEntity voucherRedeem = new VoucherRedeemEntity();
         voucherRedeem.setId(UUID.randomUUID().toString());
         voucherRedeem.setVoucher_id(voucher_id);
-        voucherRedeem.setUser_id(SecurityContext.getUserID());
+        voucherRedeem.setUser_id(redeem_user);
         voucherRedeem.setRedeem_at(new Timestamp(System.currentTimeMillis()));
         voucherRedeem.setExpire_at(new Timestamp(voucherRedeem.getRedeem_at().getTime() + voucher.getExpiration()* 86400000L));    // Ex:expiration = 1 = 1 day
         voucherRedeem.setRedeem_key(JwtProvider.generateVoucherKey(voucher_id, voucherRedeem.getExpire_at().getTime()));
@@ -183,10 +201,6 @@ public class VoucherService {
         return voucher;
     }
 
-
-    public ArrayList<VoucherEntity> getVoucherAvailable(String tour_id, String user_id) {
-        return null;
-    }
 
     public VoucherEntity verifyVoucher(String voucher_id) {
         VoucherEntity voucher = voucherRepository.find(voucher_id);
