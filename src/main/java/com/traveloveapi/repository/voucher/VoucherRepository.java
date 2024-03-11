@@ -1,5 +1,9 @@
 package com.traveloveapi.repository.voucher;
 
+import com.traveloveapi.DTO.voucher.RedeemVoucherDTO;
+import com.traveloveapi.DTO.voucher.VoucherDTO;
+import com.traveloveapi.constrain.voucher.VoucherRedeemStatus;
+import com.traveloveapi.constrain.voucher.VoucherTargetType;
 import com.traveloveapi.entity.MediaEntity;
 import com.traveloveapi.entity.voucher.VoucherEntity;
 import com.traveloveapi.entity.voucher.VoucherRedeemEntity;
@@ -8,6 +12,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +37,19 @@ public class VoucherRepository {
         if (raw.isEmpty())
             return new ArrayList<>();
         return (ArrayList<VoucherRedeemEntity>) raw;
+    }
+
+
+    public ArrayList<VoucherDTO> getAvailableVoucherForTour(String tour_id) {
+        List<Object> data = (List<Object>)entityManager.createQuery("SELECT voucher.id, voucher.title FROM CollectionDetailEntity collection  JOIN VoucherEntity voucher ON ((voucher.target_id=:tour_id AND voucher.target_type='TOUR') OR voucher.target_type='ALL') AND voucher.status='VERIFIED' AND voucher.start_at<=now() AND voucher.stock>0 AND voucher.end_at>=now()  UNION SELECT voucher.id, voucher.title  FROM CollectionDetailEntity collection_detail JOIN VoucherEntity voucher ON voucher.target_type='COLLECTION' AND collection_detail.service_id=:tour_id AND voucher.status='VERIFIED' AND voucher.stock>0 AND voucher.start_at<=now() AND voucher.end_at>=now()").setParameter("tour_id", tour_id).getResultList();
+        ArrayList<VoucherDTO> rs = new ArrayList<>();
+        for (Object ele: data)
+        {
+            Object[] row = (Object[]) ele;
+            VoucherDTO a = new VoucherDTO((String) row[0], (String) row[1]);
+            rs.add(a);
+        }
+        return rs;
     }
 
     public ArrayList<VoucherEntity> getPendingVoucher(String tour_id) {

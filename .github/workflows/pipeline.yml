@@ -35,7 +35,7 @@ jobs:
         name: establishes ssh
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: 3.1.165.245
+          host: 52.77.217.148
           username: ubuntu
           key: ${{secrets.EC2_SSH_KEY}}
           port: 22

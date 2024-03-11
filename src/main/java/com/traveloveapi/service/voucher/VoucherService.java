@@ -1,6 +1,7 @@
 package com.traveloveapi.service.voucher;
 
 import com.traveloveapi.DTO.voucher.RedeemVoucherDTO;
+import com.traveloveapi.DTO.voucher.VoucherDTO;
 import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.voucher.VoucherDiscountType;
 import com.traveloveapi.constrain.voucher.VoucherRedeemStatus;
@@ -39,6 +40,9 @@ public class VoucherService {
     final private CollectionService collectionService;
     final private BillVoucherRepository billVoucherRepository;
 
+    public ArrayList<VoucherDTO> getUsableVoucher(String tour_id) {
+        return voucherRepository.getAvailableVoucherForTour(tour_id);
+    }
     public float applyVouchers(String[] redeem_key_list, String bill_id) {
         ArrayList<String> key_list = new ArrayList<>();
         //-------REMOVE DUPLICATE VOUCHER-------
@@ -128,6 +132,8 @@ public class VoucherService {
             throw new CustomException("Out of stock", 400);
         if (voucher.getEnd_at().getTime()<System.currentTimeMillis())
             throw new CustomException("Promotion was ended",400);
+        if (voucher.getStatus()!=VoucherStatus.VERIFIED)
+            throw new CustomException("Invalid voucher", 400);
 
         VoucherRedeemEntity voucherRedeem = new VoucherRedeemEntity();
         voucherRedeem.setId(UUID.randomUUID().toString());
@@ -145,7 +151,12 @@ public class VoucherService {
         return voucherRedeem;
     }
     public VoucherEntity createVoucher(String code, String title, int stock, Timestamp start_at, Timestamp end_at, String detail, VoucherDiscountType discount_type, float fixed_discount, float percent_discount, float under_applied, VoucherTargetType target_type, String target_id, Currency currency, int expiration, float max_discount) {
-        if (!userService.isAdmin() && !(target_type ==VoucherTargetType.TOUR) && !userService.verifyIsOwner(target_id, SecurityContext.getUserID()))
+        if (target_type==VoucherTargetType.TOUR)
+        {
+            if (!userService.verifyIsOwner(target_id, SecurityContext.getUserID()) && !userService.isAdmin())
+                throw new ForbiddenException();
+        }
+        else if (!userService.isAdmin())
             throw new ForbiddenException();
         //------------------
         VoucherEntity voucher = new VoucherEntity();
@@ -170,6 +181,11 @@ public class VoucherService {
 
         voucherRepository.save(voucher);
         return voucher;
+    }
+
+
+    public ArrayList<VoucherEntity> getVoucherAvailable(String tour_id, String user_id) {
+        return null;
     }
 
     public VoucherEntity verifyVoucher(String voucher_id) {
