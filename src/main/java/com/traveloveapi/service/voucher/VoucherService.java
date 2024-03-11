@@ -41,7 +41,7 @@ public class VoucherService {
     final private BillVoucherRepository billVoucherRepository;
 
     public ArrayList<VoucherDTO> getUsableVoucher(String tour_id) {
-        return voucherRepository.getAvailableVoucherForTour(tour_id);
+        return voucherRepository.getAvailableVoucherForTour(tour_id, SecurityContext.getUserID());
     }
     public float applyVouchers(String[] redeem_key_list, String bill_id) {
         ArrayList<String> key_list = new ArrayList<>();
