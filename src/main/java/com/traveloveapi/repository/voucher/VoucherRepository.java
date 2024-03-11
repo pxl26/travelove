@@ -67,7 +67,7 @@ public class VoucherRepository {
         for (Object ele: data)
         {
             Object[] row = (Object[]) ele;
-            VoucherDTO a = new VoucherDTO((String) row[0], (String) row[1]);
+            VoucherDTO a = new VoucherDTO((String) row[0], (String) row[1], (String) row[2]);
             rs.add(a);
         }
         return rs;
