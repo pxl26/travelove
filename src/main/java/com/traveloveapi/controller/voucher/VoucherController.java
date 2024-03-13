@@ -31,8 +31,8 @@ public class VoucherController {
 
     @PostMapping
     @Tag(name = "SPRINT 9")
-    public VoucherEntity createVoucher(String code, String title, int stock, Date start_at, Date end_at, String detail, VoucherDiscountType discount_type, float fixed_discount, float percent_discount, float under_applied, float max_discount, VoucherTargetType target_type, String target_id, Currency currency, int expiration) {
-        return voucherService.createVoucher(code, title, stock, new Timestamp(start_at.getTime()), new Timestamp(end_at.getTime()), detail, discount_type, fixed_discount, percent_discount, under_applied, target_type, target_id, currency, expiration, max_discount);
+    public VoucherEntity createVoucher(String code, String title, int stock, Date start_at, Date end_at, String detail, VoucherDiscountType discount_type, float fixed_discount, float percent_discount, float minimum_spend, float max_discount, VoucherTargetType target_type, String target_id, Currency currency, int expiration) {
+        return voucherService.createVoucher(code, title, stock, new Timestamp(start_at.getTime()), new Timestamp(end_at.getTime()), detail, discount_type, fixed_discount, percent_discount, minimum_spend, target_type, target_id, currency, expiration, max_discount);
     }
 
     @PostMapping("/redeem")

@@ -42,7 +42,7 @@ public class VoucherEntity {
 
     private float percent_discount;
 
-    private float under_applied;
+    private float minimum_spend;
 
     private float max_discount;
 

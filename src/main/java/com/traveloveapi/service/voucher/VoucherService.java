@@ -82,7 +82,7 @@ public class VoucherService {
             //--------VALIDATED-------
             if(!validateVoucher(voucher, bill.getService_id()))
                 throw new CustomException("Voucher cannot be apply for this tour: #voucher-" + voucher_id, 400);
-            if (bill.getTotal()<voucher.getUnder_applied())
+            if (bill.getTotal()<voucher.getMinimum_spend())
                 throw new CustomException("Bill amount can not reach voucher condition: #"+voucher_id, 400);
             //-----------
 
@@ -166,7 +166,7 @@ public class VoucherService {
 
         return voucherRedeem;
     }
-    public VoucherEntity createVoucher(String code, String title, int stock, Timestamp start_at, Timestamp end_at, String detail, VoucherDiscountType discount_type, float fixed_discount, float percent_discount, float under_applied, VoucherTargetType target_type, String target_id, Currency currency, int expiration, float max_discount) {
+    public VoucherEntity createVoucher(String code, String title, int stock, Timestamp start_at, Timestamp end_at, String detail, VoucherDiscountType discount_type, float fixed_discount, float percent_discount, float minimum_spend, VoucherTargetType target_type, String target_id, Currency currency, int expiration, float max_discount) {
         if (target_type==VoucherTargetType.TOUR)
         {
             if (!userService.verifyIsOwner(target_id, SecurityContext.getUserID()) && !userService.isAdmin())
@@ -190,7 +190,7 @@ public class VoucherService {
         voucher.setTarget_id(target_id);
         voucher.setStart_at(start_at);
         voucher.setEnd_at(end_at);
-        voucher.setUnder_applied(under_applied);
+        voucher.setMinimum_spend(minimum_spend);
         voucher.setFixed_discount(fixed_discount);
         voucher.setPercent_discount(percent_discount);
         voucher.setMax_discount(max_discount);
