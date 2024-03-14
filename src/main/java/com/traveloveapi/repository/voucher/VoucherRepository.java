@@ -2,6 +2,7 @@ package com.traveloveapi.repository.voucher;
 
 import com.traveloveapi.DTO.voucher.RedeemVoucherDTO;
 import com.traveloveapi.DTO.voucher.VoucherDTO;
+import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.voucher.VoucherDiscountType;
 import com.traveloveapi.constrain.voucher.VoucherRedeemStatus;
 import com.traveloveapi.constrain.voucher.VoucherStatus;
@@ -56,11 +57,11 @@ public class VoucherRepository {
 
     public ArrayList<VoucherDTO> getAvailableVoucherForTour(String tour_id, String user_id) {
         List<Object> data = (List<Object>)entityManager.createQuery(
-                "SELECT data.id, data.discount_type, data.minimum_spend, data.fixed_discount, data.percent_discount, data.max_discount  FROM " +
-                        "(SELECT voucher.id id, voucher.discount_type discount_type, voucher.minimum_spend minimum_spend , voucher.fixed_discount fixed_discount, voucher.percent_discount percent_discount,voucher.max_discount max_discount " +
+                "SELECT data.id, data.discount_type, data.minimum_spend, data.fixed_discount, data.percent_discount, data.max_discount, data.currency  FROM " +
+                        "(SELECT voucher.id id, voucher.discount_type discount_type, voucher.minimum_spend minimum_spend , voucher.fixed_discount fixed_discount, voucher.percent_discount percent_discount,voucher.max_discount max_discount, voucher.currency currency " +
                         "FROM  VoucherEntity voucher WHERE ((voucher.target_id=:tour_id AND voucher.target_type='TOUR') OR voucher.target_type='ALL') AND voucher.status='VERIFIED' AND (now() BETWEEN voucher.start_at AND voucher.end_at) AND voucher.stock>0 " +
                         "UNION " +
-                        "SELECT voucher.id id, voucher.discount_type type, voucher.minimum_spend minimum_spend , voucher.fixed_discount fixed_discount, voucher.percent_discount percent_discount,voucher.max_discount max_discount " +
+                        "SELECT voucher.id id, voucher.discount_type type, voucher.minimum_spend minimum_spend , voucher.fixed_discount fixed_discount, voucher.percent_discount percent_discount,voucher.max_discount max_discount, voucher.currency currency " +
                         "FROM CollectionDetailEntity collection_detail JOIN VoucherEntity voucher ON voucher.target_type='COLLECTION' AND collection_detail.service_id=:tour_id AND voucher.status='VERIFIED' AND voucher.stock>0 AND (now() BETWEEN voucher.start_at AND voucher.end_at)) " +
                         "as data " +
                         "WHERE data.id NOT IN " +
@@ -69,7 +70,7 @@ public class VoucherRepository {
         for (Object ele: data)
         {
             Object[] row = (Object[]) ele;
-            VoucherDTO a = new VoucherDTO((String) row[0], (VoucherDiscountType) row[1], (float) row[2], (float) row[3], (float) row[4], (float) row[5]);
+            VoucherDTO a = new VoucherDTO((String) row[0], (VoucherDiscountType) row[1], (float) row[2], (float) row[3], (float) row[4], (float) row[5], (Currency) row[6]);
             rs.add(a);
         }
         return rs;

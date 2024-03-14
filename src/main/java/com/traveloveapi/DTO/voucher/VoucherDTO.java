@@ -16,5 +16,5 @@ public class VoucherDTO {
     private float fixed_discount;
     private float percent_discount;
     private float max_discount;
-
+    private Currency currency;
 }
