@@ -27,9 +27,9 @@ public class VoucherEntity {
 
     private String detail;
 
-    private int expiration; // num of day
+    private Integer expiration; // num of day
 
-    private int stock;
+    private Integer stock;
 
     private Timestamp start_at;
 
@@ -38,13 +38,13 @@ public class VoucherEntity {
     @Enumerated(EnumType.STRING)
     private VoucherDiscountType discount_type;
 
-    private float fixed_discount;
+    private Float fixed_discount;
 
-    private float percent_discount;
+    private Float percent_discount;
 
-    private float minimum_spend;
+    private Float minimum_spend;
 
-    private float max_discount;
+    private Float max_discount;
 
     @Enumerated(EnumType.STRING)
     private Currency currency;
