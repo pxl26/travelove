@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisPooled;
 
-//@Component
+@Component
 public class RedisConfiguration {
     private JedisPooled jedis = new JedisPooled("localhost", 6379);
 

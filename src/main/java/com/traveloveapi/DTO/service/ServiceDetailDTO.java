@@ -10,12 +10,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class ServiceDetailDTO {
+public class ServiceDetailDTO implements Serializable {
     private String id;
     private String title;
     private String service_owner;

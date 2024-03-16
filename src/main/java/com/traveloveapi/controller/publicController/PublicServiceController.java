@@ -1,12 +1,15 @@
 package com.traveloveapi.controller.publicController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
 import com.traveloveapi.DTO.feedback.FeedbackDTO;
 import com.traveloveapi.DTO.service.RequestCheckAvailablePackageDTO;
 import com.traveloveapi.DTO.service.ServiceDetailDTO;
 import com.traveloveapi.DTO.service.ServiceStatusByDateDTO;
 import com.traveloveapi.DTO.service_package.GroupOptionDTO;
 import com.traveloveapi.DTO.service_package.PackageInfoDTO;
+import com.traveloveapi.configuration.RedisConfiguration;
 import com.traveloveapi.entity.feedback.FeedbackEntity;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.repository.searching.SearchingRepository;
@@ -32,11 +35,17 @@ public class PublicServiceController {
     final private BillService billService;
     final private FeedbackService feedbackService;
     final private ActivityLoggingService activityLoggingService;
+    final private RedisConfiguration redisConfiguration;
     @GetMapping("/tour")
     @Tag(name = "SPRINT 2")
-    public ServiceDetailDTO getTour(@RequestParam String id) {
+    public ServiceDetailDTO getTour(@RequestParam String id) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String result = redisConfiguration.getConnection().get("tour_detai-"+id);
+        if (result!=null)
+            return mapper.readValue(result, ServiceDetailDTO.class);
 
         ServiceDetailDTO tour = tourService.getTour(id);
+        redisConfiguration.getConnection().set("tou_detail-"+id, mapper.writeValueAsString(tour));
         activityLoggingService.viewTour(tour.getId());
         return tour;
     }
