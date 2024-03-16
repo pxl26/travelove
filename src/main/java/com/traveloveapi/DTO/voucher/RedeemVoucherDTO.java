@@ -1,5 +1,7 @@
 package com.traveloveapi.DTO.voucher;
 
+import com.traveloveapi.constrain.Currency;
+import com.traveloveapi.constrain.voucher.VoucherDiscountType;
 import com.traveloveapi.constrain.voucher.VoucherRedeemStatus;
 import com.traveloveapi.constrain.voucher.VoucherStatus;
 import com.traveloveapi.constrain.voucher.VoucherTargetType;
@@ -20,4 +22,12 @@ public class RedeemVoucherDTO {
     private Timestamp expire_at;
     private VoucherTargetType target_type;
     private String target_id;
+
+
+    private VoucherDiscountType discount_type;
+    private float fixed_discount;
+    private float percent_discount;
+    private float minimum_spend;
+    private float max_discount;
+    private Currency currency;
 }

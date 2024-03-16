@@ -36,7 +36,7 @@ public class PublicServiceController {
     @Tag(name = "SPRINT 2")
     public ServiceDetailDTO getTour(@RequestParam String id) {
 
-        ServiceDetailDTO tour = tourService.getTour(id);;
+        ServiceDetailDTO tour = tourService.getTour(id);
         activityLoggingService.viewTour(tour.getId());
         return tour;
     }
