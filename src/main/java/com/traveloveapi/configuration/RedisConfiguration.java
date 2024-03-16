@@ -6,7 +6,7 @@ import redis.clients.jedis.JedisPooled;
 
 @Component
 public class RedisConfiguration {
-    private JedisPooled jedis = new JedisPooled("localhost", 6379);
+    private JedisPooled jedis = new JedisPooled("redis", 6379);
 
     public JedisPooled getConnection() {
         return jedis;
