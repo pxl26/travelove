@@ -39,10 +39,10 @@ public class UserService {
             throw new IncorrectPasswordException();
     }
 
-    public ArrayList<UserEntity> getAllOwner() {
+    public ArrayList<UserEntity> getAllOwner(int page) {
         if (!isAdmin())
             throw new ForbiddenException();
-        return userRepository.getAllTourOwner();
+        return userRepository.getAllUser(page, Role.TOUR_OWNER);
     }
 
     public UserEntity verifyIsAdmin() {

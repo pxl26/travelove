@@ -4,6 +4,7 @@ import com.traveloveapi.DTO.voucher.RedeemVoucherDTO;
 import com.traveloveapi.DTO.voucher.VoucherDTO;
 import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.voucher.VoucherDiscountType;
+import com.traveloveapi.constrain.voucher.VoucherStatus;
 import com.traveloveapi.constrain.voucher.VoucherTargetType;
 import com.traveloveapi.entity.voucher.VoucherEntity;
 import com.traveloveapi.entity.voucher.VoucherRedeemEntity;
@@ -24,13 +25,13 @@ public class VoucherController {
     final private VoucherService voucherService;
 
     @PutMapping("/verify")
-    @Tag(name = "SPRINT 9")
-    public VoucherEntity verifyVoucher(@RequestParam String voucher_id) {
-        return voucherService.verifyVoucher(voucher_id);
+    @Tag(name = "SPRINT 9 - MANAGE")
+    public VoucherEntity verifyVoucher(@RequestParam String voucher_id, @RequestParam VoucherStatus status) {
+        return voucherService.verifyVoucher(voucher_id, status);
     }
 
     @PostMapping
-    @Tag(name = "SPRINT 9")
+    @Tag(name = "SPRINT 9 - MANAGE")
     public VoucherEntity createVoucher(String code, String title, Integer stock, Date start_at, Date end_at, String detail, VoucherDiscountType discount_type, Float fixed_discount, Float percent_discount, Float minimum_spend, Float max_discount, VoucherTargetType target_type, String target_id, Currency currency, Integer expiration) {
         return voucherService.createVoucher(code, title, stock, new Timestamp(start_at.getTime()), new Timestamp(end_at.getTime()), detail, discount_type, fixed_discount, percent_discount, minimum_spend, target_type, target_id, currency, expiration, max_discount);
     }
@@ -54,19 +55,19 @@ public class VoucherController {
     }
 
     @GetMapping("/manage")
-    @Tag(name = "SPRINT 9")
+    @Tag(name = "SPRINT 9 - MANAGE")
     public ArrayList<VoucherEntity> getVoucherByTourOwner(@RequestParam(required = false) String creator,@RequestParam VoucherTargetType type, @RequestParam(required = false) String target_id) {
         return voucherService.getVoucherByCreator(creator==null ? SecurityContext.getUserID() : creator, type, target_id);
     }
 
     @PostMapping("/give-voucher")
-    @Tag(name = "SPRINT 9")
+    @Tag(name = "SPRINT 9 - MANAGE")
     public VoucherRedeemEntity giveVoucher(@RequestParam String voucher_id, @RequestParam String redeem_user) {
         return voucherService.giveVoucher(voucher_id, redeem_user);
     }
 
     @GetMapping("/pending-voucher")
-    @Tag(name = "SPRINT 9")
+    @Tag(name = "SPRINT 9 - MANAGE")
     public ArrayList<VoucherEntity> getAllPendingVoucher() {
         return voucherService.getAllPendingVoucher();
     }

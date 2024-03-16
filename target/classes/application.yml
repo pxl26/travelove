@@ -49,8 +49,8 @@ aws:
         bucket_name: travelove-data
 
 redis:
-    host: localhost
-    port: 6378
+    host: ${REDIS_HOST}
+    port: 6379
 
 payment:
 #    vnpay: http://localhost:5000/api/vnpay/create-payment

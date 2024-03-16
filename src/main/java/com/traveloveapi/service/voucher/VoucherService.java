@@ -205,9 +205,9 @@ public class VoucherService {
             throw new ForbiddenException();
         return voucherRepository.getAllPendingVoucher();
     }
-    public VoucherEntity verifyVoucher(String voucher_id) {
+    public VoucherEntity verifyVoucher(String voucher_id, VoucherStatus status) {
         VoucherEntity voucher = voucherRepository.find(voucher_id);
-        voucher.setStatus(VoucherStatus.VERIFIED);
+        voucher.setStatus(status);
         voucherRepository.update(voucher);
         return voucher;
     }

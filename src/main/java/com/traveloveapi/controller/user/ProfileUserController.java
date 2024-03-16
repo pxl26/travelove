@@ -1,19 +1,28 @@
 package com.traveloveapi.controller.user;
 
 import com.traveloveapi.DTO.user.UserProfile;
+import com.traveloveapi.constrain.Role;
+import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.exception.RequestParamException;
+import com.traveloveapi.repository.UserRepository;
 import com.traveloveapi.service.user.UserProfileService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
-@RequestMapping("/user/profile")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class ProfileUserController {
     final private UserProfileService userProfileService;
-    @GetMapping
-    @Tag(name = "SPRINT 1")
+
+    final private UserRepository userRepository;
+
+    @GetMapping("/profile")
+    @Tags({@Tag(name = "SPRINT 1"),@Tag(name = "SPRINT 9 - MANAGE")})
     public UserProfile getProfile(@RequestParam(required = false) String id, @RequestParam(required = false) String email, @RequestParam(required = false) String phone) {
         if (id==null && email==null && phone==null)
             throw new RequestParamException();
@@ -24,9 +33,10 @@ public class ProfileUserController {
         return userProfileService.findUserByPhone(phone);
     }
 
-    @PutMapping
-    @Tag(name = "SPRINT 1")
-    public UserProfile editProfile(@RequestParam(required = false) String full_name, @RequestParam(required = false) String gender, @RequestParam(required = false) String region) {
-        return null;
+
+    @GetMapping("/get-all")
+    @Tag(name = "SPRINT 9 - MANAGE")
+    public ArrayList<UserEntity> getAll(@RequestParam int page) {
+        return userRepository.getAllUser(page, Role.USER);
     }
 }

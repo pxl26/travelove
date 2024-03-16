@@ -27,8 +27,9 @@ public class UserRepository {
         return entityManager.find(UserEntity.class, id);
     }
 
-    public ArrayList<UserEntity> getAllTourOwner() {
-        List list = entityManager.createQuery("FROM UserEntity u WHERE u.role=:role").setParameter("role", Role.TOUR_OWNER).getResultList();
+    public ArrayList<UserEntity> getAllUser(int page, Role role) {
+        int page_size = 10;
+        List list = entityManager.createQuery("FROM UserEntity u WHERE u.role=:role").setMaxResults(page_size).setFirstResult(page_size*page).setParameter("role", role).getResultList();
         if (list.isEmpty())
             throw new UserNotFoundException();
         return (ArrayList<UserEntity>) list;
