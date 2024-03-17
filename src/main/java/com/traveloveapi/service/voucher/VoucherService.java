@@ -3,10 +3,7 @@ package com.traveloveapi.service.voucher;
 import com.traveloveapi.DTO.voucher.RedeemVoucherDTO;
 import com.traveloveapi.DTO.voucher.VoucherDTO;
 import com.traveloveapi.constrain.Currency;
-import com.traveloveapi.constrain.voucher.VoucherDiscountType;
-import com.traveloveapi.constrain.voucher.VoucherRedeemStatus;
-import com.traveloveapi.constrain.voucher.VoucherStatus;
-import com.traveloveapi.constrain.voucher.VoucherTargetType;
+import com.traveloveapi.constrain.voucher.*;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import com.traveloveapi.entity.service_package.bill.voucher.BillVoucherEntity;
 import com.traveloveapi.entity.voucher.VoucherEntity;
@@ -205,9 +202,12 @@ public class VoucherService {
             throw new ForbiddenException();
         return voucherRepository.getAllPendingVoucher();
     }
-    public VoucherEntity verifyVoucher(String voucher_id, VoucherStatus status) {
+    public VoucherEntity verifyVoucher(String voucher_id, VoucherAuditAction action) {
         VoucherEntity voucher = voucherRepository.find(voucher_id);
-        voucher.setStatus(status);
+        if (action==VoucherAuditAction.VERIFY)
+            voucher.setStatus(VoucherStatus.VERIFIED);
+        if (action==VoucherAuditAction.DENY)
+            voucher.setStatus(VoucherStatus.DECLINED);
         voucherRepository.update(voucher);
         return voucher;
     }

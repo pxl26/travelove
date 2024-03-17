@@ -3,6 +3,7 @@ package com.traveloveapi.controller.voucher;
 import com.traveloveapi.DTO.voucher.RedeemVoucherDTO;
 import com.traveloveapi.DTO.voucher.VoucherDTO;
 import com.traveloveapi.constrain.Currency;
+import com.traveloveapi.constrain.voucher.VoucherAuditAction;
 import com.traveloveapi.constrain.voucher.VoucherDiscountType;
 import com.traveloveapi.constrain.voucher.VoucherStatus;
 import com.traveloveapi.constrain.voucher.VoucherTargetType;
@@ -26,8 +27,8 @@ public class VoucherController {
 
     @PutMapping("/verify")
     @Tag(name = "SPRINT 9 - MANAGE")
-    public VoucherEntity verifyVoucher(@RequestParam String voucher_id, @RequestParam VoucherStatus status) {
-        return voucherService.verifyVoucher(voucher_id, status);
+    public VoucherEntity verifyVoucher(@RequestParam String voucher_id, @RequestParam VoucherAuditAction action) {
+        return voucherService.verifyVoucher(voucher_id, action);
     }
 
     @PostMapping
