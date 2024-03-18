@@ -99,6 +99,17 @@ public class TourService {
     public ServiceDetailDTO getTour(String id) {
         ServiceDetailDTO rs;
         boolean isPrivilege = false;
+        if (SecurityContext.isAnonymous()) {
+            String key = "tour_detail:"+id;
+            ObjectMapper mapper = new ObjectMapper();
+            String value = redisService.getConnection().get(key);
+            try {
+                if (value != null)
+                    return mapper.readValue(value, ServiceDetailDTO.class);
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
         if (userService.isAdmin() || userService.verifyIsOwner(id, SecurityContext.getUserID()))
         {
             isPrivilege = true;
