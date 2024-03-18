@@ -1,5 +1,8 @@
 package com.traveloveapi.service.collection;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.traveloveapi.DTO.collection.CollectionDTO;
 import com.traveloveapi.constrain.CollectionDisplay;
 import com.traveloveapi.constrain.voucher.VoucherTargetType;
@@ -9,6 +12,7 @@ import com.traveloveapi.entity.voucher.VoucherEntity;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.repository.collection.CollectionDetailRepository;
 import com.traveloveapi.repository.collection.CollectionRepository;
+import com.traveloveapi.service.redis.RedisService;
 import com.traveloveapi.service.tour.TourService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +26,7 @@ public class CollectionService {
     final private CollectionRepository collectionRepository;
     final private CollectionDetailRepository collectionDetailRepository;
     final private TourService tourService;
+    final private RedisService redisService;
 
     public CollectionDTO create(String name, String[] service_list, CollectionDisplay display_on, String ref_id) {
         CollectionEntity entity = new CollectionEntity();
@@ -41,13 +46,28 @@ public class CollectionService {
 
         return get(entity.getId());
     }
-    public ArrayList<CollectionDTO> getCollectionList(CollectionDisplay display_at, String ref_id) {
-        ArrayList<CollectionEntity> data = collectionRepository.getList(display_at, ref_id);
+    public ArrayList<CollectionDTO> getCollectionList(CollectionDisplay display_on, String ref_id) {
+        ObjectMapper mapper = new ObjectMapper();
+        TypeFactory typeFactory = mapper.getTypeFactory();
+        String value = redisService.getConnection().get("collection_list:"+display_on+':'+ref_id);
+        try {
+            if (value != null)
+                return mapper.readValue(value, typeFactory.constructType(ArrayList.class, CollectionDTO.class));
+        } catch (Exception ex)
+        {
+            System.out.println(ex);
+        }
+        ArrayList<CollectionEntity> data = collectionRepository.getList(display_on, ref_id);
         if (data.isEmpty())
             return new ArrayList<>();
         ArrayList<CollectionDTO> rs = new ArrayList<>();
         for (CollectionEntity ele: data)
             rs.add(get(ele.getId()));
+        try {
+            redisService.getConnection().set("collection_list:" + display_on + ':' + ref_id, mapper.writeValueAsString(rs));
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
         return rs;
     }
 

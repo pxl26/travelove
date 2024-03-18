@@ -29,19 +29,4 @@ public class PublicUserController {
     private SimpleResponse getEmailStatus(@RequestParam String email) {
         return new SimpleResponse(userProfileService.checkEmailAndPasswordStatus(email).toString(), 200);
     }
-//    @PostMapping("/redis")
-//    @Operation(hidden = true)
-//    public String test(@RequestBody User request) {
-//        JedisPooled jedis = redisConfig.getPooled();
-//        jedis.ftCreate("idx:users",
-//                FTCreateParams.createParams()
-//                        .on(IndexDataType.JSON)
-//                        .addPrefix("user:"),
-//                TextField.of("$.name").as("name"),
-//                TagField.of("$.city").as("city"),
-//                NumericField.of("$.age").as("age")
-//        );
-//        jedis.jsonSetWithEscape("user:1", request);
-//        return "Ok";
-//    }
 }

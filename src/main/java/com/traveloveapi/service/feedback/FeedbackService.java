@@ -15,6 +15,7 @@ import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.repository.UserRepository;
 import com.traveloveapi.repository.bill.BillRepository;
 import com.traveloveapi.service.aws.s3.S3FileService;
+import com.traveloveapi.service.redis.RedisService;
 import com.traveloveapi.service.user.UserService;
 import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,7 @@ public class FeedbackService {
     final private BillRepository billRepository;
     final private UserService userService;
     final private ServiceRepository serviceRepository;
+    final private RedisService redisService;
 
     public FeedbackEntity createFeedback(int rating, String content, String bill_id, MultipartFile[] files) {
         BillEntity bill = billRepository.find(bill_id);
@@ -77,8 +79,10 @@ public class FeedbackService {
         billRepository.update(bill);
         serviceRepository.update(tour);
 
+        //-----EVICT TOUR DATA FROM REDIS-------
 
-
+        redisService.getConnection().del("tour_detail:"+tour.getId());
+        redisService.getConnection().del("tour_card:"+tour.getId());
         return feedback;
     }
 

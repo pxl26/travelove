@@ -1,5 +1,6 @@
 package com.traveloveapi.service.tour;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.traveloveapi.DTO.location.CityDTO;
 import com.traveloveapi.DTO.service.ServiceCard;
 import com.traveloveapi.DTO.service.ServiceDetailDTO;
@@ -25,6 +26,7 @@ import com.traveloveapi.repository.searching.SearchingRepository;
 import com.traveloveapi.repository.service_package.*;
 import com.traveloveapi.service.aws.s3.S3FileService;
 import com.traveloveapi.service.location.CityService;
+import com.traveloveapi.service.redis.RedisService;
 import com.traveloveapi.service.user.UserService;
 import com.traveloveapi.service.wish_list.WishListService;
 import com.traveloveapi.utility.SearchingSupporter;
@@ -56,6 +58,7 @@ public class TourService {
     final private CityService cityService;
     final private WishListService wishListService;
     final private CityRepository cityRepository;
+    final private RedisService redisService;
 
     public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files,String[] gallery_description, String city_id, String location, String address) throws IOException, InterruptedException {
         UserEntity owner = userService.verifyIsTourOwner();
@@ -94,6 +97,35 @@ public class TourService {
     }
 
     public ServiceDetailDTO getTour(String id) {
+        ServiceDetailDTO rs;
+        boolean isPrivilege = false;
+        if (userService.isAdmin() || userService.verifyIsOwner(id, SecurityContext.getUserID()))
+        {
+            isPrivilege = true;
+            String key = "tour_detail:" + id + ":privilege";
+            ObjectMapper mapper = new ObjectMapper();
+            String value = redisService.getConnection().get(key);
+            try {
+                if (value != null)
+                    return mapper.readValue(value, ServiceDetailDTO.class);
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+        else
+        {
+            String key = "tour_detail:"+id;
+            ObjectMapper mapper = new ObjectMapper();
+            String value = redisService.getConnection().get(key);
+            try {
+                if (value != null)
+                    return mapper.readValue(value, ServiceDetailDTO.class);
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        }
+
+        //--------------------------------------------
         ServiceEntity service;
         if (SecurityContext.isAnonymous())
             service = serviceRepository.find(id);
@@ -104,7 +136,14 @@ public class TourService {
         ServiceDetailEntity tour = tourRepository.find(id);
         ArrayList<MediaEntity> media = mediaRepository.find(id, "GALLERY-MEDIA");
 
-        return new ServiceDetailDTO(service, tour, media, !SecurityContext.isAnonymous() && wishListService.isWish(SecurityContext.getUserID(), id));
+        rs = new ServiceDetailDTO(service, tour, media, !SecurityContext.isAnonymous() && wishListService.isWish(SecurityContext.getUserID(), id));
+        try {
+            redisService.getConnection().set(isPrivilege ? "tour_detail:" + id + ":privilege" : "tour_detail:" + id, new ObjectMapper().writeValueAsString(rs));
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return rs;
     }
 
     public ArrayList<ServiceDetailDTO> getPendingTour(String service_owner) {
@@ -152,6 +191,7 @@ public class TourService {
         serviceRepository.update(entity);
         tourRepository.update(detail);
         searchingRepository.update(searching);
+        redisService.getConnection().del(service_id);
         return new ServiceDetailDTO(entity, detail, mediaRepository.find(service_id, "GALLERY-MEDIA"), !SecurityContext.isAnonymous() && wishListService.isWish(SecurityContext.getUserID(), service_id));
     }
 
@@ -219,6 +259,14 @@ public class TourService {
     }
 
     public ServiceCard createCard(String service_id) {
+        ObjectMapper mapper = new ObjectMapper();
+        String cached_value = redisService.getConnection().get("tour_card:"+service_id);
+        try {
+            if (cached_value!=null)
+                return mapper.readValue(cached_value, ServiceCard.class);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
         ServiceEntity service = serviceRepository.findAdmin(service_id);
         ServiceDetailEntity detail = tourRepository.find(service_id);
         CityEntity city = cityRepository.findById(service.getCity_id());
@@ -233,6 +281,13 @@ public class TourService {
         rs.setCity(city.getName());
         rs.setCountry(city.getCountry_name());
         rs.setStatus(service.getStatus());
+
+        try {
+            redisService.getConnection().set("tour_card:"+service_id, mapper.writeValueAsString(rs));
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
         return rs;
     }
     public ServiceEntity changeStatus(SensorAction action, String tour_id) {

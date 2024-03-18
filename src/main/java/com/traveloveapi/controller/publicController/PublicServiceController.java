@@ -2,17 +2,14 @@ package com.traveloveapi.controller.publicController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonObject;
 import com.traveloveapi.DTO.feedback.FeedbackDTO;
 import com.traveloveapi.DTO.service.RequestCheckAvailablePackageDTO;
 import com.traveloveapi.DTO.service.ServiceDetailDTO;
 import com.traveloveapi.DTO.service.ServiceStatusByDateDTO;
 import com.traveloveapi.DTO.service_package.GroupOptionDTO;
 import com.traveloveapi.DTO.service_package.PackageInfoDTO;
-import com.traveloveapi.configuration.RedisConfiguration;
-import com.traveloveapi.entity.feedback.FeedbackEntity;
+import com.traveloveapi.service.redis.RedisService;
 import com.traveloveapi.exception.CustomException;
-import com.traveloveapi.repository.searching.SearchingRepository;
 import com.traveloveapi.service.BillService;
 import com.traveloveapi.service.feedback.FeedbackService;
 import com.traveloveapi.service.logging.ActivityLoggingService;
@@ -20,7 +17,6 @@ import com.traveloveapi.service.tour.TourService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
 import java.time.YearMonth;
@@ -35,17 +31,11 @@ public class PublicServiceController {
     final private BillService billService;
     final private FeedbackService feedbackService;
     final private ActivityLoggingService activityLoggingService;
-    final private RedisConfiguration redisConfiguration;
+    final private RedisService redisService;
     @GetMapping("/tour")
     @Tag(name = "SPRINT 2")
-    public ServiceDetailDTO getTour(@RequestParam String id) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        String result = redisConfiguration.getConnection().get("tour_detai-"+id);
-        if (result!=null)
-            return mapper.readValue(result, ServiceDetailDTO.class);
-
+    public ServiceDetailDTO getTour(@RequestParam String id)  {
         ServiceDetailDTO tour = tourService.getTour(id);
-        redisConfiguration.getConnection().set("tou_detail-"+id, mapper.writeValueAsString(tour));
         activityLoggingService.viewTour(tour.getId());
         return tour;
     }
