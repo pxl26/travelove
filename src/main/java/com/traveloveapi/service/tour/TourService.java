@@ -110,7 +110,7 @@ public class TourService {
                 System.out.println(ex);
             }
         }
-        if (userService.isAdmin() || userService.verifyIsOwner(id, SecurityContext.getUserID()))
+        else if (userService.isAdmin() || userService.verifyIsOwner(id, SecurityContext.getUserID()))
         {
             isPrivilege = true;
             String key = "tour_detail:" + id + ":privilege";
