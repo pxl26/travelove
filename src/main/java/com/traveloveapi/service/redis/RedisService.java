@@ -9,9 +9,10 @@ import redis.clients.jedis.JedisPooled;
 public class RedisService {
     @Value("${redis.host}")
     private String host;
-    private JedisPooled jedis = new JedisPooled(host, 6379);
+    private JedisPooled jedis = new JedisPooled("redis", 6379);
 
     public JedisPooled getConnection() {
+        System.out.println("REDIS HOST: " + host);
         return jedis;
     }
 
