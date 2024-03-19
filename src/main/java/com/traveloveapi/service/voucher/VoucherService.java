@@ -3,7 +3,9 @@ package com.traveloveapi.service.voucher;
 import com.traveloveapi.DTO.voucher.RedeemVoucherDTO;
 import com.traveloveapi.DTO.voucher.VoucherDTO;
 import com.traveloveapi.constrain.Currency;
+import com.traveloveapi.constrain.Role;
 import com.traveloveapi.constrain.voucher.*;
+import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import com.traveloveapi.entity.service_package.bill.voucher.BillVoucherEntity;
 import com.traveloveapi.entity.voucher.VoucherEntity;
@@ -121,9 +123,23 @@ public class VoucherService {
     }
 
     public ArrayList<VoucherEntity> getVoucherByCreator(String creator, VoucherTargetType type, String target_id) {
-        if (!userService.isAdmin() && !creator.equals(SecurityContext.getUserID()))
+        UserEntity user = userService.getUser(SecurityContext.getUserID());
+        if (user.getRole()== Role.USER)
             throw new ForbiddenException();
-        return voucherRepository.getByCreator(creator, type, target_id);
+        if (type!=VoucherTargetType.TOUR && user.getRole()==Role.TOUR_OWNER)
+            throw new ForbiddenException();
+        if (user.getRole()==Role.TOUR_OWNER)
+        {
+            if (!userService.verifyIsOwner(target_id, user.getId()))
+                throw new ForbiddenException();
+            if (target_id!=null)
+                return voucherRepository.getVoucher(user.getId(), VoucherTargetType.TOUR, target_id);
+            else
+                return voucherRepository.getByCreator(user.getId(), VoucherTargetType.TOUR);
+        }
+        if (creator==null)
+            return voucherRepository.getByCreator(SecurityContext.getUserID(), type);
+        return voucherRepository.getByCreator(creator, type);
     }
 
     public ArrayList<RedeemVoucherDTO> getVoucherByUser(String user_id, int page) {

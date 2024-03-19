@@ -10,6 +10,7 @@ import com.traveloveapi.configuration.AWSConfig;
 import com.traveloveapi.exception.SaveFileException;
 import com.traveloveapi.utility.FileHandler;
 import com.traveloveapi.utility.FileSupporter;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class S3FileService {
 
     @Value("${aws.s3.bucket_name}")
     private String bucket;
-
+    
     S3FileService(AWSConfig config) {
         this.client = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_SOUTHEAST_1).withCredentials(config.getCredentialsProvider()).build();
         this.transferManager = TransferManagerBuilder.standard().withS3Client(client).build();

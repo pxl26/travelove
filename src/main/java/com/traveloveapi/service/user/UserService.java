@@ -39,6 +39,10 @@ public class UserService {
             throw new IncorrectPasswordException();
     }
 
+    public UserEntity getUser(String id) {
+        return userRepository.find(id);
+    }
+
     public ArrayList<UserEntity> getAllOwner(int page) {
         if (!isAdmin())
             throw new ForbiddenException();

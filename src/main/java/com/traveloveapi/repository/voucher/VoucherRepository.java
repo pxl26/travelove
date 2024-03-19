@@ -29,7 +29,18 @@ public class VoucherRepository {
     }
 
 
-    public ArrayList<VoucherEntity> getByCreator(String creator, VoucherTargetType type, String target_id) {
+    public ArrayList<VoucherEntity> getByCreator(String creator, VoucherTargetType type) {
+        List temp;
+        if (type!=null)
+            temp = entityManager.createQuery("FROM VoucherEntity m WHERE m.creator_id=:creator_id AND m.target_type=:type ORDER BY m.status").setParameter("creator_id", creator).setParameter("type", type).getResultList();
+        else
+            temp = entityManager.createQuery("FROM VoucherEntity m WHERE m.creator_id=:creator_id ORDER BY m.status").setParameter("creator_id", creator).getResultList();
+        if (temp==null)
+            return new ArrayList<>();
+        return (ArrayList<VoucherEntity>) temp;
+    }
+
+    public ArrayList<VoucherEntity> getVoucher(String creator, VoucherTargetType type, String target_id) {
         List temp;
         if (type==VoucherTargetType.ALL)
             temp= entityManager.createQuery("FROM VoucherEntity m WHERE m.creator_id=:creator_id ORDER BY m.status").setParameter("creator_id", creator).getResultList();
