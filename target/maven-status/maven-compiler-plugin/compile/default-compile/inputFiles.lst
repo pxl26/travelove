@@ -76,6 +76,7 @@
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/controller/voucher/VoucherController.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/entity/service_package/special_date/SpecialDateEntity.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/DTO/user/UserDTO.java
+/home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/service/thumnail/VideoThumbTaker.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/DTO/service_package/SpecialDateDTO.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/constrain/Region.java
 /home/pxl/IT/Travelove/travelove/src/main/java/com/traveloveapi/entity/service_package/limit/PackageLimitId.java
