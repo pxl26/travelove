@@ -64,8 +64,8 @@ public class UserProfileService {
         if(userProfile.getId().equals(SecurityContext.getUserID())) //account owner
             return userProfile;
 
-        UserEntity cur_user = userRepository.find(userProfile.getId());
-        if (cur_user.getRole()== Role.ADMIN)
+        UserEntity cur_user = userRepository.find(SecurityContext.getUserID());
+        if (cur_user.getRole()== Role.ADMIN || cur_user.getRole()== Role.TOUR_OWNER)
             return userProfile;
         throw new ForbiddenException();
     }
