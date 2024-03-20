@@ -64,13 +64,17 @@ public class S3FileService {
     public String uploadFile(MultipartFile file, String path, String file_name)  {
         String full_name = file_name + '.' + FileSupporter.getExtensionName(Objects.requireNonNull(file.getOriginalFilename()));
         try {
-            transferManager.upload(bucket, path + full_name,file.getInputStream(),  null).waitForUploadResult();
+            ObjectMetadata meta = new ObjectMetadata();
+            meta.setContentLength(file.getSize());
+            transferManager.upload(bucket, path + full_name,file.getInputStream(),  meta).waitForUploadResult();
             String extension = FileSupporter.getExtensionName(full_name);
             String[] video_extension = {"mp4","mov", "mkv"};
             for (String ex : video_extension)
                 if (ex.equals(extension)) {
                     createThumbnail(file, full_name, file_name, path);
-                    transferManager.upload(bucket, path + file_name + ".png", new FileInputStream(file_name + '_' + "temp_thumb.png"), null).waitForUploadResult();
+                    FileInputStream stream = new FileInputStream(file_name + '_' + "temp_thumb.png");
+                    meta.setContentLength(stream.readAllBytes().length);
+                    transferManager.upload(bucket, path + file_name + ".png", stream, meta).waitForUploadResult();
                     FileUtils.deleteDirectory(new File(path));
                 }
         }
