@@ -21,6 +21,7 @@ import com.traveloveapi.service.user.UserService;
 import com.traveloveapi.utility.JwtProvider;
 import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.concurrent.DelegatingSecurityContextExecutor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -126,10 +127,12 @@ public class VoucherService {
         UserEntity user = userService.getUser(SecurityContext.getUserID());
         if (user.getRole()== Role.USER)
             throw new ForbiddenException();
-        if (type!=VoucherTargetType.TOUR && user.getRole()==Role.TOUR_OWNER)
+        if (!(type==VoucherTargetType.TOUR || type==null) && user.getRole()==Role.TOUR_OWNER)
             throw new ForbiddenException();
         if (user.getRole()==Role.TOUR_OWNER)
         {
+            if (target_id==null)
+                return voucherRepository.getByCreator(SecurityContext.getUserID());
             if (!userService.verifyIsOwner(target_id, user.getId()))
                 throw new ForbiddenException();
             if (target_id!=null)
@@ -137,8 +140,14 @@ public class VoucherService {
             else
                 return voucherRepository.getByCreator(user.getId(), VoucherTargetType.TOUR);
         }
-        if (creator==null)
+        if (creator==null && target_id==null && type!=null)
             return voucherRepository.getByCreator(SecurityContext.getUserID(), type);
+        if (creator!=null && type==null && target_id==null)
+            return voucherRepository.getByCreator(creator);
+        if (creator==null && type==null && target_id==null)
+            return voucherRepository.getByCreator(SecurityContext.getUserID());
+        if (target_id!=null)
+            return voucherRepository.getByTarget(type, target_id);
         return voucherRepository.getByCreator(creator, type);
     }
 

@@ -11,13 +11,15 @@ import com.traveloveapi.exception.SaveFileException;
 import com.traveloveapi.utility.FileHandler;
 import com.traveloveapi.utility.FileSupporter;
 import jakarta.annotation.PostConstruct;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -63,6 +65,14 @@ public class S3FileService {
         String full_name = file_name + '.' + FileSupporter.getExtensionName(Objects.requireNonNull(file.getOriginalFilename()));
         try {
             transferManager.upload(bucket, path + full_name,file.getInputStream(),  null).waitForUploadResult();
+            String extension = FileSupporter.getExtensionName(full_name);
+            String[] video_extension = {"mp4","mov", "mkv"};
+            for (String ex : video_extension)
+                if (ex.equals(extension)) {
+                    createThumbnail(file, full_name, file_name, path);
+                    transferManager.upload(bucket, path + file_name + ".png", new FileInputStream(file_name + '_' + "temp_thumb.png"), null).waitForUploadResult();
+                    FileUtils.deleteDirectory(new File(path));
+                }
         }
         catch (Exception ex) {
             throw new SaveFileException();
@@ -87,5 +97,20 @@ public class S3FileService {
                 System.out.println(ex);
                 return null;
             }
+    }
+
+    private void createThumbnail(MultipartFile file, String full_name, String id,String path) {
+        try {
+            OutputStream outStream = new FileOutputStream(new File("temp.mp4"));
+            outStream.write(file.getInputStream().readAllBytes());
+            FFmpegFrameGrabber g = new FFmpegFrameGrabber(new File("temp.mp4"));
+            g.setFormat(FileSupporter.getExtensionName(full_name));
+            g.start();
+            ImageIO.write(g.grab().getBufferedImage(), "png", new File(id +'_'+ "temp_thumb.png"));
+            g.stop();
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 }

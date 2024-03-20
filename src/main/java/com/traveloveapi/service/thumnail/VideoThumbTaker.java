@@ -7,14 +7,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import javax.imageio.ImageIO;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
+import org.springframework.stereotype.Component;
 
+@Component
 public class VideoThumbTaker {
     protected String ffmpegApp;
 
-    public VideoThumbTaker(String ffmpegApp)
-    {
-        this.ffmpegApp = ffmpegApp;
-    }
+//    public VideoThumbTaker(String ffmpegApp)
+//    {
+//        this.ffmpegApp = ffmpegApp;
+//    }
 
     public void getThumb(String videoFilename, String thumbFilename, int width, int height,int hour, int min, float sec)
             throws IOException, InterruptedException
@@ -33,13 +35,10 @@ public class VideoThumbTaker {
     public static void main(String[] args) throws Exception, IOException
     {
         FFmpegFrameGrabber g = new FFmpegFrameGrabber("C:\\JavaEE\\New Project\\tape\\src\\main\\webapp\\web-resources\\videos\\vid.mp4");
+
         g.setFormat("mp4");
         g.start();
-
-        for (int i = 0 ; i < 50 ; i++) {
-            ImageIO.write(g.grab().getBufferedImage(), "png", new File("C:\\JavaEE\\New Project\\tape\\src\\main\\webapp\\web-resources\\thumbnails\\video-frame-" + System.currentTimeMillis() + ".png"));
-        }
-
+        ImageIO.write(g.grab().getBufferedImage(), "png", new File("C:\\JavaEE\\New Project\\tape\\src\\main\\webapp\\web-resources\\thumbnails\\video-frame-" + System.currentTimeMillis() + ".png"));
         g.stop();
     }
 }

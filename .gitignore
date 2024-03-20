@@ -58,3 +58,4 @@ logs
 !/rootkey.csv
 !/src/test/
 !/.run/
+!/target/

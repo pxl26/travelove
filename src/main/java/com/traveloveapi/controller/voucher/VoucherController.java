@@ -57,8 +57,8 @@ public class VoucherController {
 
     @GetMapping("/manage")
     @Tag(name = "SPRINT 9 - MANAGE")
-    public ArrayList<VoucherEntity> getVoucherByTourOwner(@RequestParam(required = false) String creator,@RequestParam VoucherTargetType type, @RequestParam(required = false) String target_id) {
-        return voucherService.getVoucherByCreator(creator==null ? SecurityContext.getUserID() : creator, type, target_id);
+    public ArrayList<VoucherEntity> getVoucherByTourOwner(@RequestParam(required = false) String creator,@RequestParam(required = false) VoucherTargetType type, @RequestParam(required = false) String target_id) {
+        return voucherService.getVoucherByCreator(creator, type, target_id);
     }
 
     @PostMapping("/give-voucher")
