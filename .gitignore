@@ -59,3 +59,4 @@ logs
 !/src/test/
 !/.run/
 !/target/
+!/target/
