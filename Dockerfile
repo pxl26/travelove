@@ -7,7 +7,7 @@ RUN mvn clean install -DskipTests
 #
 # Package stage
 #
-FROM eclipse-temurin:17-jdk-alpine
+FROM openjdk:17-jdk-slim-buster
 COPY --from=build /home/app/target/*.jar /usr/local/lib/demo.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/usr/local/lib/demo.jar"]
