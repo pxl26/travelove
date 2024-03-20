@@ -67,18 +67,20 @@ public class S3FileService {
             ObjectMetadata meta = new ObjectMetadata();
             meta.setContentLength(file.getSize());
             transferManager.upload(bucket, path + full_name,file.getInputStream(),  meta).waitForUploadResult();
+            System.out.println("Hello 1");
             String extension = FileSupporter.getExtensionName(full_name);
             String[] video_extension = {"mp4","mov", "mkv"};
             for (String ex : video_extension)
                 if (ex.equals(extension)) {
-                    createThumbnail(file, full_name, file_name, path);
+                    createThumbnail(file, full_name, file_name);
+                    System.out.println("Hello 2");
                     FileInputStream stream = new FileInputStream(file_name + '_' + "temp_thumb.png");
-                    meta.setContentLength(stream.readAllBytes().length);
-                    transferManager.upload(bucket, path + file_name + ".png", stream, meta).waitForUploadResult();
+                    transferManager.upload(bucket, path + file_name + ".png", new File(file_name + '_' + "temp_thumb.png")).waitForUploadResult();
                     FileUtils.deleteDirectory(new File(path));
                 }
         }
         catch (Exception ex) {
+            System.out.println(ex);
             throw new SaveFileException();
         }
         return  (path + full_name).replace(" ", "%20");
@@ -103,7 +105,7 @@ public class S3FileService {
             }
     }
 
-    private void createThumbnail(MultipartFile file, String full_name, String id,String path) {
+    private void createThumbnail(MultipartFile file, String full_name, String id) {
         try {
             OutputStream outStream = new FileOutputStream(new File("temp.mp4"));
             outStream.write(file.getInputStream().readAllBytes());
