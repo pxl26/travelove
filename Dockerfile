@@ -1,4 +1,4 @@
-FROM maven:3.9.5-openjdk-17-slim AS build
+FROM maven:3.8.3-openjdk-17 AS build
 WORKDIR /home/app/
 COPY src /home/app/src
 COPY pom.xml /home/app
