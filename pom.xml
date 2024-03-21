@@ -118,18 +118,23 @@
 
         <dependency>
             <groupId>org.bytedeco</groupId>
-            <artifactId>javacv-platform</artifactId>
-            <version>1.5.10</version>
+            <artifactId>javacpp</artifactId>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
             <groupId>org.bytedeco</groupId>
-            <artifactId>opencv-platform-gpu</artifactId>
-            <version>4.9.0-1.5.10</version>
+            <artifactId>javacv</artifactId>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
-            <groupId>org.bytedeco</groupId>
-            <artifactId>ffmpeg-platform-gpl</artifactId>
-            <version>6.1.1-1.5.10</version>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>opencv-platform</artifactId>
+            <version>3.4.1-1.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>ffmpeg-platform</artifactId>
+            <version>3.4.2-1.4.1</version>
         </dependency>
     </dependencies>
 
