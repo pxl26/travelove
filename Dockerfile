@@ -7,7 +7,8 @@ RUN mvn clean install -DskipTests
 #
 # Package stage
 #
-FROM openjdk:17-jdk-slim-buster
+#FROM openjdk:17-jdk-slim-buster
+FROM amazoncorretto:17.0.9
 COPY --from=build /home/app/target/*.jar /usr/local/lib/demo.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/usr/local/lib/demo.jar"]
