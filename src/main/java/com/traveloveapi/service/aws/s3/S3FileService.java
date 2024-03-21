@@ -5,25 +5,22 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
 import com.amazonaws.services.s3.transfer.*;
-import com.amazonaws.services.s3.transfer.model.UploadResult;
 import com.traveloveapi.configuration.AWSConfig;
 import com.traveloveapi.exception.SaveFileException;
-import com.traveloveapi.utility.FileHandler;
 import com.traveloveapi.utility.FileSupporter;
-import jakarta.annotation.PostConstruct;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
+import org.bytedeco.javacv.Frame;
+import org.bytedeco.javacv.Java2DFrameConverter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.io.*;
-import java.util.ArrayList;
+import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Service
 public class S3FileService {
@@ -86,12 +83,6 @@ public class S3FileService {
         return  (path + full_name).replace(" ", "%20");
     }
 
-    public List<S3ObjectSummary> getRandomWallPaper() {
-        ListObjectsV2Request req = new ListObjectsV2Request().withBucketName(bucket).withPrefix("wall-paper");
-        ListObjectsV2Result rs = client.listObjectsV2(req);
-        return rs.getObjectSummaries();
-    }
-
 
     public byte[] downloadFile(String path) {
         try {
@@ -112,7 +103,10 @@ public class S3FileService {
             FFmpegFrameGrabber g = new FFmpegFrameGrabber(new File("temp.mp4"));
             g.setFormat(FileSupporter.getExtensionName(full_name));
             g.start();
-            ImageIO.write(g.grab().getBufferedImage(), "png", new File(id +'_'+ "temp_thumb.png"));
+//            ImageIO.write(g.grab().getBufferedImage(), "png", new File(id +'_'+ "temp_thumb.png"));
+            File my_file = new File(id +'_'+ "temp_thumb.png");
+            Java2DFrameConverter c = new Java2DFrameConverter();
+            ImageIO.write(c.convert(g.grabImage()), "png", new File(id +'_'+ "temp_thumb.png"));
             g.stop();
         }
         catch (Exception ex) {
