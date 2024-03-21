@@ -100,7 +100,8 @@ public class S3FileService {
         try {
             OutputStream outStream = new FileOutputStream(new File("temp.mp4"));
             outStream.write(file.getInputStream().readAllBytes());
-            FFmpegFrameGrabber g = new FFmpegFrameGrabber(new File("temp.mp4"));
+            outStream.close();
+            FFmpegFrameGrabber g = new FFmpegFrameGrabber(new File("temp.mp4").getAbsoluteFile());
             g.setFormat(FileSupporter.getExtensionName(full_name));
             g.start();
 //            ImageIO.write(g.grab().getBufferedImage(), "png", new File(id +'_'+ "temp_thumb.png"));
