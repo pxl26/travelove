@@ -50,6 +50,7 @@ public class GoogleService {
         }
         assert response != null;
         String data = response.body();
+        System.out.println("\n-------"+data+"\n------------");
 
         GoogleTokenResponse tokenResponse = new ObjectMapper().readValue(data, GoogleTokenResponse.class);
 
