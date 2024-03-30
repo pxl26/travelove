@@ -1,24 +1,23 @@
 package com.traveloveapi.repository.voucher;
 
 import com.traveloveapi.DTO.voucher.RedeemVoucherDTO;
-import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.constrain.Currency;
-import com.traveloveapi.constrain.PayMethod;
 import com.traveloveapi.constrain.voucher.VoucherDiscountType;
 import com.traveloveapi.constrain.voucher.VoucherRedeemStatus;
-import com.traveloveapi.constrain.voucher.VoucherStatus;
 import com.traveloveapi.constrain.voucher.VoucherTargetType;
-import com.traveloveapi.entity.join_entity.JoinBillRow;
-import com.traveloveapi.entity.voucher.VoucherEntity;
 import com.traveloveapi.entity.voucher.VoucherRedeemEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import org.hibernate.Session;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.internal.SessionImpl;
+import org.hibernate.jdbc.Work;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +47,10 @@ public class VoucherRedeemRepository {
             rs.add(a);
         }
         return rs;
+    }
+
+    public void removeMyVoucher() {
+        entityManager.createQuery("DELETE FROM VoucherRedeemEntity e WHERE e.status=:status AND NOW() > SUBTIME(NOW(), '72:00:00')").setParameter("status", VoucherRedeemStatus.USED).executeUpdate();
     }
 
     @Transactional
