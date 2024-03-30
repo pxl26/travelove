@@ -40,4 +40,7 @@ public class JoinBillRow {
     private PayMethod pay_method;
     private String user_avatar;
     private String user_full_name;
+
+    private String voucher_id;
+    private float voucher_discount_amount;
 }

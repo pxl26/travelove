@@ -93,9 +93,6 @@ public class PaymentService {
         billRepository.update(bill);
     }
 
-    public BillEntity getBill(String bill_id) {
-        return billRepository.find(bill_id);
-    }
 
     public ArrayList<BillEntity> getBillByUser(String user_id) {
         if (!SecurityContext.getUserID().equals(user_id) && !userService.isAdmin())

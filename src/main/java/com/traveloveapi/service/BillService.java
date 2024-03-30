@@ -11,6 +11,7 @@ import com.traveloveapi.constrain.Role;
 import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.entity.join_entity.JoinBillRow;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
+import com.traveloveapi.entity.service_package.bill.voucher.BillVoucherEntity;
 import com.traveloveapi.entity.service_package.bill_detail_option.BillDetailOptionEntity;
 import com.traveloveapi.entity.service_package.bill_detail_person_type.BillDetailPersonTypeEntity;
 import com.traveloveapi.entity.service_package.limit.PackageLimitEntity;
@@ -86,6 +87,7 @@ public class BillService {
 
         rs.setPerson_type(new ArrayList<>());
         rs.setOption(new ArrayList<>());
+        rs.setVoucher(new ArrayList<>());
         for (JoinBillRow ele: data)
         {
             if (rs.getPerson_type().isEmpty())
@@ -120,6 +122,22 @@ public class BillService {
                     }
                 if (k)
                     rs.getOption().add(new BillOption(ele.getGroup_name(), ele.getOption_name()));
+            }
+            if (ele.getVoucher_id()!=null) {
+                if (rs.getVoucher().isEmpty())
+                    rs.getVoucher().add(new BillVoucherEntity(ele.getBill_id(), ele.getVoucher_id(), ele.getVoucher_discount_amount()));
+                else
+                {
+                    boolean k=true;
+                    for (BillVoucherEntity i: rs.getVoucher())
+                        if (i.getVoucher_id().equals(ele.getVoucher_id()))
+                        {
+                            k=false;
+                            break;
+                        }
+                    if (k)
+                        rs.getVoucher().add(new BillVoucherEntity(ele.getBill_id(), ele.getVoucher_id(), ele.getVoucher_discount_amount()));
+                }
             }
         }
         return rs;

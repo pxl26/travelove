@@ -3,6 +3,7 @@ package com.traveloveapi.DTO.service_package.bill;
 import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.PayMethod;
+import com.traveloveapi.entity.service_package.bill.voucher.BillVoucherEntity;
 import lombok.Data;
 
 import java.sql.Date;
@@ -35,4 +36,6 @@ public class BillDetailDTO {
     private PayMethod pay_method;
     private String user_avatar;
     private String user_full_name;
+
+    private ArrayList<BillVoucherEntity> voucher;
 }

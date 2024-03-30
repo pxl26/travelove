@@ -50,8 +50,7 @@ public class PublicServiceController {
     @PutMapping("/check-available")
     @Tag(name="SPRINT 2")
     //RequestCheckAvailablePackageDTO
-    public ArrayList<ServiceStatusByDateDTO> checkServiceStatusByMonth(@RequestBody RequestCheckAvailablePackageDTO request) throws JsonProcessingException {
-        //RequestCheckAvailablePackageDTO request = new ObjectMapper().readValue(data, RequestCheckAvailablePackageDTO.class);
+    public ArrayList<ServiceStatusByDateDTO> checkServiceStatusByMonth(@RequestBody RequestCheckAvailablePackageDTO request) {
         int month = request.getMonth();
         int year = request.getYear();
         String service_id = request.getService_id();

@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Entity
@@ -18,4 +19,14 @@ public class BillVoucherEntity {
     private String voucher_id;
 
     private float discount_amount;
+
+    public BillVoucherEntity(String bill_id, String voucher_id, float discount_amount) {
+        this.bill_id = bill_id;
+        this.voucher_id = voucher_id;
+        this.discount_amount = discount_amount;
+    }
+
+    public BillVoucherEntity() {
+
+    }
 }
