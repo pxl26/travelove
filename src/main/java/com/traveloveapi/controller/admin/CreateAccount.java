@@ -38,7 +38,6 @@ public class CreateAccount {
     final private PasswordEncoder passwordEncoder;
     final private OwnerRegistrationRepository ownerRegistrationRepository;
     final private MailService mailService;
-    final private PasswordEncoder passwordEncoder;
 
     @Value("${web.host}")
     private String web_host;
