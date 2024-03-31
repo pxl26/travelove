@@ -62,4 +62,4 @@ oauth:
         host: https://d2jeikvp07uoyw.cloudfront.net
 #        host: http://localhost:3000
 web:
-    host: https://d2jeikvp07uoyw.cloudfront.net
+    host: http://localhost:3000
