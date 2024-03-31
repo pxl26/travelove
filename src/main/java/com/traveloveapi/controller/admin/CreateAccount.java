@@ -67,7 +67,7 @@ public class CreateAccount {
     }
 
     @PostMapping("/tour-owner-registration")
-    @Tag(name = "SPRINT 10 - MANGE")
+    @Tag(name = "SPRINT 10 - MANAGE")
     public TourOwnerRegistrationEntity verify(@RequestParam String id, @RequestParam VoucherAuditAction action) {
         TourOwnerRegistrationEntity entity = ownerRegistrationRepository.find(id);
         entity.setStatus(action==VoucherAuditAction.VERIFY ? OwnerRegistrationStatus.ACCEPTED : OwnerRegistrationStatus.REFUSED);
@@ -82,7 +82,7 @@ public class CreateAccount {
         detail.setPhone(entity.getPhone());
         detail.setUser_id(user.getId());
         userDetailRepository.save(detail);
-        mailService.sendEmail(entity.getEmail(), web_host + "/new-password?accessToken="+ JwtProvider.generateToken(user.getId(), 300000L) + "?refreshToken=" + JwtProvider.generateToken(user.getId(), 1200000L));
+        mailService.sendEmail(entity.getEmail(), "Congratulation, your request to become our merchant was accepted. \n Open this link to begin: " + web_host + "/new-password?accessToken="+ JwtProvider.generateToken(user.getId(), 300000L) + "?refreshToken=" + JwtProvider.generateToken(user.getId(), 1200000L));
         return entity;
     }
 }
