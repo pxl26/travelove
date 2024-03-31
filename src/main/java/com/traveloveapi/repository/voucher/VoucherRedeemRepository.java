@@ -49,8 +49,9 @@ public class VoucherRedeemRepository {
         return rs;
     }
 
+    @Transactional
     public void removeMyVoucher() {
-        entityManager.createQuery("DELETE FROM VoucherRedeemEntity e WHERE e.status=:status AND NOW() > SUBTIME(NOW(), '72:00:00')").setParameter("status", VoucherRedeemStatus.USED).executeUpdate();
+        entityManager.createQuery("DELETE FROM VoucherRedeemEntity e WHERE e.status=:status AND NOW() > SUBTIME(NOW(), :time)").setParameter("time", new Time(72,0,0)).setParameter("status", VoucherRedeemStatus.USED).executeUpdate();
     }
 
     @Transactional

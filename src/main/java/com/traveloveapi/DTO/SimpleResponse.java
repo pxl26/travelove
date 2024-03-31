@@ -11,4 +11,9 @@ import lombok.Setter;
 public class SimpleResponse {
     private String message;
     private int status_code;
+
+    public SimpleResponse(String message) {
+        this.message = message;
+        status_code = 200;
+    }
 }

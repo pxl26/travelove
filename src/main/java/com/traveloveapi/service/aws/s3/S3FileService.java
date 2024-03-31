@@ -64,13 +64,11 @@ public class S3FileService {
             ObjectMetadata meta = new ObjectMetadata();
             meta.setContentLength(file.getSize());
             transferManager.upload(bucket, path + full_name,file.getInputStream(),  meta).waitForUploadResult();
-            System.out.println("Hello 1");
             String extension = FileSupporter.getExtensionName(full_name);
             String[] video_extension = {"mp4","mov", "mkv"};
             for (String ex : video_extension)
                 if (ex.equals(extension)) {
                     createThumbnail(file, full_name, file_name);
-                    System.out.println("Hello 2");
                     FileInputStream stream = new FileInputStream(file_name + '_' + "temp_thumb.png");
                     transferManager.upload(bucket, path + file_name + ".png", new File(file_name + '_' + "temp_thumb.png")).waitForUploadResult();
                     FileUtils.deleteDirectory(new File(path));
