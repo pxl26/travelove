@@ -1,12 +1,19 @@
 package com.traveloveapi.controller.publicController;
 
 import com.traveloveapi.DTO.SimpleResponse;
+import com.traveloveapi.DTO.TokenResponse;
 import com.traveloveapi.constrain.OwnerRegistrationStatus;
+import com.traveloveapi.constrain.Role;
+import com.traveloveapi.entity.UserDetailEntity;
 import com.traveloveapi.entity.owner_registration.TourOwnerRegistrationEntity;
+import com.traveloveapi.exception.CustomException;
+import com.traveloveapi.repository.UserDetailRepository;
 import com.traveloveapi.repository.owner_registration.OwnerRegistrationRepository;
 import com.traveloveapi.service.aws.s3.S3FileService;
+import com.traveloveapi.utility.JwtProvider;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +29,8 @@ import java.util.UUID;
 public class RegistrationController {
     final private OwnerRegistrationRepository ownerRegistrationRepository;
     final private S3FileService s3FileService;
+    final private UserDetailRepository userDetailRepository;
+    final private PasswordEncoder passwordEncoder;
 
     @PostMapping("/tour-owner")
     @Tag(name = "SPRINT 10 - MANAGE")
@@ -41,5 +50,20 @@ public class RegistrationController {
         entity.setUpdate_at(new Timestamp(System.currentTimeMillis()));
         ownerRegistrationRepository.save(entity);
         return new SimpleResponse("Registration was submitted");
+    }
+    @PostMapping("/new-password")
+    @Tag(name = "SPRINT 10 - MANAGE")
+    public TokenResponse newPassword(@RequestParam String registration_id, @RequestParam String user_id, @RequestParam String password) {
+        TourOwnerRegistrationEntity entity = ownerRegistrationRepository.find(registration_id);
+        if (entity==null)
+            throw new CustomException("Registration not found", 404);
+        if (entity.getStatus()==OwnerRegistrationStatus.PENDING)
+            throw new CustomException("Registration have not been verify", 400);
+        if (entity.getStatus()==OwnerRegistrationStatus.REFUSED)
+            throw new CustomException("Registration have been refused", 400);
+        UserDetailEntity detail = userDetailRepository.find(user_id);
+        if (detail.getEmail().equals(entity.getEmail()))
+            detail.setPassword(passwordEncoder.encode(password));
+        return JwtProvider.generateTokenResponse(detail.getUser_id(), Role.TOUR_OWNER);
     }
 }

@@ -1,9 +1,11 @@
 package com.traveloveapi.repository;
 
+import com.traveloveapi.DTO.service.TourOwnerDTO;
 import com.traveloveapi.constrain.ServiceStatus;
 import com.traveloveapi.entity.ServiceEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.session.SearchSession;
@@ -22,6 +24,65 @@ public class ServiceRepository {
         if (rs!=null && rs.getStatus()!=ServiceStatus.VERIFIED)
             return null;
         return rs;
+    }
+
+//    public List getTourOwnerDTO(String owner_id) {
+//        List raw = entityManager.createQuery(
+//                "SELECT j.sum, j.id, j.full_name, j.avatar " +
+//                        "FROM " +
+//                        "((SELECT AVG(e.rating) as sum " +
+//                            "FROM ServiceEntity e " +
+//                                "WHERE e.service_owner=:owner AND e.sold>0) " +
+//                        "JOIN " +
+//                        "( SELECT u.id id, u.full_name full_name, u.avatar avatar " +
+//                            "FROM UserEntity u " +
+//                                "WHERE u.id=:owner)) as j").setParameter("owner", owner_id).getResultList();
+//        return raw;
+//    }
+
+//    public List<TourOwnerDTO> getTourOwnerDTO(String owner_id) {
+//        TypedQuery<TourOwnerDTO> query = entityManager.createQuery(
+//                        "SELECT NEW com.traveloveapi.DTO.service.TourOwnerDTO(u.id, u.full_name, u.avatar, j.rating, j.sum) " +
+//                                "FROM (" +
+//                                "  SELECT AVG(e.rating) as rating, SUM(e.sold) as sum " +
+//                                "  FROM ServiceEntity e " +
+//                                "  WHERE e.service_owner=:owner AND e.sold > 0" +
+//                                ") j " +
+//                                "JOIN (" +
+//                                "  SELECT u.id as id, u.full_name as full_name, u.avatar as avatar " +
+//                                "  FROM UserEntity u " +
+//                                "  WHERE u.id = :owner" +
+//                                ") u", TourOwnerDTO.class)
+//                .setParameter("owner", owner_id);
+//
+//        return query.getResultList();
+//    }
+
+    public TourOwnerDTO getTourOwnerDTO(String owner_id) {
+        Object query = entityManager.createQuery(
+                        """
+                                SELECT cc.id, cc.fullName, cc.avatar, vc.avgRating, vc.totalSold
+                                FROM (
+                                    SELECT AVG(s.rating) AS avgRating, SUM(s.sold) AS totalSold
+                                    FROM ServiceEntity s
+                                    WHERE s.service_owner=:owner AND s.sold > 0
+                                ) AS vc
+                                JOIN (
+                                    SELECT u.id AS id, u.full_name AS fullName, u.avatar AS avatar
+                                    FROM UserEntity u
+                                    WHERE u.id =:owner
+                                ) AS cc""")
+                .setParameter("owner", owner_id).getSingleResult();
+        Object[] row = (Object[]) query;
+        return new TourOwnerDTO((String) row[0], (String) row[1],(String) row[2], (double)row[3], (long)row[4]);
+    }
+
+    public float getTourOwnerRatingByTour(String tour_id) {
+        return entityManager.createQuery(
+                "SELECT AVG(j.rating) " +
+                        "FROM ServiceEntity i " +
+                            "JOIN ServiceEntity j ON i.id=:tour_id AND i.service_owner=j.service_owner " +
+                                "WHERE j.sold>0").setParameter("tour_id",tour_id).getFirstResult();
     }
 
     public ServiceEntity findAdmin(String id) {

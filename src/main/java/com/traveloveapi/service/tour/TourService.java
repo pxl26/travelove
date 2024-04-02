@@ -202,7 +202,8 @@ public class TourService {
         serviceRepository.update(entity);
         tourRepository.update(detail);
         searchingRepository.update(searching);
-        redisService.getConnection().del(service_id);
+        redisService.getConnection().del("tour_detail:"+service_id);
+        redisService.getConnection().del("tour_detail:"+service_id+":privilege");
         return new ServiceDetailDTO(entity, detail, mediaRepository.find(service_id, "GALLERY-MEDIA"), !SecurityContext.isAnonymous() && wishListService.isWish(SecurityContext.getUserID(), service_id));
     }
 

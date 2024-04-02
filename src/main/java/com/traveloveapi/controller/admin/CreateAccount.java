@@ -87,20 +87,4 @@ public class CreateAccount {
         mailService.sendEmail(entity.getEmail(), "Congratulation, your request to become our merchant was accepted. \n Open this link to begin: " + web_host + "/tour-owner-registration/new-password?registration_id=" + entity.getId() + "&user_id=" + user.getId());
         return entity;
     }
-
-    @PostMapping("/tour-owner-registration/new-password")
-    @Tag(name = "SPRINT 10 - MANAGE")
-    public TokenResponse newPassword(@RequestParam String registration_id, @RequestParam String user_id, @RequestParam String password) {
-        TourOwnerRegistrationEntity entity = ownerRegistrationRepository.find(registration_id);
-        if (entity==null)
-            throw new CustomException("Registration not found", 404);
-        if (entity.getStatus()==OwnerRegistrationStatus.PENDING)
-            throw new CustomException("Registration have not been verify", 400);
-        if (entity.getStatus()==OwnerRegistrationStatus.REFUSED)
-            throw new CustomException("Registration have been refused", 400);
-        UserDetailEntity detail = userDetailRepository.find(user_id);
-        if (detail.getEmail().equals(entity.getEmail()))
-            detail.setPassword(passwordEncoder.encode(password));
-        return JwtProvider.generateTokenResponse(detail.getUser_id(), Role.TOUR_OWNER);
-    }
 }
