@@ -4,6 +4,7 @@ import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.DTO.service.TourOwnerDTO;
 import com.traveloveapi.DTO.user.UserDTO;
 import com.traveloveapi.DTO.user.UserProfile;
+import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.service.user.UserProfileService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,7 +37,11 @@ public class PublicUserController {
 
     @GetMapping("/tour-owner")
     @Tag(name = "SPRINT 10")
-    private TourOwnerDTO getTourOwnerInfo(@RequestParam String id) {
-        return serviceRepository.getTourOwnerDTO(id);
+    private TourOwnerDTO getTourOwnerInfo(@RequestParam(required = false) String owner_id, @RequestParam(required = false) String tour_id) {
+        if (owner_id==null&&tour_id==null)
+            throw new CustomException("What's fucking data do you need????", 400);
+        if (owner_id!=null)
+            return serviceRepository.getTourOwnerDTO(owner_id);
+        return serviceRepository.getTourOwnerDTOByTour(tour_id);
     }
 }

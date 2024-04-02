@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class TourOwnerDTO implements Serializable {
+public class TourOwnerDTO{
     @Id
     private String id;
     private String name;

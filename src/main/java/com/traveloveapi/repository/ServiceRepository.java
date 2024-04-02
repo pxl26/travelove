@@ -77,12 +77,21 @@ public class ServiceRepository {
         return new TourOwnerDTO((String) row[0], (String) row[1],(String) row[2], (double)row[3], (long)row[4]);
     }
 
-    public float getTourOwnerRatingByTour(String tour_id) {
-        return entityManager.createQuery(
-                "SELECT AVG(j.rating) " +
-                        "FROM ServiceEntity i " +
-                            "JOIN ServiceEntity j ON i.id=:tour_id AND i.service_owner=j.service_owner " +
-                                "WHERE j.sold>0").setParameter("tour_id",tour_id).getFirstResult();
+    public TourOwnerDTO getTourOwnerDTOByTour(String tour_id) {
+        Object query = entityManager.createQuery(
+                        """
+                                SELECT cc.id, cc.fullName, cc.avatar, vc.avgRating, vc.totalSold
+                                FROM (
+                                    SELECT AVG(s.rating) AS avgRating, SUM(s.sold) AS totalSold
+                                    FROM ServiceEntity s JOIN ServiceEntity t ON t.id=:tour_id AND s.service_owner=t.service_owner AND s.sold>0
+                                ) AS vc
+                                JOIN (
+                                    SELECT u.id AS id, u.full_name AS fullName, u.avatar AS avatar
+                                    FROM UserEntity u JOIN ServiceEntity service ON service.id=:tour_id AND service.service_owner=u.id
+                                ) AS cc""")
+                .setParameter("tour_id", tour_id).getSingleResult();
+        Object[] row = (Object[]) query;
+        return new TourOwnerDTO((String) row[0], (String) row[1],(String) row[2], (double)row[3], (long)row[4]);
     }
 
     public ServiceEntity findAdmin(String id) {
