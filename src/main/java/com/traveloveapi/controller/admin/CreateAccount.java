@@ -9,6 +9,7 @@ import com.traveloveapi.constrain.voucher.VoucherAuditAction;
 import com.traveloveapi.entity.UserDetailEntity;
 import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.entity.owner_registration.TourOwnerRegistrationEntity;
+import com.traveloveapi.entity.pay_method.PayMethodEntity;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.exception.RequestParamException;
 import com.traveloveapi.repository.UserDetailRepository;
@@ -84,6 +85,7 @@ public class CreateAccount {
         detail.setPhone(entity.getPhone());
         detail.setUser_id(user.getId());
         userDetailRepository.save(detail);
+
         mailService.sendEmail(entity.getEmail(), "Congratulation, your request to become our merchant was accepted. \n Open this link to begin: " + web_host + "/tour-owner-registration/new-password?registration_id=" + entity.getId() + "&user_id=" + user.getId());
         return entity;
     }
