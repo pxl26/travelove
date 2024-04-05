@@ -21,12 +21,6 @@ public class BillVoucherRepository {
         return entityManager.find(BillVoucherEntity.class, id);
     }
 
-    public ArrayList<BillVoucherEntity> findByBill(String bill_id) {
-        List raw = entityManager.createQuery("FROM BillVoucherEntity m WHERE m.bill_id=:bill").setParameter("bill", bill_id).getResultList();
-        if (raw.isEmpty())
-            return new ArrayList<>();
-        return (ArrayList<BillVoucherEntity>) raw;
-    }
 
     @Transactional
     public void save(BillVoucherEntity entity) {

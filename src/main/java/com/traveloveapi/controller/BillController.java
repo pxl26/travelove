@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/bill")
@@ -67,4 +68,5 @@ public class BillController {
     public BillDetailDTO test(@RequestParam String bill_id) {
         return billService.getBillDetail(bill_id);
     }
+
 }
