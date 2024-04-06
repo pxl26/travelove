@@ -84,6 +84,7 @@ public class CreateAccount {
         detail.setCreate_at(new Timestamp(System.currentTimeMillis()));
         detail.setPhone(entity.getPhone());
         detail.setUser_id(user.getId());
+        detail.setEmail(entity.getEmail());
         userDetailRepository.save(detail);
 
         mailService.sendEmail(entity.getEmail(), "Congratulation, your request to become our merchant was accepted. \n Open this link to begin: " + web_host + "/tour-owner-registration/new-password?registration_id=" + entity.getId() + "&user_id=" + user.getId());
