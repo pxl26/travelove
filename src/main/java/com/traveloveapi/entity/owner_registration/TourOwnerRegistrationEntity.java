@@ -21,8 +21,6 @@ public class TourOwnerRegistrationEntity {
 
     private String office_address;
 
-    private String referral_code;
-
     private Timestamp create_at;
 
     private Timestamp update_at;

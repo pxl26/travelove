@@ -34,15 +34,13 @@ public class RegistrationController {
 
     @PostMapping("/tour-owner")
     @Tag(name = "SPRINT 10 - MANAGE")
-    public SimpleResponse tourOwnerRegistration(@RequestParam String name, @RequestParam String email, @RequestParam String phone, @RequestParam String office_address, @RequestParam(required = false) String referral_code, @RequestParam String tax_code, @RequestParam MultipartFile license) {
+    public SimpleResponse tourOwnerRegistration(@RequestParam String name, @RequestParam String email, @RequestParam String phone, @RequestParam String office_address, @RequestParam String tax_code, @RequestParam MultipartFile license) {
         TourOwnerRegistrationEntity entity = new TourOwnerRegistrationEntity();
         entity.setId(UUID.randomUUID().toString());
         entity.setName(name);
         entity.setEmail(email);
         entity.setPhone(phone);
         entity.setOffice_address(office_address);
-        if (referral_code!=null)
-            entity.setReferral_code(referral_code);
         entity.setTax_code(tax_code);
         entity.setStatus(OwnerRegistrationStatus.PENDING);
         entity.setBusiness_license(s3FileService.uploadFile(license, "public/license/", entity.getId()));
