@@ -118,4 +118,15 @@ public class FeedbackService {
             rs.add(getFeedback(ele));
         return rs;
     }
+
+    public FeedbackEntity deleteFeedback(String id) {
+        FeedbackEntity feedback = feedbackRepository.find(id);
+        if (feedback == null)
+            throw new CustomException("Feedback not found", 400);
+        if (!feedback.getUser_id().equals(SecurityContext.getUserID())&& !userService.isAdmin())
+            throw new ForbiddenException();
+        feedbackRepository.delete(feedback);
+        mediaRepository.delete(feedback.getRef_id(), "FEEDBACK");
+        return feedback;
+    }
 }

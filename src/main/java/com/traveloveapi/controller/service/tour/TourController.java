@@ -70,4 +70,10 @@ public class TourController {
     public FeedbackEntity createFeedback(@RequestParam int rating,@RequestParam(required = false) String content, String bill_id,@RequestParam(required = false) MultipartFile[] files) {
         return feedbackService.createFeedback(rating, content, bill_id, files);
     }
+
+    @DeleteMapping("/feedback")
+    @Tag(name = "SPRINT 11")
+    public FeedbackEntity deleteFeedback(@RequestParam String feedback_id) {
+        return feedbackService.deleteFeedback(feedback_id);
+    }
 }

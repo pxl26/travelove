@@ -32,4 +32,8 @@ public class MediaRepository {
     public ArrayList<MediaEntity> find(String ref_id, String type) {
         return (ArrayList<MediaEntity>) entityManager.createQuery("FROM MediaEntity m WHERE m.ref_id=:ref AND m.type=:type ORDER BY m.seq").setParameter("ref",ref_id).setParameter("type",type).getResultList();
     }
+
+    public void delete(String ref_id, String type) {
+        entityManager.createQuery("DELETE FROM MediaEntity e WHERE e.ref_id=:ref AND e.type=:type").executeUpdate();
+    }
 }

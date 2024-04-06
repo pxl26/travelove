@@ -38,4 +38,8 @@ public class FeedbackRepository {
             return new ArrayList<>();
         return (ArrayList<FeedbackEntity>) temp;
     }
+
+    public void delete(FeedbackEntity entity) {
+        entityManager.remove(entity);
+    }
 }
