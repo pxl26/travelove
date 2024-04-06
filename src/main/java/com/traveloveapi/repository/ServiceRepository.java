@@ -72,7 +72,7 @@ public class ServiceRepository {
     }
 
     public ArrayList<ServiceEntity> findByCity(String city_id) {
-        List raw = entityManager.createQuery("FROM ServiceEntity m WHERE m.city_id=:id AND m.status=:status").setParameter("id",city_id).setParameter("status", ServiceStatus.VERIFIED).getResultList();
+        List<ServiceEntity> raw = entityManager.createQuery("FROM ServiceEntity m WHERE m.city_id=:id AND m.status=:status", ServiceEntity.class).setParameter("id",city_id).setParameter("status", ServiceStatus.VERIFIED).getResultList();
         if (raw.isEmpty())
             return new ArrayList<>();
         return (ArrayList<ServiceEntity>) raw;

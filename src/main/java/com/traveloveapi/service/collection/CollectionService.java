@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.traveloveapi.DTO.collection.CollectionDTO;
+import com.traveloveapi.DTO.service.ServiceCard;
 import com.traveloveapi.constrain.CollectionDisplay;
+import com.traveloveapi.constrain.ServiceStatus;
 import com.traveloveapi.constrain.voucher.VoucherTargetType;
 import com.traveloveapi.entity.collection.CollectionDetailEntity;
 import com.traveloveapi.entity.collection.CollectionEntity;
@@ -82,9 +84,12 @@ public class CollectionService {
         rs.setRef_id(entity.getRef_id());
         ArrayList<CollectionDetailEntity> list = collectionDetailRepository.find(id);
         rs.setService_list(new ArrayList<>());
-        for (CollectionDetailEntity ele: list)
-            rs.getService_list().add(tourService.createCard(ele.getService_id()));
-
+        for (CollectionDetailEntity ele: list) {
+            ServiceCard card = tourService.createCard(ele.getService_id());
+            if (card.getStatus()!= ServiceStatus.VERIFIED)
+                continue;
+            rs.getService_list().add(card);
+        }
         return rs;
     }
 
