@@ -26,38 +26,6 @@ public class ServiceRepository {
         return rs;
     }
 
-//    public List getTourOwnerDTO(String owner_id) {
-//        List raw = entityManager.createQuery(
-//                "SELECT j.sum, j.id, j.full_name, j.avatar " +
-//                        "FROM " +
-//                        "((SELECT AVG(e.rating) as sum " +
-//                            "FROM ServiceEntity e " +
-//                                "WHERE e.service_owner=:owner AND e.sold>0) " +
-//                        "JOIN " +
-//                        "( SELECT u.id id, u.full_name full_name, u.avatar avatar " +
-//                            "FROM UserEntity u " +
-//                                "WHERE u.id=:owner)) as j").setParameter("owner", owner_id).getResultList();
-//        return raw;
-//    }
-
-//    public List<TourOwnerDTO> getTourOwnerDTO(String owner_id) {
-//        TypedQuery<TourOwnerDTO> query = entityManager.createQuery(
-//                        "SELECT NEW com.traveloveapi.DTO.service.TourOwnerDTO(u.id, u.full_name, u.avatar, j.rating, j.sum) " +
-//                                "FROM (" +
-//                                "  SELECT AVG(e.rating) as rating, SUM(e.sold) as sum " +
-//                                "  FROM ServiceEntity e " +
-//                                "  WHERE e.service_owner=:owner AND e.sold > 0" +
-//                                ") j " +
-//                                "JOIN (" +
-//                                "  SELECT u.id as id, u.full_name as full_name, u.avatar as avatar " +
-//                                "  FROM UserEntity u " +
-//                                "  WHERE u.id = :owner" +
-//                                ") u", TourOwnerDTO.class)
-//                .setParameter("owner", owner_id);
-//
-//        return query.getResultList();
-//    }
-
     public TourOwnerDTO getTourOwnerDTO(String owner_id) {
         Object query = entityManager.createQuery(
                         """
@@ -110,11 +78,11 @@ public class ServiceRepository {
         return (ArrayList<ServiceEntity>) raw;
     }
 
-    public ArrayList<ServiceEntity> findByOwner(String id) {
-        List raw = entityManager.createQuery("FROM ServiceEntity m WHERE m.service_owner=:id ORDER BY m.status").setParameter("id",id).getResultList();
+    public List<ServiceEntity> findByOwner(String id) {
+        List<ServiceEntity> raw = entityManager.createQuery("FROM ServiceEntity m WHERE m.service_owner=:id ORDER BY m.status", ServiceEntity.class).setParameter("id",id).getResultList();
         if (raw.isEmpty())
             return new ArrayList<>();
-        return (ArrayList<ServiceEntity>) raw;
+        return raw;
     }
 
     public List search(String input, int limit, int offset) {
@@ -129,5 +97,9 @@ public class ServiceRepository {
     @Transactional
     public void update(ServiceEntity entity) {
         entityManager.merge(entity);
+    }
+
+    public List<ServiceEntity> getAll() {
+        return entityManager.createQuery("FROM ServiceEntity e WHERE e.status= :status", ServiceEntity.class).setParameter("status", ServiceStatus.VERIFIED).getResultList();
     }
 }

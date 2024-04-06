@@ -8,6 +8,8 @@ import com.traveloveapi.DTO.service.ServiceDetailDTO;
 import com.traveloveapi.DTO.service.ServiceStatusByDateDTO;
 import com.traveloveapi.DTO.service_package.GroupOptionDTO;
 import com.traveloveapi.DTO.service_package.PackageInfoDTO;
+import com.traveloveapi.entity.ServiceEntity;
+import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.service.redis.RedisService;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.service.BillService;
@@ -22,6 +24,7 @@ import java.sql.Date;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,7 +34,14 @@ public class PublicServiceController {
     final private BillService billService;
     final private FeedbackService feedbackService;
     final private ActivityLoggingService activityLoggingService;
-    final private RedisService redisService;
+    final private ServiceRepository serviceRepository;
+
+    @GetMapping("/get-all-tour")
+    @Tag(name = "AI support")
+    public List<ServiceEntity> getAll() {
+        return serviceRepository.getAll();
+    }
+
     @GetMapping("/tour")
     @Tag(name = "SPRINT 2")
     public ServiceDetailDTO getTour(@RequestParam String id)  {

@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -347,7 +348,7 @@ public class TourService {
 
     public ArrayList<ServiceCard> getTourByOwner(String owner_id) {
         ArrayList<ServiceCard> rs = new ArrayList<>();
-        ArrayList<ServiceEntity> tour;
+        List<ServiceEntity> tour;
         if (owner_id==null)
             tour = serviceRepository.findByOwner(SecurityContext.getUserID());
         else if (!userService.isAdmin() && !SecurityContext.getUserID().equals(owner_id))
