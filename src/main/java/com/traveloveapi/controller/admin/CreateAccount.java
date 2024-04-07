@@ -71,10 +71,17 @@ public class CreateAccount {
 
     @PostMapping("/tour-owner-registration")
     @Tag(name = "SPRINT 10 - MANAGE")
-    public TourOwnerRegistrationEntity verify(@RequestParam String id, @RequestParam VoucherAuditAction action) {
+    public TourOwnerRegistrationEntity verify(@RequestParam String id, @RequestParam VoucherAuditAction action, @RequestParam String refuse_reason) {
+        if (action==VoucherAuditAction.DENY && refuse_reason==null)
+            throw new CustomException("Refuse reason is missing", 400);
         TourOwnerRegistrationEntity entity = ownerRegistrationRepository.find(id);
         entity.setStatus(action==VoucherAuditAction.VERIFY ? OwnerRegistrationStatus.ACCEPTED : OwnerRegistrationStatus.REFUSED);
         ownerRegistrationRepository.update(entity);
+        if (action==VoucherAuditAction.DENY)
+        {
+            mailService.sendEmail(entity.getEmail(),"Your merchant registration for Travelove was decline because: "+refuse_reason+"\n\nBest regards\n --Travelove admin---");
+            return entity;
+        }
         UserEntity user = new UserEntity();
         user.setId(UUID.randomUUID().toString());
         user.setFull_name(entity.getName());
