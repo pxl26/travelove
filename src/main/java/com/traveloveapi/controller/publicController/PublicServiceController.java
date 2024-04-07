@@ -38,8 +38,13 @@ public class PublicServiceController {
 
     @GetMapping("/get-all-tour")
     @Tag(name = "AI support")
-    public List<ServiceEntity> getAll() {
-        return serviceRepository.getAll();
+    public List<ServiceDetailDTO> getAll() {
+        List<ServiceEntity> data =  serviceRepository.getAll();
+        ArrayList<ServiceDetailDTO> serviceDetailDTOs = new ArrayList<>();
+        for (ServiceEntity serviceEntity : data) {
+            serviceDetailDTOs.add(tourService.getTour(serviceEntity.getId()));
+        }
+        return serviceDetailDTOs;
     }
 
     @GetMapping("/tour")
