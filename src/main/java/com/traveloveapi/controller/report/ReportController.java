@@ -1,7 +1,9 @@
 package com.traveloveapi.controller.report;
 
 import com.traveloveapi.DTO.SimpleResponse;
+import com.traveloveapi.constrain.Platform;
 import com.traveloveapi.constrain.ReportStatus;
+import com.traveloveapi.constrain.ReportType;
 import com.traveloveapi.entity.MediaEntity;
 import com.traveloveapi.entity.report.ReportEntity;
 import com.traveloveapi.exception.ForbiddenException;
@@ -30,7 +32,7 @@ public class ReportController {
 
     @Tag(name = "SPRINT 10")
     @PostMapping
-    public ReportEntity createReport(@RequestParam String content, @RequestParam(required = false) String tour_id, @RequestParam MultipartFile[] attachment_list) {
+    public ReportEntity createReport(@RequestParam String content, @RequestParam(required = false) String tour_id, @RequestParam MultipartFile[] attachment_list, @RequestParam Platform platform, @RequestParam ReportType type) {
         ReportEntity reportEntity = new ReportEntity();
         reportEntity.setId(UUID.randomUUID().toString());
         reportEntity.setReporter_id(SecurityContext.getUserID());
@@ -38,6 +40,8 @@ public class ReportController {
         reportEntity.setUpdate_at(new Timestamp(System.currentTimeMillis()));
         reportEntity.setStatus(ReportStatus.PENDING);
         reportEntity.setContent(content);
+        reportEntity.setPlatform(platform);
+        reportEntity.setType(type);
         if (tour_id != null)
             reportEntity.setTour_id(tour_id);
         int k=0;

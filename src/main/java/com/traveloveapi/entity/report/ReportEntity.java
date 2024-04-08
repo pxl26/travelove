@@ -1,9 +1,9 @@
 package com.traveloveapi.entity.report;
 
+import com.traveloveapi.constrain.Platform;
 import com.traveloveapi.constrain.ReportStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.traveloveapi.constrain.ReportType;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -26,4 +26,10 @@ public class ReportEntity {
     private String content;
 
     private String tour_id;
+
+    @Enumerated(EnumType.STRING)
+    private Platform platform;
+
+    @Enumerated(EnumType.STRING)
+    private ReportType type;
 }
