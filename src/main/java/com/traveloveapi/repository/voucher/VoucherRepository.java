@@ -118,4 +118,9 @@ public class VoucherRepository {
     public void update(VoucherEntity entity) {
         entityManager.merge(entity);
     }
+
+    public VoucherEntity decreaseStock(String voucher_id, int amount) {
+        entityManager.createQuery("UPDATE VoucherEntity e SET e.stock=e.stock - :amount WHERE e.id=:voucher_id").executeUpdate();
+        return entityManager.find(VoucherEntity.class, voucher_id);
+    }
 }

@@ -186,8 +186,7 @@ public class VoucherService {
         voucherRedeem.setStatus(VoucherRedeemStatus.AVAILABLE);
 
         voucherRedeemRepository.save(voucherRedeem);
-        rabbitTemplate.convertAndSend("update-voucher",voucher);
-        voucherRepository.update(voucher);
+        voucherRepository.decreaseStock(voucher_id, 1);
 
         return voucherRedeem;
     }
