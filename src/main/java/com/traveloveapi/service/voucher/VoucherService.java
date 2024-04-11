@@ -12,6 +12,7 @@ import com.traveloveapi.entity.voucher.VoucherEntity;
 import com.traveloveapi.entity.voucher.VoucherRedeemEntity;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.exception.ForbiddenException;
+import com.traveloveapi.mq.VoucherUpdateReceiver;
 import com.traveloveapi.repository.bill.BillRepository;
 import com.traveloveapi.repository.bill.BillVoucherRepository;
 import com.traveloveapi.repository.voucher.VoucherRedeemRepository;
@@ -21,6 +22,7 @@ import com.traveloveapi.service.user.UserService;
 import com.traveloveapi.utility.JwtProvider;
 import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.security.concurrent.DelegatingSecurityContextExecutor;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,7 @@ public class VoucherService {
     final private BillRepository billRepository;
     final private CollectionService collectionService;
     final private BillVoucherRepository billVoucherRepository;
+    final private RabbitTemplate rabbitTemplate;
 
     public ArrayList<VoucherDTO> getUsableVoucher(String tour_id) {
         return voucherRepository.getAvailableVoucherForTour(tour_id, SecurityContext.getUserID());
@@ -183,7 +186,7 @@ public class VoucherService {
         voucherRedeem.setStatus(VoucherRedeemStatus.AVAILABLE);
 
         voucherRedeemRepository.save(voucherRedeem);
-        voucher.setStock(voucher.getStock()-1);
+        rabbitTemplate.convertAndSend("update-voucher",voucher);
         voucherRepository.update(voucher);
 
         return voucherRedeem;

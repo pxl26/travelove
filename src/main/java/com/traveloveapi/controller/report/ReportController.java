@@ -54,6 +54,7 @@ public class ReportController {
             media.setPath(s3FileService.uploadFile(attachment, "public/report/"+reportEntity.getId()+'/',media.getId()));
             mediaRepository.save(media);
         }
+        reportRepository.save(reportEntity);
         return reportEntity;
     }
 

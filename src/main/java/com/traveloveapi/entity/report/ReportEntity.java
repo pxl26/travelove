@@ -21,6 +21,7 @@ public class ReportEntity {
 
     private Timestamp update_at;
 
+    @Enumerated(EnumType.STRING)
     private ReportStatus status;
 
     private String content;
