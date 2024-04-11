@@ -25,7 +25,7 @@ public class PayMethodController {
 
     @Tag(name = "SPRINT 10 - MANAGE")
     @GetMapping("/pay-method")
-    public List<PayMethodEntity> getPayMethod(@RequestParam String user_id) {
+    public List<PayMethodEntity> getPayMethod(@RequestParam(required = false) String user_id) {
         if (user_id != null) {
             if (!userService.isAdmin())
                 throw new ForbiddenException();
