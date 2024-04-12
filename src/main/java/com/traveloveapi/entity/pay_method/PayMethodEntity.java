@@ -1,9 +1,7 @@
 package com.traveloveapi.entity.pay_method;
 
 import com.traveloveapi.constrain.PayMethodType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -17,6 +15,7 @@ public class PayMethodEntity {
 
     private int priority;
 
+    @Enumerated(EnumType.STRING)
     private PayMethodType type;
 
     private String name;

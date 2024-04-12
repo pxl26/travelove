@@ -39,11 +39,13 @@ public class PayMethodController {
     @PostMapping("/pay-method")
     public PayMethodEntity createPayMethod(@RequestParam PayMethodType type, @RequestParam String name, @RequestParam String code) {
         PayMethodEntity payMethodEntity = new PayMethodEntity();
+        List<PayMethodEntity> list = payMethodRepository.findByUserId(SecurityContext.getUserID());
         payMethodEntity.setId(UUID.randomUUID().toString());
         payMethodEntity.setUser_id(SecurityContext.getUserID());
         payMethodEntity.setType(type);
         payMethodEntity.setName(name);
         payMethodEntity.setCode(code);
+        payMethodEntity.setPriority(list.size());
         payMethodRepository.save(payMethodEntity);
         return payMethodEntity;
     }
