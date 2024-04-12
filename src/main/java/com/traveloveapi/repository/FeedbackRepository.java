@@ -39,6 +39,7 @@ public class FeedbackRepository {
         return (ArrayList<FeedbackEntity>) temp;
     }
 
+    @Transactional
     public void delete(FeedbackEntity entity) {
         entityManager.remove(entity);
     }

@@ -1,6 +1,7 @@
 package com.traveloveapi.controller.pay_method;
 
 import com.traveloveapi.constrain.PayMethodType;
+import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.entity.pay_method.PayMethodEntity;
 import com.traveloveapi.exception.ForbiddenException;
 import com.traveloveapi.repository.pay_method.PayMethodRepository;
