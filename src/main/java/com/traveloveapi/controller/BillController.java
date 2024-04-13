@@ -62,6 +62,7 @@ public class BillController {
             return paymentService.getBillByUser(SecurityContext.getUserID());
         return paymentService.getBillByTour(tour_id, date);
     }
+    
 
     @GetMapping("/detail")
     @Tag(name = "SPRINT 8")
