@@ -35,10 +35,10 @@ jobs:
         name: establishes ssh
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: db.travelovecompany.com
+          host: 54.251.252.51
           username: ubuntu
           key: ${{secrets.EC2_SSH_KEY}}
           port: 22
           command_timeout: 5m
           script: |
-            sudo docker pull phanxuanloc2612/travelove && sudo docker compose -f /home/ubuntu/travelove/compose.yml down && sudo docker compose -f /home/ubuntu/travelove/compose.yml up -d
+            sudo docker pull phanxuanloc2612/travelove && sudo docker compose -f /home/ubuntu/ebs/travelove/compose.yml down && sudo docker compose -f /home/ubuntu/ebs/travelove/compose.yml up -d

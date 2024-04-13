@@ -59,7 +59,7 @@ payment:
 #    zalopay: http://localhost:5000/api/zalopay/create-payment
 oauth:
     google:
-        host: https://d2jeikvp07uoyw.cloudfront.net
+        host: https://www.travelovecompany.com
 #        host: http://localhost:3000
 web:
     host: http://localhost:3000
