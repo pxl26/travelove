@@ -1,5 +1,7 @@
 package com.traveloveapi.controller.publicController;
 
+import com.traveloveapi.DTO.HealthCheckResponse;
+import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.DTO.activity.ViewedTourDTO;
 import com.traveloveapi.mq.RabbitMQConfig;
 import com.traveloveapi.repository.bill.BillRepository;
@@ -27,16 +29,14 @@ import java.util.concurrent.TimeoutException;
 @RequiredArgsConstructor
 @RequestMapping("/public/test")
 public class TestController {
-    final private S3FileService service;
-    final private RabbitMQConfig rabbitMQConfig;
     final private Queue queue;
     final private RabbitTemplate rabbitTemplate;
 
 
     @Tag(name = "Load testing")
     @GetMapping("/empty-get")
-    public String emptyGet() {
-        return "Ok";
+    public HealthCheckResponse emptyGet() {
+        return new HealthCheckResponse("UP");
     }
 
     @Tag(name = "Load testing")

@@ -54,8 +54,8 @@ redis:
 
 payment:
 #    vnpay: http://localhost:5000/api/vnpay/create-payment
-    vnpay: http://172.31.37.205:5000/api/vnpay/create-payment
-    zalopay: http://172.31.37.205:5000/api/zalopay/create-payment
+    vnpay: http://payment:5000/api/vnpay/create-payment
+    zalopay: http://payment:5000/api/zalopay/create-payment
 #    zalopay: http://localhost:5000/api/zalopay/create-payment
 oauth:
     google:
