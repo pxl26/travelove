@@ -35,6 +35,6 @@ public class MediaRepository {
 
     @Transactional
     public void delete(String ref_id, String type) {
-        entityManager.createQuery("DELETE FROM MediaEntity e WHERE e.ref_id=:ref AND e.type=:type").executeUpdate();
+        entityManager.createQuery("DELETE FROM MediaEntity e WHERE e.ref_id=:ref AND e.type=:type").setParameter("ref", ref_id).setParameter("type", type).executeUpdate();
     }
 }
