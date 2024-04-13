@@ -42,7 +42,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (token.isEmpty())
         {
             String path = request.getServletPath();
-            if (path.startsWith("/public")) {
+            if (path.startsWith("/public")||path.equals("/report")) {
                 filterChain.doFilter(request, response);
                 return;
             }
