@@ -34,8 +34,11 @@ public class OwnerController {
         else
             user = userService.getUser(SecurityContext.getUserID());
         IncomeDTO rs;
-        if (tour_id!=null)
+        if (tour_id!=null) {
+            if(!userService.verifyIsOwner(tour_id, user.getId()))
+                throw new ForbiddenException();
             rs = billRepository.getIncome(tour_id, user.getId(), from, to);
+        }
         else
             rs =  billRepository.getIncome(user.getId(), from, to);
 
