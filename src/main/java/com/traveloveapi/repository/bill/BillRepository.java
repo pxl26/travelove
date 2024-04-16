@@ -64,11 +64,27 @@ public class BillRepository {
         return new ArrayList<>();
     }
 
+    public ArrayList<BillEntity> findByService(String service_id, Date from, Date to) {
+        List temp = entityManager.createQuery("FROM BillEntity m WHERE m.service_id=:id AND m.date>:from AND m.date<:to ORDER BY m.create_at DESC").setParameter("id",service_id).setParameter("from",from).setParameter("to", to).getResultList();
+        if (temp!=null)
+            return (ArrayList<BillEntity>) temp;
+        return new ArrayList<>();
+    }
+
     public ArrayList<BillEntity> findByUser(String user_id) {
         List temp = entityManager.createQuery("FROM BillEntity  m WHERE m.user_id=:id ORDER BY m.create_at DESC").setParameter("id",user_id).getResultList();
         if (temp!=null)
             return (ArrayList<BillEntity>) temp;
         return new ArrayList<>();
+    }
+
+    public List<BillEntity> findByOwner(String owner_id, Date from, Date to) {
+        TypedQuery<BillEntity> query = entityManager.createQuery("SELECT bill FROM BillEntity bill JOIN ServiceEntity service ON bill.service_id=service.id AND service.service_owner=:owner_id AND bill.status=:status AND bill.update_at>:from AND bill.update_at<:to ORDER BY bill.update_at", BillEntity.class);
+        query.setParameter("owner_id",owner_id);
+        query.setParameter("status",BillStatus.PAID);
+        query.setParameter("from",from);
+        query.setParameter("to",to);
+        return query.getResultList();
     }
 
     @Transactional

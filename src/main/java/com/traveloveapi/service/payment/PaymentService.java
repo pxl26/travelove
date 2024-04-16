@@ -100,11 +100,11 @@ public class PaymentService {
         return billRepository.findByUser(user_id);
     }
 
-    public ArrayList<BillEntity> getBillByTour(String tour_id, Date date) {
+    public ArrayList<BillEntity> getBillByTour(String tour_id, Date from, Date to) {
         if (!userService.isAdmin() && !userService.verifyIsOwner(tour_id, SecurityContext.getUserID()))
             throw new ForbiddenException();
-        if (date!=null)
-            return billRepository.findByService(tour_id, date);
+        if (from!=null&to!=null)
+            return billRepository.findByService(tour_id, from, to);
         return billRepository.findByService(tour_id);
     }
 }
