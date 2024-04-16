@@ -1,5 +1,6 @@
 package com.traveloveapi.repository.bill;
 
+import com.traveloveapi.DTO.owner.IncomeDTO;
 import com.traveloveapi.DTO.service_package.bill.BillDetailDTO;
 import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.constrain.Currency;
@@ -8,6 +9,7 @@ import com.traveloveapi.entity.join_entity.JoinBillRow;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
@@ -91,5 +93,30 @@ public class BillRepository {
         if (temp==null)
             return new ArrayList<>();
         return (ArrayList<String>) temp;
+    }
+
+    public IncomeDTO getIncome(String tour_id, String owner_id, Date from, Date to) {
+        List<Object> query = entityManager.createQuery(" SELECT SUM(e.total) as total,e.service_id as owner_id, e.update_at, e.update_at , e.service_id as tour_id  FROM BillEntity e WHERE e.service_id=: tour_id AND e.status=: status AND e.update_at>:from AND e.update_at<:to GROUP BY e.service_id").setParameter("from", from).setParameter("to", to).setParameter("tour_id", tour_id).setParameter("status", BillStatus.PAID).getResultList();
+        if (query.isEmpty())
+            return null;
+        Object [] data = (Object[])query.get(0);
+        IncomeDTO result = new IncomeDTO();
+        result.setTotal((Double) data[0]);
+        result.setFrom(from);
+        result.setTo(to);
+        result.setOwner_id(owner_id);
+        return result;
+    }
+
+    public IncomeDTO getIncome(String owner_id, Date from, Date to) {
+       List<Object> query = entityManager.createQuery(" SELECT SUM(e.total) FROM BillEntity e JOIN ServiceEntity service ON e.service_id=service.id AND service.service_owner=:owner AND e.status=:status AND e.update_at>:from AND e.update_at<:to GROUP BY service.service_owner").setParameter("status", BillStatus.PAID).setParameter("owner", owner_id).setParameter("from",from).setParameter("to",to).getResultList();
+        if (query.isEmpty())
+            return null;
+        IncomeDTO result = new IncomeDTO();
+        result.setTotal((Double)query.get(0));
+        result.setFrom(from);
+        result.setTo(to);
+        result.setOwner_id(owner_id);
+        return result;
     }
 }
