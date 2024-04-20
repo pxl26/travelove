@@ -15,4 +15,5 @@ public class IncomeDTO {
     private Date from;
     private Date to;
     private String tour_id;
+    private Long total_bill;
 }

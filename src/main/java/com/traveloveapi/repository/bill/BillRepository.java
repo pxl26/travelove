@@ -112,12 +112,13 @@ public class BillRepository {
     }
 
     public IncomeDTO getIncome(String tour_id, String owner_id, Date from, Date to) {
-        List<Object> query = entityManager.createQuery(" SELECT SUM(e.total) as total,e.service_id as owner_id, e.update_at, e.update_at , e.service_id as tour_id  FROM BillEntity e WHERE e.service_id=: tour_id AND e.status=: status AND e.update_at>:from AND e.update_at<:to GROUP BY e.service_id").setParameter("from", from).setParameter("to", to).setParameter("tour_id", tour_id).setParameter("status", BillStatus.PAID).getResultList();
+        List<Object> query = entityManager.createQuery(" SELECT SUM(e.total) as total,e.service_id as owner_id, e.update_at, e.update_at , e.service_id as tour_id, COUNT(*)  FROM BillEntity e WHERE e.service_id=: tour_id AND e.status=: status AND e.update_at>:from AND e.update_at<:to GROUP BY e.service_id").setParameter("from", from).setParameter("to", to).setParameter("tour_id", tour_id).setParameter("status", BillStatus.PAID).getResultList();
         if (query.isEmpty())
             return null;
         Object [] data = (Object[])query.get(0);
         IncomeDTO result = new IncomeDTO();
         result.setTotal((Double) data[0]);
+        result.setTotal_bill((Long) data[1]);
         result.setFrom(from);
         result.setTo(to);
         result.setOwner_id(owner_id);
@@ -125,11 +126,13 @@ public class BillRepository {
     }
 
     public IncomeDTO getIncome(String owner_id, Date from, Date to) {
-       List<Object> query = entityManager.createQuery(" SELECT SUM(e.total) FROM BillEntity e JOIN ServiceEntity service ON e.service_id=service.id AND service.service_owner=:owner AND e.status=:status AND e.update_at>:from AND e.update_at<:to GROUP BY service.service_owner").setParameter("status", BillStatus.PAID).setParameter("owner", owner_id).setParameter("from",from).setParameter("to",to).getResultList();
+       List<Object> query = entityManager.createQuery(" SELECT SUM(e.total) as sum_income_, CEILING(COUNT(*)) as total FROM BillEntity e JOIN ServiceEntity service ON e.service_id=service.id AND service.service_owner=:owner AND e.status=:status AND e.update_at>:from AND e.update_at<:to GROUP BY service.service_owner").setParameter("status", BillStatus.PAID).setParameter("owner", owner_id).setParameter("from",from).setParameter("to",to).getResultList();
         if (query.isEmpty())
             return null;
+        Object [] data = (Object[])query.get(0);
         IncomeDTO result = new IncomeDTO();
-        result.setTotal((Double)query.get(0));
+        result.setTotal((Double) data[0]);
+        result.setTotal_bill((Long)data[1]);
         result.setFrom(from);
         result.setTo(to);
         result.setOwner_id(owner_id);

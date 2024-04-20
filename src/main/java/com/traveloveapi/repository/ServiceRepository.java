@@ -1,9 +1,12 @@
 package com.traveloveapi.repository;
 
 import com.traveloveapi.DTO.service.TourOwnerDTO;
+import com.traveloveapi.constrain.OrderType;
 import com.traveloveapi.constrain.ServiceStatus;
+import com.traveloveapi.constrain.SortBy;
 import com.traveloveapi.entity.ServiceEntity;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
@@ -71,8 +74,15 @@ public class ServiceRepository {
         return (ArrayList<ServiceEntity>) entityManager.createQuery("FROM ServiceEntity m WHERE m.status=:status and m.service_owner=:owner").setParameter("status",status).setParameter("owner",owner).getResultList();
     }
 
-    public ArrayList<ServiceEntity> findByCity(String city_id) {
-        List<ServiceEntity> raw = entityManager.createQuery("FROM ServiceEntity m WHERE m.city_id=:id AND m.status=:status", ServiceEntity.class).setParameter("id",city_id).setParameter("status", ServiceStatus.VERIFIED).getResultList();
+    public ArrayList<ServiceEntity> findByCity(String city_id, OrderType orderType, SortBy orderBy) {
+        List<ServiceEntity> raw = entityManager.createQuery(
+                "SELECT CEILING(COUNT(*)), * FROM ServiceEntity m " +
+                        "WHERE m.city_id=:id AND m.status=:status " +
+                        "ORDER BY " +
+                        "CASE " +
+                        "WHEN :orderBy='PRICE' THEN m.min_price " +
+                        "WHEN :orderBy='RATING' THEN m.rating " +
+                        "WHEN :orderBy='SOLD' THEN m.sold END " + (orderType==OrderType.ASCENDED ? "ASC" : "DESC"), ServiceEntity.class).setParameter("id",city_id).setParameter("status", ServiceStatus.VERIFIED).setParameter("orderBy", orderBy.toString()).setParameter("status",ServiceStatus.VERIFIED).getResultList();
         if (raw.isEmpty())
             return new ArrayList<>();
         return (ArrayList<ServiceEntity>) raw;

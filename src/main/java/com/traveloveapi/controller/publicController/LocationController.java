@@ -2,6 +2,8 @@ package com.traveloveapi.controller.publicController;
 
 import com.traveloveapi.DTO.location.CityDTO;
 import com.traveloveapi.DTO.service.ServiceCard;
+import com.traveloveapi.constrain.OrderType;
+import com.traveloveapi.constrain.SortBy;
 import com.traveloveapi.entity.location.CityEntity;
 import com.traveloveapi.entity.location.CountryEntity;
 import com.traveloveapi.service.location.CityService;
@@ -42,17 +44,23 @@ public class LocationController {
             @Tag(name = "SPRINT 4")
     })
     public ArrayList<ServiceCard> getAllTour(@RequestParam String city_id) {
-        return tourService.getTourByCity(city_id);
+        return tourService.getTourByCity(city_id, OrderType.ASCENDED, SortBy.RATING);
     }
 
     @GetMapping("/country/all-city")
-    @Tags({@Tag(name = "SPRINT 4")})
+    @Tags({
+            @Tag(name = "SPRINT 4"),
+            @Tag(name = "SEARCHING")
+    })
     public List getAllCity(@RequestParam(required = false) String country_id, @RequestParam(required = false) String country_name) {
         return countryService.getAllCity(country_id, country_name);
     }
 
     @GetMapping("/country/all-country")
-    @Tags({@Tag(name = "SPRINT 4"),})
+    @Tags({
+            @Tag(name = "SPRINT 4"),
+            @Tag(name = "SEARCHING")
+    })
     public List getAllCountry() {
         return countryService.getAllCountry();
     }

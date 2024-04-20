@@ -43,7 +43,7 @@ public class OwnerController {
             rs =  billRepository.getIncome(user.getId(), from, to);
 
         if (rs == null)
-            rs = new IncomeDTO(0.0,user.getId(), from, to, tour_id);
+            rs = new IncomeDTO(0.0,user.getId(), from, to, tour_id, 0L);
         return rs;
     }
 }

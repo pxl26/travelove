@@ -263,8 +263,8 @@ public class TourService {
         return result;
     }
 
-    public ArrayList<ServiceCard> getTourByCity(String city_id) {
-        ArrayList<ServiceEntity> list = serviceRepository.findByCity(city_id);
+    public ArrayList<ServiceCard> getTourByCity(String city_id, OrderType type, SortBy sortBy) {
+        ArrayList<ServiceEntity> list = serviceRepository.findByCity(city_id, type, sortBy);
         ArrayList<ServiceCard> rs = new ArrayList<>();
         for (ServiceEntity ele: list)
             rs.add(createCard(ele.getId()));
