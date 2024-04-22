@@ -263,8 +263,16 @@ public class TourService {
         return result;
     }
 
-    public ArrayList<ServiceCard> getTourByCity(String city_id, OrderType type, SortBy sortBy) {
-        ArrayList<ServiceEntity> list = serviceRepository.findByCity(city_id, type, sortBy);
+    public ArrayList<ServiceCard> getTourByCity(String city_id, OrderType type, SortBy sortBy, int page, int page_size) {
+        ArrayList<ServiceEntity> list = serviceRepository.findByCity(city_id, type, sortBy, page, page_size);
+        ArrayList<ServiceCard> rs = new ArrayList<>();
+        for (ServiceEntity ele: list)
+            rs.add(createCard(ele.getId()));
+        return rs;
+    }
+
+    public ArrayList<ServiceCard> getTourByCountry(String country_name, OrderType type, SortBy sortBy, int page, int page_size) {
+        ArrayList<ServiceEntity> list = serviceRepository.findByCountry(country_name, type, sortBy, page, page_size);
         ArrayList<ServiceCard> rs = new ArrayList<>();
         for (ServiceEntity ele: list)
             rs.add(createCard(ele.getId()));

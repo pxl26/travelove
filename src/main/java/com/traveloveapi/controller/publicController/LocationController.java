@@ -44,7 +44,7 @@ public class LocationController {
             @Tag(name = "SPRINT 4")
     })
     public ArrayList<ServiceCard> getAllTour(@RequestParam String city_id) {
-        return tourService.getTourByCity(city_id, OrderType.ASCENDED, SortBy.RATING);
+        return tourService.getTourByCity(city_id, OrderType.ASCENDED, SortBy.RATING, 0, 999);
     }
 
     @GetMapping("/country/all-city")

@@ -74,18 +74,39 @@ public class ServiceRepository {
         return (ArrayList<ServiceEntity>) entityManager.createQuery("FROM ServiceEntity m WHERE m.status=:status and m.service_owner=:owner").setParameter("status",status).setParameter("owner",owner).getResultList();
     }
 
-    public ArrayList<ServiceEntity> findByCity(String city_id, OrderType orderType, SortBy orderBy) {
+    public ArrayList<ServiceEntity> findByCity(String city_id, OrderType orderType, SortBy orderBy, int page, int page_size) {
         List<ServiceEntity> raw = entityManager.createQuery(
-                "SELECT CEILING(COUNT(*)), * FROM ServiceEntity m " +
+                "FROM ServiceEntity m " +
                         "WHERE m.city_id=:id AND m.status=:status " +
                         "ORDER BY " +
                         "CASE " +
                         "WHEN :orderBy='PRICE' THEN m.min_price " +
                         "WHEN :orderBy='RATING' THEN m.rating " +
-                        "WHEN :orderBy='SOLD' THEN m.sold END " + (orderType==OrderType.ASCENDED ? "ASC" : "DESC"), ServiceEntity.class).setParameter("id",city_id).setParameter("status", ServiceStatus.VERIFIED).setParameter("orderBy", orderBy.toString()).setParameter("status",ServiceStatus.VERIFIED).getResultList();
+                        "WHEN :orderBy='SOLD' THEN m.sold END " + (orderType==OrderType.ASCENDED ? "ASC" : "DESC"), ServiceEntity.class).setParameter("id",city_id).setParameter("orderBy", orderBy.toString()).setParameter("status",ServiceStatus.VERIFIED).setFirstResult(page*page_size).setMaxResults(page_size).getResultList();
         if (raw.isEmpty())
             return new ArrayList<>();
         return (ArrayList<ServiceEntity>) raw;
+    }
+
+    public Long getPageTotalCity(String city_id) {
+        return (Long) entityManager.createQuery("SELECT CEILING(COUNT(*)) FROM ServiceEntity m WHERE m.city_id=:id AND m.status=:status").setParameter("id",city_id).setParameter("status", ServiceStatus.VERIFIED).getResultList().get(0);
+    }
+
+    public ArrayList<ServiceEntity> findByCountry(String country_name, OrderType orderType, SortBy orderBy, int page, int page_size) {
+        List<ServiceEntity> raw = entityManager.createQuery(
+                "FROM ServiceEntity m JOIN CityEntity city ON m.city_id=city.id AND city.country_name=:country AND m.status=:status " +
+                        "ORDER BY " +
+                        "CASE " +
+                        "WHEN :orderBy='PRICE' THEN m.min_price " +
+                        "WHEN :orderBy='RATING' THEN m.rating " +
+                        "WHEN :orderBy='SOLD' THEN m.sold END " + (orderType==OrderType.ASCENDED ? "ASC" : "DESC"), ServiceEntity.class).setParameter("country",country_name).setParameter("orderBy", orderBy.toString()).setParameter("status",ServiceStatus.VERIFIED).setFirstResult(page*page_size).setMaxResults(page_size).getResultList();
+        if (raw.isEmpty())
+            return new ArrayList<>();
+        return (ArrayList<ServiceEntity>) raw;
+    }
+
+    public Long getPageTotalCountry(String country_name) {
+        return (Long) entityManager.createQuery("FROM ServiceEntity m JOIN CityEntity city ON m.city_id=city.id AND city.country_name=:country AND m.status=:status ").setParameter("country",country_name).setParameter("status",ServiceStatus.VERIFIED).getResultList().get(0);
     }
 
     public List<ServiceEntity> findByOwner(String id) {

@@ -12,5 +12,5 @@ public class SearchingPage {
     private List<ServiceCard> data;
     private int page;
     private int size;
-    private int total_pages;
+    private Long total_page;
 }

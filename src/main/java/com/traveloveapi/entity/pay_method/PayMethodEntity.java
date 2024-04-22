@@ -21,4 +21,6 @@ public class PayMethodEntity {
     private String name;
 
     private String code;
+
+    private String account_owner;
 }

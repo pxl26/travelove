@@ -37,7 +37,7 @@ public class PayMethodController {
 
     @Tag(name = "SPRINT 10 - MANAGE")
     @PostMapping("/pay-method")
-    public PayMethodEntity createPayMethod(@RequestParam PayMethodType type, @RequestParam String name, @RequestParam String code) {
+    public PayMethodEntity createPayMethod(@RequestParam PayMethodType type, @RequestParam String name, @RequestParam String code, @RequestParam String account_owner) {
         PayMethodEntity payMethodEntity = new PayMethodEntity();
         List<PayMethodEntity> list = payMethodRepository.findByUserId(SecurityContext.getUserID());
         payMethodEntity.setId(UUID.randomUUID().toString());
@@ -45,6 +45,7 @@ public class PayMethodController {
         payMethodEntity.setType(type);
         payMethodEntity.setName(name);
         payMethodEntity.setCode(code);
+        payMethodEntity.setAccount_owner(account_owner);
         payMethodEntity.setPriority(list.size());
         payMethodRepository.save(payMethodEntity);
         return payMethodEntity;
