@@ -84,7 +84,7 @@ public class CreateAccount {
         }
         UserEntity user = new UserEntity();
         user.setId(UUID.randomUUID().toString());
-        user.setFull_name(entity.getName());
+        user.setFull_name(entity.getCompany_name());
         user.setRole(Role.TOUR_OWNER);
         userRepository.save(user);
         UserDetailEntity detail = new UserDetailEntity();

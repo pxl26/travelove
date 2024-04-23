@@ -13,13 +13,13 @@ public class TourOwnerRegistrationEntity {
     @Id
     private String id;
 
-    private String name;
+    private String company_name;
 
     private String email;
 
     private String phone;
 
-    private String office_address;
+    private String address;
 
     private Timestamp create_at;
 
@@ -30,5 +30,13 @@ public class TourOwnerRegistrationEntity {
 
     private String tax_code;
 
-    private String business_license;
+    private String business_registration;
+
+    private String job_title;
+
+    private String contact_name;
+
+    private String insurance_policy;
+
+    private String contact_language;
 }

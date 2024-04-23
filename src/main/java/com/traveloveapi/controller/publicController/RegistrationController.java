@@ -34,16 +34,19 @@ public class RegistrationController {
 
     @PostMapping("/tour-owner")
     @Tag(name = "SPRINT 10 - MANAGE")
-    public SimpleResponse tourOwnerRegistration(@RequestParam String name, @RequestParam String email, @RequestParam String phone, @RequestParam String office_address, @RequestParam String tax_code, @RequestParam MultipartFile license) {
+    public SimpleResponse tourOwnerRegistration(@RequestParam String name, @RequestParam String email, @RequestParam String phone, @RequestParam String office_address, @RequestParam String tax_code, @RequestParam MultipartFile license, @RequestParam String contact_name, @RequestParam String contact_language, @RequestParam MultipartFile insurance_policy) {
         TourOwnerRegistrationEntity entity = new TourOwnerRegistrationEntity();
         entity.setId(UUID.randomUUID().toString());
-        entity.setName(name);
+        entity.setCompany_name(name);
+        entity.setContact_name(contact_name);
+        entity.setContact_language(contact_language);
         entity.setEmail(email);
         entity.setPhone(phone);
-        entity.setOffice_address(office_address);
+        entity.setAddress(office_address);
         entity.setTax_code(tax_code);
         entity.setStatus(OwnerRegistrationStatus.PENDING);
-        entity.setBusiness_license(s3FileService.uploadFile(license, "public/license/", entity.getId()));
+        entity.setBusiness_registration(s3FileService.uploadFile(license, "public/registration/", entity.getId()+"_registration"));
+        entity.setInsurance_policy(s3FileService.uploadFile(insurance_policy, "/public/registration/", entity.getId() + "_insurance"));
         entity.setCreate_at(new Timestamp(System.currentTimeMillis()));
         entity.setUpdate_at(new Timestamp(System.currentTimeMillis()));
         ownerRegistrationRepository.save(entity);

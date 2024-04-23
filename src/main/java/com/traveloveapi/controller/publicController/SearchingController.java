@@ -44,14 +44,14 @@ public class SearchingController {
 
     @GetMapping("/extend")
     @Tag(name = "SEARCHING")
-    public SearchingPage searchExtend(@RequestParam int page, @RequestParam int page_size, @RequestParam(required = false) String city_id, @RequestParam(required = false) String country_name) {
+    public SearchingPage searchExtend(@RequestParam int page, @RequestParam int page_size, @RequestParam(required = false) String city_id, @RequestParam(required = false) String country_name, @RequestParam SortBy sort_by, @RequestParam OrderType order_type) {
         if (city_id==null && country_name==null) {
             //
         }
 
         if (city_id!=null)
         {
-            ArrayList<ServiceCard> data = tourService.getTourByCity(city_id, OrderType.ASCENDED, SortBy.RATING, page, page_size);
+            ArrayList<ServiceCard> data = tourService.getTourByCity(city_id, order_type, sort_by, page, page_size);
             Long total_record = serviceRepository.getPageTotalCity(city_id);
             if (total_record%page_size!=0)
                 total_record=total_record/page_size +1;
@@ -61,7 +61,7 @@ public class SearchingController {
         }
         else
         {
-            ArrayList<ServiceCard> data = tourService.getTourByCountry(city_id, OrderType.ASCENDED, SortBy.RATING, page, page_size);
+            ArrayList<ServiceCard> data = tourService.getTourByCountry(city_id, order_type, sort_by, page, page_size);
             Long total_record = serviceRepository.getPageTotalCountry(city_id);
             if (total_record%page_size!=0)
                 total_record=total_record/page_size +1;
