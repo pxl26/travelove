@@ -92,6 +92,10 @@ public class ServiceRepository {
         return (Long) entityManager.createQuery("SELECT CEILING(COUNT(*)) FROM ServiceEntity m WHERE m.city_id=:id AND m.status=:status").setParameter("id",city_id).setParameter("status", ServiceStatus.VERIFIED).getResultList().get(0);
     }
 
+    public Long getPageTotalTitle(String query) {
+        return (Long) entityManager.createQuery("SELECT CEILING(COUNT(*)) FROM ServiceEntity m WHERE m.title LIKE '%" + query + "%' AND m.status=:status").setParameter("status", ServiceStatus.VERIFIED).getResultList().get(0);
+    }
+
     public ArrayList<ServiceEntity> findByCountry(String country_name, OrderType orderType, SortBy orderBy, int page, int page_size) {
         List<ServiceEntity> raw = entityManager.createQuery(
                 "FROM ServiceEntity m JOIN CityEntity city ON m.city_id=city.id AND city.country_name=:country AND m.status=:status " +
@@ -100,6 +104,20 @@ public class ServiceRepository {
                         "WHEN :orderBy='PRICE' THEN m.min_price " +
                         "WHEN :orderBy='RATING' THEN m.rating " +
                         "WHEN :orderBy='SOLD' THEN m.sold END " + (orderType==OrderType.ASCENDED ? "ASC" : "DESC"), ServiceEntity.class).setParameter("country",country_name).setParameter("orderBy", orderBy.toString()).setParameter("status",ServiceStatus.VERIFIED).setFirstResult(page*page_size).setMaxResults(page_size).getResultList();
+        if (raw.isEmpty())
+            return new ArrayList<>();
+        return (ArrayList<ServiceEntity>) raw;
+    }
+
+    public ArrayList<ServiceEntity> findByTitle(String query, OrderType orderType, SortBy orderBy, int page, int page_size) {
+        List<ServiceEntity> raw = entityManager.createQuery(
+                "FROM ServiceEntity m " +
+                        "WHERE m.title LIKE '%" + query + "%' AND m.status=:status " +
+                        "ORDER BY " +
+                        "CASE " +
+                        "WHEN :orderBy='PRICE' THEN m.min_price " +
+                        "WHEN :orderBy='RATING' THEN m.rating " +
+                        "WHEN :orderBy='SOLD' THEN m.sold END " + (orderType==OrderType.ASCENDED ? "ASC" : "DESC"), ServiceEntity.class).setParameter("orderBy", orderBy.toString()).setParameter("status",ServiceStatus.VERIFIED).setFirstResult(page*page_size).setMaxResults(page_size).getResultList();
         if (raw.isEmpty())
             return new ArrayList<>();
         return (ArrayList<ServiceEntity>) raw;
