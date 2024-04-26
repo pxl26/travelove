@@ -121,7 +121,7 @@ public class VoucherRepository {
 
     @Transactional
     public VoucherEntity decreaseStock(String voucher_id, int amount) {
-        entityManager.createQuery("UPDATE VoucherEntity e SET e.stock=e.stock - :amount WHERE e.id=:voucher_id").setParameter("amount", 1).executeUpdate();
+        entityManager.createQuery("UPDATE VoucherEntity e SET e.stock=e.stock - :amount WHERE e.id=:voucher_id").setParameter("amount", amount).setParameter("voucher_id", voucher_id).executeUpdate();
         return entityManager.find(VoucherEntity.class, voucher_id);
     }
 }
