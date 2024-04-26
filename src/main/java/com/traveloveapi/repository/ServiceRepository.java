@@ -69,9 +69,11 @@ public class ServiceRepository {
         return entityManager.find(ServiceEntity.class, id);
     }
     public ArrayList<ServiceEntity> findByStatus(ServiceStatus status, String owner) {
-        if (owner.isEmpty())
-            return (ArrayList<ServiceEntity>) entityManager.createQuery("FROM ServiceEntity m WHERE m.status=:status").setParameter("status",status).getResultList();
         return (ArrayList<ServiceEntity>) entityManager.createQuery("FROM ServiceEntity m WHERE m.status=:status and m.service_owner=:owner").setParameter("status",status).setParameter("owner",owner).getResultList();
+    }
+
+    public ArrayList<ServiceEntity> findByStatus(ServiceStatus status) {
+        return (ArrayList<ServiceEntity>) entityManager.createQuery("FROM ServiceEntity m WHERE m.status=:status").setParameter("status",status).getResultList();
     }
 
     public ArrayList<ServiceEntity> findByCity(String city_id, OrderType orderType, SortBy orderBy, int page, int page_size) {

@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -35,6 +36,7 @@ public class BillController {
     final private PaymentService paymentService;
     final private UserService userService;
     final private BillRepository billRepository;
+    final private RabbitTemplate rabbitTemplate;
 
     @PostMapping
     @Tags({
@@ -55,6 +57,7 @@ public class BillController {
     public SimpleResponse updateStatus(@RequestParam String order_id, @RequestParam String bank_code, @RequestParam String status_code,@RequestParam PayMethod method) {
         if ((status_code.equals("00")&&method==PayMethod.VNPAY) || (status_code.equals("1")&&method==PayMethod.ZALOPAY)) {
             paymentService.updateBillWasPaid(order_id);
+            rabbitTemplate.convertAndSend("booking", order_id);
         }
         else
             paymentService.updateBillWasCancelled(order_id);
