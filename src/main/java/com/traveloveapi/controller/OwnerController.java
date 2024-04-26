@@ -59,7 +59,7 @@ public class OwnerController {
 
         if (tour_id!=null)
         {
-            if (!userService.verifyIsOwner(tour_id, owner_id) && !userService.isAdmin())
+            if (!userService.verifyIsOwner(tour_id, SecurityContext.getUserID()) && !userService.isAdmin())
                 throw new ForbiddenException();
             return billVoucherRepository.getTotalVoucherDiscountByTour(tour_id, from, to);
         }
