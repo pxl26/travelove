@@ -67,7 +67,7 @@ public class BillController {
             @Tag(name = "MANAGE", description = "It's serve for all role")
     })
 
-    public ArrayList<BillEntity> getBill(@RequestParam(required = false) String tour_id, @RequestParam(required = false) Date from, @RequestParam(required = false) Date to, @RequestParam(required = false) String status_code, @RequestParam(required = false) String owner_id) {
+    public ArrayList<BillEntity> getBill(@RequestParam(required = false) String tour_id, @RequestParam(required = false) Date from, @RequestParam(required = false) Date to, @RequestParam(required = false) String owner_id) {
         UserEntity user = userService.getUser(SecurityContext.getUserID());
 
         // FOR USER
