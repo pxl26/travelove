@@ -24,7 +24,7 @@ public class EventService {
         NotificationEntity notificationEntity = new NotificationEntity();
         ServiceEntity tour = serviceRepository.find(bill.getService_id());
         notificationEntity.setId(UUID.randomUUID().toString());
-        notificationEntity.setCreated_at(new Timestamp(System.currentTimeMillis()));
+        notificationEntity.setCreate_at(new Timestamp(System.currentTimeMillis()));
         notificationEntity.setImage(tour.getThumbnail());
         notificationEntity.setContent("Nhận <br>" + bill.getQuantity() + " vé mới</br> cho ngày <br>"+ bill.getDate() + "</br> - "+tour.getTitle());
         notificationEntity.setConsumer_id(tour.getService_owner());
@@ -38,7 +38,7 @@ public class EventService {
         NotificationEntity notificationEntity = new NotificationEntity();
         ServiceEntity tour = serviceRepository.find(bill.getService_id());
         notificationEntity.setId(UUID.randomUUID().toString());
-        notificationEntity.setCreated_at(new Timestamp(System.currentTimeMillis()));
+        notificationEntity.setCreate_at(new Timestamp(System.currentTimeMillis()));
         notificationEntity.setImage(tour.getThumbnail());
         notificationEntity.setContent("Có <br>" + bill.getQuantity() + " vé đã hủy</br> cho ngày <br>"+ bill.getDate()+"</br> - "+tour.getTitle());
         notificationEntity.setConsumer_id(tour.getService_owner());
@@ -53,7 +53,7 @@ public class EventService {
         NotificationEntity notificationEntity = new NotificationEntity();
         ServiceEntity tour = serviceRepository.find(feedback.getRef_id());
         notificationEntity.setId(UUID.randomUUID().toString());
-        notificationEntity.setCreated_at(new Timestamp(System.currentTimeMillis()));
+        notificationEntity.setCreate_at(new Timestamp(System.currentTimeMillis()));
         notificationEntity.setImage(tour.getThumbnail());
         notificationEntity.setContent("Nhận đánh giá <br>" + feedback.getRating()+" sao</br>" + (feedback.getContent()!=null ? ("và bình luận " + (feedback.isHas_media() ? "kèm video hoặc hình ảnh": "")): (feedback.isHas_media() ? "kèm video hoặc hình ảnh":"")));
         notificationEntity.setConsumer_id(tour.getService_owner());

@@ -19,6 +19,7 @@ import com.traveloveapi.service.redis.RedisService;
 import com.traveloveapi.service.user.UserService;
 import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,6 +38,7 @@ public class FeedbackService {
     final private UserService userService;
     final private ServiceRepository serviceRepository;
     final private RedisService redisService;
+    final private RabbitTemplate rabbitTemplate;
 
     public FeedbackEntity createFeedback(int rating, String content, String bill_id, MultipartFile[] files) {
         BillEntity bill = billRepository.find(bill_id);
@@ -83,6 +85,8 @@ public class FeedbackService {
 
         redisService.getConnection().del("tour_detail:"+tour.getId());
         redisService.getConnection().del("tour_card:"+tour.getId());
+
+        rabbitTemplate.convertAndSend("feedback", feedback);
         return feedback;
     }
 

@@ -24,7 +24,7 @@ public class NotificationEntity {
     @Enumerated(EnumType.STRING)
     private NotificationType type;
 
-    private Timestamp created_at;
+    private Timestamp create_at;
 
     private Timestamp read_at;
 }

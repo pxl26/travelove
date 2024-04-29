@@ -14,22 +14,19 @@ import com.traveloveapi.service.user.UserService;
 import com.traveloveapi.utility.SecurityContext;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-@RestController("/notification")
+@RestController
+@RequestMapping("/notification")
 @AllArgsConstructor
 public class NotificationController {
     final private NotificationRepository notificationRepository;
     final private OwnerRegistrationRepository ownerRegistrationRepository;
     final private ServiceRepository serviceRepository;
     final private UserService userService;
-    final private RedisService redisService;
 
     @GetMapping("/owner")
     @Tag(name = "Notification")

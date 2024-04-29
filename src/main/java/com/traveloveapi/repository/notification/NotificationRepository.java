@@ -19,7 +19,7 @@ public class NotificationRepository {
     }
 
     public List<NotificationEntity> getAll(int page, int size, String consumer_id) {
-        return entityManager.createQuery("FROM NotificationEntity e WHERE e.consumer_id=:consumer ORDER BY e.created_at").setParameter("consumer", consumer_id).setFirstResult(page * size).setMaxResults(size).getResultList();
+        return entityManager.createQuery("FROM NotificationEntity e WHERE e.consumer_id=:consumer ORDER BY e.create_at").setParameter("consumer", consumer_id).setFirstResult(page * size).setMaxResults(size).getResultList();
     }
 
     public List<NotificationEntity> getUnread(String consumer_id) {
@@ -28,7 +28,7 @@ public class NotificationRepository {
 
     @Transactional
     public void readNotification(Timestamp latest_time, String tour_owner) {
-        entityManager.createQuery("UPDATE NotificationEntity e SET read_at=now() WHERE e.consumer_id=:owner e.created_at>:latest").setParameter("latest", latest_time).setParameter("owner",tour_owner).executeUpdate();
+        entityManager.createQuery("UPDATE NotificationEntity e SET read_at=now() WHERE e.consumer_id=:owner e.create_at>:latest").setParameter("latest", latest_time).setParameter("owner",tour_owner).executeUpdate();
     }
 
     @Transactional
