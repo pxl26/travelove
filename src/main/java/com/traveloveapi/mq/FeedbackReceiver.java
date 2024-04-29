@@ -6,6 +6,7 @@ import com.traveloveapi.service.EventService;
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
 
 @RabbitListener(queues = "feedback")
 @AllArgsConstructor

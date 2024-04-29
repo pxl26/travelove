@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
     @Bean
     public Queue newQueue() {
-        return new Queue("voucher-update");
+        return new Queue("booking");
     }
 }

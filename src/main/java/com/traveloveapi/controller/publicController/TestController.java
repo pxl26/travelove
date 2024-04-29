@@ -47,7 +47,7 @@ public class TestController {
 
     @PostMapping("/mq")
     public String post(@RequestParam String message) {
-        rabbitTemplate.convertAndSend(queue.getName(), message);
+        rabbitTemplate.convertAndSend("booking", message);
         return "Oke";
     }
 }
