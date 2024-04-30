@@ -27,7 +27,9 @@ spring:
         multipart:
             max-file-size: 100MB
             max-request-size: 100MB
-logging:
+
+    rabbitmq:
+        host: rabbitmq
     file:
         name: log/dev.log
 
@@ -63,3 +65,5 @@ oauth:
 #        host: http://localhost:3000
 web:
     host: http://localhost:3000
+
+
