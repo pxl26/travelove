@@ -16,10 +16,6 @@ public class FeedbackReceiver {
     final private NotificationRepository notificationRepository;
     final private EventService eventService;
 
-    public void init() {
-        Queue queue = new Queue("feedback", true, false, false);
-    }
-
     @RabbitHandler
     public void process(FeedbackEntity feedback) {
         notificationRepository.save(eventService.feedback(feedback));

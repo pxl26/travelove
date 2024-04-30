@@ -4,6 +4,7 @@ import com.traveloveapi.entity.MediaEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Set;
@@ -11,7 +12,7 @@ import java.util.Set;
 @Entity
 @Data
 @Table(name = "feedback")
-public class FeedbackEntity {
+public class FeedbackEntity implements Serializable {
     @Id
     private String id;
 
