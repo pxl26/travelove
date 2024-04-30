@@ -29,7 +29,6 @@ import java.util.concurrent.TimeoutException;
 @RequiredArgsConstructor
 @RequestMapping("/public/test")
 public class TestController {
-    final private Queue queue;
     final private RabbitTemplate rabbitTemplate;
 
 

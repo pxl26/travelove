@@ -15,12 +15,6 @@ import org.springframework.stereotype.Component;
 public class BookingReceiver {
     final private EventService eventService;
     final private NotificationRepository notificationRepository;
-    private final Queue newQueue;
-
-    @PostConstruct
-    public void init() {
-        Queue queue = new Queue("booking", true, false, false);
-    }
 
     @RabbitHandler
     public void process(String bill_id) {

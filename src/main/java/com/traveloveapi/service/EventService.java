@@ -1,10 +1,12 @@
 package com.traveloveapi.service;
 
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.traveloveapi.constrain.voucher.NotificationType;
 import com.traveloveapi.entity.NotificationEntity;
 import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.feedback.FeedbackEntity;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
+import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.repository.bill.BillRepository;
 import lombok.AllArgsConstructor;
@@ -21,6 +23,8 @@ public class EventService {
 
     public NotificationEntity bookTour(String bill_id) {
         BillEntity bill = billRepository.find(bill_id);
+        if (bill==null)
+            return null;
         NotificationEntity notificationEntity = new NotificationEntity();
         ServiceEntity tour = serviceRepository.find(bill.getService_id());
         notificationEntity.setId(UUID.randomUUID().toString());

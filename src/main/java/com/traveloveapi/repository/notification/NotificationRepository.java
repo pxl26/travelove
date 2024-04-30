@@ -33,6 +33,7 @@ public class NotificationRepository {
 
     @Transactional
     public void save(NotificationEntity notification) {
-        entityManager.persist(notification);
+        if (notification != null)
+            entityManager.persist(notification);
     }
 }
