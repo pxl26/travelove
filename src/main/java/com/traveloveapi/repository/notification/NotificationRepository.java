@@ -23,7 +23,7 @@ public class NotificationRepository {
     }
 
     public List<NotificationEntity> getUnread(String consumer_id) {
-        return entityManager.createQuery("WHERE NotificationEntity.consumer_id=:consumer AND NotificationEntity.read_at IS NULL").setParameter("consumer", consumer_id).getResultList();
+        return entityManager.createQuery("FROM NotificationEntity e WHERE e.consumer_id=:consumer AND e.read_at IS NULL").setParameter("consumer", consumer_id).getResultList();
     }
 
     @Transactional

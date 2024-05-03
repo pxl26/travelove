@@ -111,4 +111,10 @@ public class PublicServiceController {
     public FeedbackDTO getFeedbackById(@RequestParam String feedback_id) {
         return feedbackService.getFeedback(feedback_id);
     }
+
+    @GetMapping("/random")
+    @Tag(name = "CARD")
+    public List getRandomTour(@RequestParam int quantity) {
+        return serviceRepository.getRandomTour(quantity);
+    }
 }

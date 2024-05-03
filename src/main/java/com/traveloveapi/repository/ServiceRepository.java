@@ -140,6 +140,10 @@ public class ServiceRepository {
         return Search.session(entityManager).search(ServiceEntity.class).where(f -> f.match().field("title").matching(input)).fetchHits(20);
     }
 
+    public List getRandomTour(int limit) {
+        return entityManager.createQuery("FROM ServiceEntity e WHERE e.status=:status ORDER BY RAND() LIMIT :limit").setParameter("status",ServiceStatus.VERIFIED).setParameter("limit", limit).getResultList();
+    }
+
     @Transactional
     public void save(ServiceEntity entity) {
         entityManager.persist(entity);
