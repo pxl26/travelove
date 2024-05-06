@@ -62,7 +62,7 @@ public class PublicServiceController {
         return tourService.getPackageInfo(service_id);
     }
 
-    @GetMapping("/check-available")
+    @PutMapping("/check-available")
     @Tag(name="SPRINT 2")
     //RequestCheckAvailablePackageDTO
     public ArrayList<ServiceStatusByDateDTO> checkServiceStatusByMonth(@RequestBody RequestCheckAvailablePackageDTO request) {
