@@ -33,7 +33,7 @@ public class EventService {
         notificationEntity.setContent("Nhận <strong>" + bill.getQuantity() + " vé mới</strong> cho ngày <strong>"+ bill.getDate() + "</strong> - "+tour.getTitle());
         notificationEntity.setConsumer_id(tour.getService_owner());
         notificationEntity.setType(NotificationType.NEW_BOOKING);
-        notificationEntity.setUrl("/bill?bill_id=" + bill.getId());
+        notificationEntity.setUrl("service-owner/bill/" + bill.getId());
 
         return notificationEntity;
     }
@@ -62,7 +62,7 @@ public class EventService {
         notificationEntity.setContent("Nhận đánh giá <strong>" + feedback.getRating()+" sao</strong>" + (feedback.getContent()!=null ? ("và bình luận " + (feedback.isHas_media() ? "kèm video hoặc hình ảnh": "")): (feedback.isHas_media() ? "kèm video hoặc hình ảnh":"")));
         notificationEntity.setConsumer_id(tour.getService_owner());
         notificationEntity.setType(NotificationType.NEW_FEEDBACK);
-        notificationEntity.setUrl("/tour?tour_id=" + feedback.getRef_id()+"&feedback_id="+feedback.getRef_id());
+        notificationEntity.setUrl("/tour/" + feedback.getRef_id()+"/&feedback_id="+feedback.getRef_id());
 
         return notificationEntity;
     }
