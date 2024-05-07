@@ -161,4 +161,8 @@ public class ServiceRepository {
     public List<ServiceEntity> getBestSeller(int quantity) {
         return entityManager.createQuery("FROM ServiceEntity e WHERE e.status=:status ORDER BY e.sold DESC LIMIT :quantity", ServiceEntity.class).setParameter("status", ServiceStatus.VERIFIED).setParameter("quantity",quantity).getResultList();
     }
+
+    public List<ServiceEntity> getBestSeller(String owner) {
+        return entityManager.createQuery("FROM ServiceEntity e WHERE e.status=:status AND e.service_owner=:owner ORDER BY e.sold DESC", ServiceEntity.class).setParameter("status", ServiceStatus.VERIFIED).setParameter("owner",owner).getResultList();
+    }
 }

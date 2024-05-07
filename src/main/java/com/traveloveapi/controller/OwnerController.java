@@ -2,8 +2,10 @@ package com.traveloveapi.controller;
 
 import com.traveloveapi.DTO.owner.IncomeDTO;
 import com.traveloveapi.DTO.voucher.VoucherDiscountSummary;
+import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.exception.ForbiddenException;
+import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.repository.bill.BillRepository;
 import com.traveloveapi.repository.bill.BillVoucherRepository;
 import com.traveloveapi.service.user.UserService;
@@ -25,6 +27,7 @@ public class OwnerController {
     final private BillRepository billRepository;
     final private UserService userService;
     final private BillVoucherRepository billVoucherRepository;
+    final private ServiceRepository serviceRepository;
 
     @GetMapping("/income")
     @Tag(name = "TOUR OWNER")
@@ -66,5 +69,10 @@ public class OwnerController {
         if (!userService.isAdmin())
             throw new ForbiddenException();
         return billVoucherRepository.getTotalVoucherDiscount(owner_id, from, to);
+    }
+
+    @GetMapping("/best-seller")
+    public List<ServiceEntity> getBetSeller() {
+        return serviceRepository.getBestSeller(SecurityContext.getUserID());
     }
 }
