@@ -157,4 +157,8 @@ public class ServiceRepository {
     public List<ServiceEntity> getAll() {
         return entityManager.createQuery("FROM ServiceEntity e WHERE e.status= :status", ServiceEntity.class).setParameter("status", ServiceStatus.VERIFIED).getResultList();
     }
+
+    public List<ServiceEntity> getBestSeller(int quantity) {
+        return entityManager.createQuery("FROM ServiceEntity e WHERE e.status=:status ORDER BY e.sold DESC LIMIT :quantity", ServiceEntity.class).setParameter("status", ServiceStatus.VERIFIED).setParameter("quantity",quantity).getResultList();
+    }
 }

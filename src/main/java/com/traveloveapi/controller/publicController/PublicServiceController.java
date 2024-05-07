@@ -117,4 +117,14 @@ public class PublicServiceController {
     public List getRandomTour(@RequestParam int quantity) {
         return serviceRepository.getRandomTour(quantity);
     }
+
+    @GetMapping("/best-seller")
+    public ArrayList<ServiceDetailDTO> getBestSeller(@RequestParam int quantity) {
+        List<ServiceEntity> tour = serviceRepository.getBestSeller(quantity);
+        ArrayList<ServiceDetailDTO> serviceDetailDTOs = new ArrayList<>();
+        for (ServiceEntity serviceEntity : tour) {
+            serviceDetailDTOs.add(tourService.getTour(serviceEntity.getId()));
+        }
+        return serviceDetailDTOs;
+    }
 }
