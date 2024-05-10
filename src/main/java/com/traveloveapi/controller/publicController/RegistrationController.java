@@ -45,8 +45,8 @@ public class RegistrationController {
         entity.setAddress(office_address);
         entity.setTax_code(tax_code);
         entity.setStatus(OwnerRegistrationStatus.PENDING);
+        entity.setInsurance_policy(s3FileService.uploadFile(insurance_policy, "public/registration/", entity.getId() + "_insurance"));
         entity.setBusiness_registration(s3FileService.uploadFile(license, "public/registration/", entity.getId()+"_registration"));
-        entity.setInsurance_policy(s3FileService.uploadFile(insurance_policy, "/public/registration/", entity.getId() + "_insurance"));
         entity.setCreate_at(new Timestamp(System.currentTimeMillis()));
         entity.setUpdate_at(new Timestamp(System.currentTimeMillis()));
         ownerRegistrationRepository.save(entity);

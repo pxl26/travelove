@@ -60,6 +60,7 @@ public class S3FileService {
 
     public String uploadFile(MultipartFile file, String path, String file_name)  {
         String full_name = file_name + '.' + FileSupporter.getExtensionName(Objects.requireNonNull(file.getOriginalFilename()));
+        System.out.println(file_name);
         try {
             ObjectMetadata meta = new ObjectMetadata();
             meta.setContentLength(file.getSize());
