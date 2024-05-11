@@ -35,6 +35,19 @@ public class RegistrationController {
     @PostMapping("/tour-owner")
     @Tag(name = "SPRINT 10 - MANAGE")
     public SimpleResponse tourOwnerRegistration(@RequestParam String name, @RequestParam String email, @RequestParam String phone, @RequestParam String office_address, @RequestParam String tax_code, @RequestParam MultipartFile license, @RequestParam String contact_name, @RequestParam String contact_language, @RequestParam MultipartFile insurance_policy) {
+        //-----VALIDATE EMAIL-----
+        TourOwnerRegistrationEntity check =  ownerRegistrationRepository.findByEmail(email);
+        if (check != null) {
+            if (check.getStatus()==OwnerRegistrationStatus.PENDING)
+                throw new CustomException("EMAIL: PENDING REGISTRATION", 400);
+            if (check.getStatus()==OwnerRegistrationStatus.ACCEPTED)
+                throw new CustomException("EMAIL: ACCEPTED REGISTRATION", 400);
+        }
+
+        UserDetailEntity userDetailEntity = userDetailRepository.findEmail(email);
+        if (userDetailEntity!=null)
+            throw new CustomException("EMAIL: ALREADY EXISTED", 400);
+
         TourOwnerRegistrationEntity entity = new TourOwnerRegistrationEntity();
         entity.setId(UUID.randomUUID().toString());
         entity.setCompany_name(name);

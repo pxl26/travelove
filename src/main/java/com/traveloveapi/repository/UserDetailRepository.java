@@ -31,6 +31,13 @@ public class UserDetailRepository {
         return (UserDetailEntity) result.get(0);
     }
 
+    public UserDetailEntity findEmail(String email) {
+        List result = entityManager.createQuery("FROM UserDetailEntity u WHERE u.email=:email").setParameter("email",email).getResultList();
+        if (result.isEmpty())
+            return null;
+        return (UserDetailEntity) result.get(0);
+    }
+
     public UserDetailEntity findByUsername(String username) {
         List<Object> list = entityManager.createQuery("FROM UserDetailEntity u WHERE u.username=:username").setParameter("username", username).getResultList();
         if (list.isEmpty())
@@ -53,5 +60,10 @@ public class UserDetailRepository {
     @Transactional
     public void update(UserDetailEntity entity) {
         entityManager.merge(entity);
+    }
+
+    @Transactional
+    public void delete(UserDetailEntity entity) {
+        entityManager.remove(entity);
     }
 }

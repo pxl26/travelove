@@ -4,6 +4,7 @@ import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.DTO.user.UserProfile;
 import com.traveloveapi.constrain.Gender;
 import com.traveloveapi.constrain.Region;
+import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.service.user.UserProfileService;
 import com.traveloveapi.service.user.UserService;
@@ -45,5 +46,10 @@ public class SelfProfileController {
         else
             return new SimpleResponse("Old password is missing", 400);
 
+    }
+
+    @DeleteMapping
+    public UserEntity deleteProfile() {
+        return userService.deleteAccount(SecurityContext.getUserID());
     }
 }

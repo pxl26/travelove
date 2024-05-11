@@ -43,4 +43,9 @@ public class UserRepository {
     public void update(UserEntity entity){
         entityManager.merge(entity);
     }
+
+    @Transactional
+    public void delete(UserEntity entity){
+        entityManager.remove(entity);
+    }
 }

@@ -29,6 +29,13 @@ public class OwnerRegistrationRepository {
         return entityManager.find(TourOwnerRegistrationEntity.class, id);
     }
 
+    public TourOwnerRegistrationEntity findByEmail(String email) {
+        List<TourOwnerRegistrationEntity> raw = entityManager.createQuery("FROM TourOwnerRegistrationEntity  e WHERE e.email=:email", TourOwnerRegistrationEntity.class).setParameter("email",email).getResultList();
+        if (raw.isEmpty())
+            return null;
+        return raw.get(0);
+    }
+
 
     public ArrayList<TourOwnerRegistrationEntity> getByStatus(OwnerRegistrationStatus status) {
         List temp = entityManager.createQuery("FROM TourOwnerRegistrationEntity e WHERE e.status=:status ORDER BY e.update_at").setParameter("status", status).getResultList();

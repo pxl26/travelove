@@ -71,4 +71,13 @@ public class UserService {
     public boolean verifyIsOwner(String tour_id, String user_id) {
         return serviceRepository.findAdmin(tour_id).getService_owner().equals(user_id);
     }
+
+    public UserEntity deleteAccount(String user_id) {
+        UserEntity user = userRepository.find(user_id);
+        userRepository.delete(user);
+        UserDetailEntity detail = userDetailRepository.find(user_id);
+        userDetailRepository.delete(detail);
+
+        return user;
+    }
 }
