@@ -48,8 +48,4 @@ public class SelfProfileController {
 
     }
 
-    @DeleteMapping
-    public UserEntity deleteProfile() {
-        return userService.deleteAccount(SecurityContext.getUserID());
-    }
 }

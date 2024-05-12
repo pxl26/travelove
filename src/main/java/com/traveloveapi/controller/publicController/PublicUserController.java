@@ -4,9 +4,13 @@ import com.traveloveapi.DTO.SimpleResponse;
 import com.traveloveapi.DTO.service.TourOwnerDTO;
 import com.traveloveapi.DTO.user.UserDTO;
 import com.traveloveapi.DTO.user.UserProfile;
+import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.repository.ServiceRepository;
+import com.traveloveapi.service.login.LoginService;
 import com.traveloveapi.service.user.UserProfileService;
+import com.traveloveapi.service.user.UserService;
+import com.traveloveapi.utility.SecurityContext;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +24,8 @@ import java.util.List;
 public class PublicUserController {
     final private UserProfileService userProfileService;
     final private ServiceRepository serviceRepository;
+    final private UserService userService;
+    final private LoginService loginService;
 
     @GetMapping
     @Tag(name = "SPRINT 1")
@@ -44,4 +50,10 @@ public class PublicUserController {
             return serviceRepository.getTourOwnerDTO(owner_id);
         return serviceRepository.getTourOwnerDTOByTour(tour_id);
     }
+    @DeleteMapping
+    public UserEntity deleteProfile(@RequestParam String email, @RequestParam String password) {
+        loginService.emailLogin(email, password);
+        return userService.deleteAccount(SecurityContext.getUserID());
+    }
+
 }
