@@ -1,12 +1,10 @@
 package com.traveloveapi.service;
 
-import com.amazonaws.services.kms.model.NotFoundException;
 import com.traveloveapi.constrain.voucher.NotificationType;
 import com.traveloveapi.entity.NotificationEntity;
 import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.feedback.FeedbackEntity;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
-import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.repository.bill.BillRepository;
 import lombok.AllArgsConstructor;
@@ -30,7 +28,7 @@ public class EventService {
         notificationEntity.setId(UUID.randomUUID().toString());
         notificationEntity.setCreate_at(new Timestamp(System.currentTimeMillis()));
         notificationEntity.setImage(tour.getThumbnail());
-        notificationEntity.setContent("Nhận <strong>" + bill.getQuantity() + " vé mới</strong> cho ngày <strong>"+ bill.getDate() + "</strong> - "+tour.getTitle());
+        notificationEntity.setContent("Có <strong>" + bill.getQuantity() + " vé mới</strong> cho ngày <strong>"+ bill.getDate() + "</strong> - "+tour.getTitle());
         notificationEntity.setConsumer_id(tour.getService_owner());
         notificationEntity.setType(NotificationType.NEW_BOOKING);
         notificationEntity.setUrl("service-owner/bill/" + bill.getId());
@@ -59,7 +57,7 @@ public class EventService {
         notificationEntity.setId(UUID.randomUUID().toString());
         notificationEntity.setCreate_at(new Timestamp(System.currentTimeMillis()));
         notificationEntity.setImage(tour.getThumbnail());
-        notificationEntity.setContent("Nhận đánh giá <strong>" + feedback.getRating()+" sao</strong>" + (feedback.getContent()!=null ? ("và bình luận " + (feedback.isHas_media() ? "kèm video hoặc hình ảnh": "")): (feedback.isHas_media() ? "kèm video hoặc hình ảnh":"")));
+        notificationEntity.setContent("Có đánh giá <strong>" + feedback.getRating()+" sao</strong>" + (feedback.getContent()!=null ? (" và bình luận " + (feedback.isHas_media() ? "kèm video hoặc hình ảnh": "")): (feedback.isHas_media() ? "kèm video hoặc hình ảnh":"")));
         notificationEntity.setConsumer_id(tour.getService_owner());
         notificationEntity.setType(NotificationType.NEW_FEEDBACK);
         notificationEntity.setUrl("/tour/" + feedback.getRef_id()+"/&feedback_id="+feedback.getRef_id());
