@@ -105,7 +105,7 @@ public class ServiceRepository {
                         "CASE " +
                         "WHEN :orderBy='PRICE' THEN m.min_price " +
                         "WHEN :orderBy='RATING' THEN m.rating " +
-                        "WHEN :orderBy='SOLD' THEN m.sold END " + (orderType==OrderType.ASCENDED ? "ASC" : "DESC") + " , m.sold DESC, m.id ASC", ServiceEntity.class).setParameter("country",country_name).setParameter("orderBy", orderBy.toString()).setParameter("status",ServiceStatus.VERIFIED).setFirstResult(page*page_size).setMaxResults(page_size).getResultList();
+                        "WHEN :orderBy='SOLD' THEN m.sold END " + (orderType==OrderType.ASCENDED ? "ASC" : "DESC") + ", m.sold DESC, m.id ASC" , ServiceEntity.class).setParameter("country",country_name).setParameter("orderBy", orderBy.toString()).setParameter("status",ServiceStatus.VERIFIED).setFirstResult(page*page_size).setMaxResults(page_size).getResultList();
         if (raw.isEmpty())
             return new ArrayList<>();
         return (ArrayList<ServiceEntity>) raw;
@@ -119,7 +119,7 @@ public class ServiceRepository {
                         "CASE " +
                         "WHEN :orderBy='PRICE' THEN m.min_price " +
                         "WHEN :orderBy='RATING' THEN m.rating " +
-                        "WHEN :orderBy='SOLD' THEN m.sold END, m.sold, m.id " + (orderType==OrderType.ASCENDED ? "ASC" : "DESC") + " ,m.sold DESC, m.id ASC", ServiceEntity.class).setParameter("orderBy", orderBy.toString()).setParameter("status",ServiceStatus.VERIFIED).setFirstResult(page*page_size).setMaxResults(page_size).getResultList();
+                        "WHEN :orderBy='SOLD' THEN m.sold END " + (orderType==OrderType.ASCENDED ? "ASC" : "DESC") + ", m.sold DESC, m.id ASC", ServiceEntity.class).setParameter("orderBy", orderBy.toString()).setParameter("status",ServiceStatus.VERIFIED).setFirstResult(page*page_size).setMaxResults(page_size).getResultList();
         if (raw.isEmpty())
             return new ArrayList<>();
         return (ArrayList<ServiceEntity>) raw;
