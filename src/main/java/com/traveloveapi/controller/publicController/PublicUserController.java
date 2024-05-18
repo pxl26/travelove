@@ -1,6 +1,7 @@
 package com.traveloveapi.controller.publicController;
 
 import com.traveloveapi.DTO.SimpleResponse;
+import com.traveloveapi.DTO.TokenResponse;
 import com.traveloveapi.DTO.service.TourOwnerDTO;
 import com.traveloveapi.DTO.user.UserDTO;
 import com.traveloveapi.DTO.user.UserProfile;
@@ -10,6 +11,7 @@ import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.service.login.LoginService;
 import com.traveloveapi.service.user.UserProfileService;
 import com.traveloveapi.service.user.UserService;
+import com.traveloveapi.utility.JwtProvider;
 import com.traveloveapi.utility.SecurityContext;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -52,8 +54,8 @@ public class PublicUserController {
     }
     @DeleteMapping
     public UserEntity deleteProfile(@RequestParam String email, @RequestParam String password) {
-        loginService.emailLogin(email, password);
-        return userService.deleteAccount(SecurityContext.getUserID());
+        TokenResponse token = loginService.emailLogin(email, password);
+        return userService.deleteAccount(JwtProvider.getUserIdFromToken(token.getAccess_token()));
     }
 
 }
