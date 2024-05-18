@@ -84,7 +84,7 @@ public class ServiceRepository {
                         "CASE " +
                         "WHEN :orderBy='PRICE' THEN m.min_price " +
                         "WHEN :orderBy='RATING' THEN m.rating " +
-                        "WHEN :orderBy='SOLD' THEN m.sold END " + (orderType==OrderType.ASCENDED ? "ASC" : "DESC") + " .m.sold DESC, m.id ASC", ServiceEntity.class).setParameter("id",city_id).setParameter("orderBy", orderBy.toString()).setParameter("status",ServiceStatus.VERIFIED).setFirstResult(page*page_size).setMaxResults(page_size).getResultList();
+                        "WHEN :orderBy='SOLD' THEN m.sold END " + (orderType==OrderType.ASCENDED ? "ASC" : "DESC") + ", m.sold DESC, m.id ASC", ServiceEntity.class).setParameter("id",city_id).setParameter("orderBy", orderBy.toString()).setParameter("status",ServiceStatus.VERIFIED).setFirstResult(page*page_size).setMaxResults(page_size).getResultList();
         if (raw.isEmpty())
             return new ArrayList<>();
         return (ArrayList<ServiceEntity>) raw;
