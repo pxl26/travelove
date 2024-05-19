@@ -14,6 +14,7 @@ import com.traveloveapi.service.user.UserService;
 import com.traveloveapi.utility.SecurityContext;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -42,7 +43,7 @@ public class NotificationController {
 
     @PutMapping("/owner/read")
     @Tag(name = "Notification")
-    public void readNotification(@RequestParam Timestamp latest_time) {
+    public void readNotification(@RequestParam @DateTimeFormat Timestamp latest_time) {
         notificationRepository.readNotification(latest_time, SecurityContext.getUserID());
     }
 

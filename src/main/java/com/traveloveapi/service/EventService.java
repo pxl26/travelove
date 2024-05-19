@@ -31,7 +31,7 @@ public class EventService {
         notificationEntity.setContent("Có <strong>" + bill.getQuantity() + " vé mới</strong> cho ngày <strong>"+ bill.getDate() + "</strong> - "+tour.getTitle());
         notificationEntity.setConsumer_id(tour.getService_owner());
         notificationEntity.setType(NotificationType.NEW_BOOKING);
-        notificationEntity.setUrl("service-owner/bill/" + bill.getId());
+        notificationEntity.setUrl("service-owner/bill/" + bill.getService_id() + "?bill_id=" + bill.getId());
 
         return notificationEntity;
     }

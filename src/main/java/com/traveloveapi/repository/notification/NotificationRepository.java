@@ -28,7 +28,7 @@ public class NotificationRepository {
 
     @Transactional
     public void readNotification(Timestamp latest_time, String tour_owner) {
-        entityManager.createQuery("UPDATE NotificationEntity e SET read_at=now() WHERE e.consumer_id=:owner AND e.create_at>:latest").setParameter("latest", latest_time).setParameter("owner",tour_owner).executeUpdate();
+        entityManager.createQuery("UPDATE NotificationEntity e SET read_at=now() WHERE e.consumer_id=:owner AND e.create_at<=:latest").setParameter("latest", latest_time).setParameter("owner",tour_owner).executeUpdate();
     }
 
     @Transactional

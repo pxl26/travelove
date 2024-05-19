@@ -119,8 +119,8 @@ public class PublicServiceController {
     }
 
     @GetMapping("/best-seller")
-    public ArrayList<ServiceDetailDTO> getBestSeller(@RequestParam int quantity) {
-        List<ServiceEntity> tour = serviceRepository.getBestSeller(quantity);
+    public List getBestSeller(@RequestParam int quantity) {
+        List<ServiceEntity> tour = serviceRepository.getBestSellers(quantity);
         ArrayList<ServiceDetailDTO> serviceDetailDTOs = new ArrayList<>();
         for (ServiceEntity serviceEntity : tour) {
             serviceDetailDTOs.add(tourService.getTour(serviceEntity.getId()));

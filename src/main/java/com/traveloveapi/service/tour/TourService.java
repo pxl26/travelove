@@ -163,7 +163,7 @@ public class TourService {
         if ((!isAdmin)&&service_owner.isEmpty())
             if (!service_owner.equals(SecurityContext.getUserID()))
                     throw new ForbiddenException();
-        ArrayList<ServiceEntity> entity_list = serviceRepository.findByStatus(ServiceStatus.PENDING, service_owner);
+        ArrayList<ServiceEntity> entity_list = service_owner!="" ? serviceRepository.findByStatus(ServiceStatus.PENDING, service_owner) : serviceRepository.findByStatus(ServiceStatus.PENDING);
         ArrayList<ServiceDetailDTO> rs = new ArrayList<>();
         for (ServiceEntity entity: entity_list)
             rs.add(getTour(entity.getId()));

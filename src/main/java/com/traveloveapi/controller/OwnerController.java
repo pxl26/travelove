@@ -72,7 +72,7 @@ public class OwnerController {
     }
 
     @GetMapping("/best-seller")
-    public List<ServiceEntity> getBetSeller() {
-        return serviceRepository.getBestSeller(SecurityContext.getUserID());
+    public Object getBetSeller() {
+        return serviceRepository.getBestSellers(SecurityContext.getUserID());
     }
 }
