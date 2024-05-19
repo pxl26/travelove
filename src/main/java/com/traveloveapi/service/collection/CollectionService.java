@@ -46,6 +46,7 @@ public class CollectionService {
             collectionDetailRepository.save(detail);
         }
 
+        redisService.getConnection().del("collection:"+ display_on + ':' + ref_id);
         return get(entity.getId());
     }
     public ArrayList<CollectionDTO> getCollectionList(CollectionDisplay display_on, String ref_id) {
