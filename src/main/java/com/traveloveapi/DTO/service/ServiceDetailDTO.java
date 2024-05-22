@@ -31,8 +31,8 @@ public class ServiceDetailDTO implements Serializable {
     private String location;
     private String note;
     private Float min_price;
-    private Currency currency;
-    private Language primary_language;
+    private String currency;
+    private String primary_language;
     private ArrayList<MediaEntity> gallery;
     private String city_id;
 

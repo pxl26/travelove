@@ -1,5 +1,6 @@
 package com.traveloveapi.repository.bill;
 
+import com.traveloveapi.DTO.UserTripSummary;
 import com.traveloveapi.DTO.owner.IncomeDTO;
 import com.traveloveapi.DTO.service_package.bill.BillDetailDTO;
 import com.traveloveapi.constrain.BillStatus;
@@ -139,5 +140,14 @@ public class BillRepository {
         result.setTo(to);
         result.setOwner_id(owner_id);
         return result;
+    }
+
+    public Object getUserTripSummary(String user_id) {
+        return entityManager.createQuery("""
+                    SELECT SUM(e.total) as total,e.service_id as owner_id, e.update_at, e.update_at , e.service_id as tour_id, COUNT(*)  
+                    FROM BillEntity bill JOIN ServiceEntity service ON bill.status='PAID' AND bill.user_id=:user_id AND bill.service_id=service.id
+                        JOIN CityEntity city ON service.city_id = city.id JOIN CountryEntity country ON country.id=city.country_id
+                     
+                    """).setParameter("user_id", user_id).getResultList();
     }
 }

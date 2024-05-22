@@ -25,7 +25,7 @@ public class TourController {
     final private FeedbackService feedbackService;
     @PostMapping("/new")
     @Tag(name = "SPRINT 2")
-    public ServiceDetailDTO createService(@RequestParam ServiceType service_type, @RequestParam String title, @RequestParam String description, @RequestParam String highlight, @RequestParam String note, @RequestParam MultipartFile[] files,@RequestParam String[] gallery_description, @RequestParam Currency currency, @RequestParam Language primary_language, @RequestParam String city_id, @RequestParam String location, @RequestParam String address) throws IOException, InterruptedException {
+    public ServiceDetailDTO createService(@RequestParam ServiceType service_type, @RequestParam String title, @RequestParam String description, @RequestParam String highlight, @RequestParam String note, @RequestParam MultipartFile[] files,@RequestParam String[] gallery_description, @RequestParam String currency, @RequestParam String primary_language, @RequestParam String city_id, @RequestParam String location, @RequestParam String address) throws IOException, InterruptedException {
         return tourService.createNewService(service_type, title, description, highlight, note,currency,primary_language, files, gallery_description, city_id, location, address);
     }
 
@@ -41,7 +41,7 @@ public class TourController {
 
     @PutMapping
     @Tag(name = "SPRINT 4")
-    public ServiceDetailDTO editService(@RequestParam String service_id,@RequestParam(required = false) ServiceType service_type, @RequestParam(required = false) String title, @RequestParam(required = false) String description, @RequestParam(required = false) String highlight, @RequestParam(required = false) String note, @RequestParam(required = false) Currency currency, @RequestParam(required = false) Language primary_language, @RequestParam(required = false) float min_price, @RequestParam(required = false) String city_id) {
+    public ServiceDetailDTO editService(@RequestParam String service_id,@RequestParam(required = false) ServiceType service_type, @RequestParam(required = false) String title, @RequestParam(required = false) String description, @RequestParam(required = false) String highlight, @RequestParam(required = false) String note, @RequestParam(required = false) String currency, @RequestParam(required = false) String primary_language, @RequestParam(required = false) float min_price, @RequestParam(required = false) String city_id) {
         return tourService.editTour(service_id, service_type, title, description,highlight,note, currency, primary_language, min_price, city_id);
     }
 

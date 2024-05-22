@@ -61,7 +61,7 @@ public class TourService {
     final private CityRepository cityRepository;
     final private RedisService redisService;
 
-    public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, Currency currency, Language primary_language, MultipartFile[] files,String[] gallery_description, String city_id, String location, String address) throws IOException, InterruptedException {
+    public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, String currency, String primary_language, MultipartFile[] files,String[] gallery_description, String city_id, String location, String address) throws IOException, InterruptedException {
         UserEntity owner = userService.verifyIsTourOwner();
         ServiceEntity service = new ServiceEntity();
         ServiceDetailEntity tour = new ServiceDetailEntity();
@@ -170,7 +170,7 @@ public class TourService {
         return rs;
     }
 
-    public ServiceDetailDTO editTour(String service_id,ServiceType type,String title, String description, String highlight, String note, Currency currency, Language primary_language, Float min_price, String city_id) {
+    public ServiceDetailDTO editTour(String service_id,ServiceType type,String title, String description, String highlight, String note, String currency, String primary_language, Float min_price, String city_id) {
         ServiceEntity entity = serviceRepository.find(service_id);
         ServiceDetailEntity detail = tourRepository.find(service_id);
         SearchingEntity searching = searchingRepository.find(service_id);

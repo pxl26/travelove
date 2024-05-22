@@ -31,7 +31,7 @@ public class CityService {
     final private SearchingRepository searchingRepository;
     final private MediaRepository mediaRepository;
 
-    public CityDTO create(String city_name, String country_id, String country_name, MultipartFile thumbnail, String location, String description, String time_zone, Currency currency, String best_time, String do_not_miss, @RequestParam MultipartFile[] gallery, @RequestParam String[] gallery_description) {
+    public CityDTO create(String city_name, String country_id, String country_name, MultipartFile thumbnail, String location, String description, String time_zone, String currency, String best_time, String do_not_miss, @RequestParam MultipartFile[] gallery, @RequestParam String[] gallery_description) {
         CityEntity entity = new CityEntity();
 
         entity.setId(UUID.randomUUID().toString());
@@ -92,7 +92,7 @@ public class CityService {
         return cityRepository.findById(city_id).getName();
     }
 
-    public CityEntity edit(String id,String city_name, String country_id, String country_name, MultipartFile cover_pic, MultipartFile thumbnail, String location, String description, String time_zone, Currency currency, String best_time, String do_not_miss) {
+    public CityEntity edit(String id,String city_name, String country_id, String country_name, MultipartFile cover_pic, MultipartFile thumbnail, String location, String description, String time_zone, String currency, String best_time, String do_not_miss) {
         CityEntity entity = cityRepository.findById(id);
         if (city_name!=null) {
             searchingService.changeCityName(entity.getName(), city_name, id);

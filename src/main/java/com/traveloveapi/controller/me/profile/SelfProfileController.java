@@ -6,6 +6,7 @@ import com.traveloveapi.constrain.Gender;
 import com.traveloveapi.constrain.Region;
 import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.exception.CustomException;
+import com.traveloveapi.repository.bill.BillRepository;
 import com.traveloveapi.service.user.UserProfileService;
 import com.traveloveapi.service.user.UserService;
 import com.traveloveapi.utility.SecurityContext;
@@ -22,6 +23,7 @@ import java.sql.Date;
 public class SelfProfileController {
     final private UserProfileService userProfileService;
     final private UserService userService;
+    final private BillRepository billRepository;
 
     @Tag(name = "SPRINT 1")
     @GetMapping
@@ -48,4 +50,8 @@ public class SelfProfileController {
 
     }
 
+    @GetMapping("/summary")
+    public Object userTripSummary() {
+        return billRepository.getUserTripSummary(SecurityContext.getUserID());
+    }
 }

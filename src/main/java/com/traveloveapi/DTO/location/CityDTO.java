@@ -19,7 +19,7 @@ public class CityDTO {
     private String location;
     private String description;
     private String time_zone;
-    private Currency currency;
+    private String currency;
     private String best_time;
     private String dont_miss;
     private ArrayList<MediaWithDescription> gallery;

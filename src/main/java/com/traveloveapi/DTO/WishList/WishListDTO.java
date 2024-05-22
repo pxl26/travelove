@@ -15,9 +15,9 @@ public class WishListDTO {
     private String title;
     private String thumb;
     private float min_price;
-    private Currency currency;
+    private String currency;
 
-    public WishListDTO(WishListEntity entity, ServiceEntity service, Currency cur) {
+    public WishListDTO(WishListEntity entity, ServiceEntity service, String cur) {
         id = entity.getId();
         service_id = entity.getService_id();
         create_at = entity.getCreate_at();

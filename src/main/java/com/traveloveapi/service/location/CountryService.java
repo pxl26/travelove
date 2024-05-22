@@ -32,7 +32,7 @@ public class CountryService {
     final private SearchingService searchingService;
 
 
-    public CountryEntity createCountry(String name, MultipartFile cover_pic, String location, MultipartFile thumb, String description, String time_zone, Currency currency, String best_time, Language language) {
+    public CountryEntity createCountry(String name, MultipartFile cover_pic, String location, MultipartFile thumb, String description, String time_zone, String currency, String best_time, String language) {
         CountryEntity entity = new CountryEntity();
         entity.setId(UUID.randomUUID().toString());
         entity.setCountry_name(name);
@@ -74,7 +74,7 @@ public class CountryService {
         throw new CustomException("Require 1 param at least", 400);
     }
 
-    public CountryEntity edit(String country_id,String country_name, MultipartFile cover_pic, String location, MultipartFile thumbnail, String description, String time_zone, Currency currency, String best_time, Language language) {
+    public CountryEntity edit(String country_id,String country_name, MultipartFile cover_pic, String location, MultipartFile thumbnail, String description, String time_zone, String currency, String best_time, String language) {
         CountryEntity entity = countryRepository.findById(country_id);
         if (country_name!=null) {
             searchingService.changeCountryName(entity.getCountry_name(), country_name, country_id);
