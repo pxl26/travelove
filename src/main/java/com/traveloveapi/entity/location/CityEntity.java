@@ -30,8 +30,7 @@ public class CityEntity {
 
     private String time_zone;
 
-    @Enumerated(EnumType.STRING)
-    private Currency currency;
+    private String currency;
 
     private String best_time;
 }

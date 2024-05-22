@@ -111,6 +111,8 @@ public class BillRepository {
         return (ArrayList<String>) temp;
     }
 
+
+
     public IncomeDTO getIncome(String tour_id, String owner_id, Date from, Date to) {
         List<Object> query = entityManager.createQuery(" SELECT SUM(e.total) as total,e.service_id as owner_id, e.update_at, e.update_at , e.service_id as tour_id, COUNT(*)  FROM BillEntity e WHERE e.service_id=: tour_id AND e.status=: status AND e.update_at>:from AND e.update_at<:to GROUP BY e.service_id").setParameter("from", from).setParameter("to", to).setParameter("tour_id", tour_id).setParameter("status", BillStatus.PAID).getResultList();
         if (query.isEmpty())

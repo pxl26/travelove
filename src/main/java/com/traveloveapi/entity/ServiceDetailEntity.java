@@ -19,11 +19,9 @@ public class ServiceDetailEntity {
     private String note;
 
 
-    @Enumerated(EnumType.STRING)
-    private Currency currency;
+    private String currency;
 
-    @Enumerated(EnumType.STRING)
-    private Language primary_language;
+    private String primary_language;
 
     private String address;
 

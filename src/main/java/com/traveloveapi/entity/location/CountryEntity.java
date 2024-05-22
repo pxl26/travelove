@@ -20,16 +20,13 @@ public class CountryEntity {
 
     private String description;
 
-
     private String location;
 
-    @Enumerated(EnumType.STRING)
-    private Language language;
+    private String language;
 
     private String time_zone;
 
-    @Enumerated(EnumType.STRING)
-    private Currency currency;
+    private String currency;
 
     private String best_time;
 }
