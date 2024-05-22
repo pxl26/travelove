@@ -41,12 +41,12 @@ public class JwtProvider {
 //                desc = "15s-30s";
                 break;
             case ADMIN:
-                access = 900000L;   //15'
-                refresh = 2700000L; //45'
-                desc = "15m-45m";
+                access = 1800000L;   //30'
+                refresh = 5400000L; //90'
+                desc = "30m-90m";
                 break;
             case TOUR_OWNER:
-                access = 900000L;   //15'
+                access = 1800000L;   //15'
                 refresh = 5400000L; //95'
                 desc = "15m-95m";
                 break;
