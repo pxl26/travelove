@@ -1,7 +1,6 @@
 package com.traveloveapi.DTO.service_package.bill;
 
 import com.traveloveapi.constrain.BillStatus;
-import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.PayMethod;
 import com.traveloveapi.entity.service_package.bill.voucher.BillVoucherEntity;
 import lombok.Data;
@@ -26,7 +25,7 @@ public class BillDetailDTO {
     private String tour_thumbnail;
     private float tour_rating;
     private int tour_sold;
-    private Currency tour_currency;
+    private String tour_currency;
 
     private ArrayList<CreateBillPersonType> person_type;
     private ArrayList<BillOption> option;

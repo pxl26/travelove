@@ -1,6 +1,5 @@
 package com.traveloveapi.entity.voucher;
 
-import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.voucher.VoucherDiscountType;
 import com.traveloveapi.constrain.voucher.VoucherStatus;
 import com.traveloveapi.constrain.voucher.VoucherTargetType;
@@ -46,8 +45,7 @@ public class VoucherEntity {
 
     private Float max_discount;
 
-    @Enumerated(EnumType.STRING)
-    private Currency currency;
+    private String currency;
 
     @Enumerated(EnumType.STRING)
     private VoucherTargetType target_type;

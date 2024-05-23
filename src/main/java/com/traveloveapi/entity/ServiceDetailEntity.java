@@ -1,7 +1,5 @@
 package com.traveloveapi.entity;
 
-import com.traveloveapi.constrain.Currency;
-import com.traveloveapi.constrain.Language;
 import jakarta.persistence.*;
 import lombok.Data;
 

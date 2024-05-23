@@ -1,13 +1,9 @@
 package com.traveloveapi.repository.voucher;
 
-import com.traveloveapi.DTO.voucher.RedeemVoucherDTO;
 import com.traveloveapi.DTO.voucher.VoucherDTO;
-import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.voucher.VoucherDiscountType;
-import com.traveloveapi.constrain.voucher.VoucherRedeemStatus;
 import com.traveloveapi.constrain.voucher.VoucherStatus;
 import com.traveloveapi.constrain.voucher.VoucherTargetType;
-import com.traveloveapi.entity.MediaEntity;
 import com.traveloveapi.entity.voucher.VoucherEntity;
 import com.traveloveapi.entity.voucher.VoucherRedeemEntity;
 import jakarta.persistence.EntityManager;
@@ -15,7 +11,6 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,7 +91,7 @@ public class VoucherRepository {
         for (Object ele: data)
         {
             Object[] row = (Object[]) ele;
-            VoucherDTO a = new VoucherDTO((String) row[0], (VoucherDiscountType) row[1], (float) row[2], (float) row[3], (float) row[4], (float) row[5], (Currency) row[6], (VoucherTargetType) row[7], (String) row[8]);
+            VoucherDTO a = new VoucherDTO((String) row[0], (VoucherDiscountType) row[1], (float) row[2], (float) row[3], (float) row[4], (float) row[5], (String) row[6], (VoucherTargetType) row[7], (String) row[8]);
             rs.add(a);
         }
         return rs;

@@ -1,9 +1,7 @@
 package com.traveloveapi.DTO.voucher;
 
-import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.voucher.VoucherDiscountType;
 import com.traveloveapi.constrain.voucher.VoucherRedeemStatus;
-import com.traveloveapi.constrain.voucher.VoucherStatus;
 import com.traveloveapi.constrain.voucher.VoucherTargetType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,5 +27,5 @@ public class RedeemVoucherDTO {
     private float percent_discount;
     private float minimum_spend;
     private float max_discount;
-    private Currency currency;
+    private String currency;
 }

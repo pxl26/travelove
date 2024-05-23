@@ -1,6 +1,5 @@
 package com.traveloveapi.DTO.WishList;
 
-import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.WishListEntity;
 import lombok.Data;

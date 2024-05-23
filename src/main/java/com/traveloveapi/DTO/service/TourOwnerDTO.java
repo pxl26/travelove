@@ -17,6 +17,6 @@ public class TourOwnerDTO{
     private String id;
     private String name;
     private String avatar;
-    private double rating;
+    private Double rating;
     private Long sold;
 }

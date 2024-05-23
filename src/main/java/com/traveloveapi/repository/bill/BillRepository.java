@@ -1,10 +1,7 @@
 package com.traveloveapi.repository.bill;
 
-import com.traveloveapi.DTO.UserTripSummary;
 import com.traveloveapi.DTO.owner.IncomeDTO;
-import com.traveloveapi.DTO.service_package.bill.BillDetailDTO;
 import com.traveloveapi.constrain.BillStatus;
-import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.PayMethod;
 import com.traveloveapi.entity.join_entity.JoinBillRow;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
@@ -45,7 +42,7 @@ public class BillRepository {
         for (Object ele: data)
         {
             Object[] row = (Object[]) ele;
-            JoinBillRow a = new JoinBillRow((String) row[0], (Float) row[1], (Timestamp) row[2], (Timestamp) row[3], (Date) row[4], (BillStatus) row[5], (int)row[6], (String)row[7], (int)row[8], (String)row[9], (String)row[10], (String)row[11], (String)row[12], (String)row[13], (float)row[14], (int)row[15], (Currency) row[16], (String)row[17], (String)row[18], (String) row[19], (PayMethod) row[20], (String) row[21], (String) row[22], (String) row[23], row[24]==null ? 0: (float) row[24]);
+            JoinBillRow a = new JoinBillRow((String) row[0], (Float) row[1], (Timestamp) row[2], (Timestamp) row[3], (Date) row[4], (BillStatus) row[5], (int)row[6], (String)row[7], (int)row[8], (String)row[9], (String)row[10], (String)row[11], (String)row[12], (String)row[13], (float)row[14], (int)row[15], (String) row[16], (String)row[17], (String)row[18], (String) row[19], (PayMethod) row[20], (String) row[21], (String) row[22], (String) row[23], row[24]==null ? 0: (float) row[24]);
             rs.add(a);
         }
         return rs;

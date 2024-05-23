@@ -1,7 +1,6 @@
 package com.traveloveapi.DTO.location;
 
 import com.traveloveapi.DTO.MediaWithDescription;
-import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.entity.location.CityEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;

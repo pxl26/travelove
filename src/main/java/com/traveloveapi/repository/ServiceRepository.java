@@ -62,7 +62,7 @@ public class ServiceRepository {
                                 ) AS cc""")
                 .setParameter("tour_id", tour_id).getSingleResult();
         Object[] row = (Object[]) query;
-        return new TourOwnerDTO((String) row[0], (String) row[1],(String) row[2], (double)row[3], (long)row[4]);
+        return new TourOwnerDTO((String) row[0], (String) row[1],(String) row[2], (Double)row[3], (Long)row[4]);
     }
 
     public ServiceEntity findAdmin(String id) {

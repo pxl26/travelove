@@ -1,6 +1,5 @@
 package com.traveloveapi.DTO.service;
 
-import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.ServiceStatus;
 import lombok.Data;
 

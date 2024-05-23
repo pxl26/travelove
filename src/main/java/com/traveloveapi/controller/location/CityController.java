@@ -1,8 +1,6 @@
 package com.traveloveapi.controller.location;
 
 import com.traveloveapi.DTO.location.CityDTO;
-import com.traveloveapi.DTO.location.CreateCityRequestDTO;
-import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.entity.location.CityEntity;
 import com.traveloveapi.exception.ForbiddenException;
 import com.traveloveapi.service.location.CityService;

@@ -2,7 +2,6 @@ package com.traveloveapi.service.voucher;
 
 import com.traveloveapi.DTO.voucher.RedeemVoucherDTO;
 import com.traveloveapi.DTO.voucher.VoucherDTO;
-import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.Role;
 import com.traveloveapi.constrain.voucher.*;
 import com.traveloveapi.entity.UserEntity;
@@ -12,7 +11,6 @@ import com.traveloveapi.entity.voucher.VoucherEntity;
 import com.traveloveapi.entity.voucher.VoucherRedeemEntity;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.exception.ForbiddenException;
-import com.traveloveapi.mq.VoucherUpdateReceiver;
 import com.traveloveapi.repository.bill.BillRepository;
 import com.traveloveapi.repository.bill.BillVoucherRepository;
 import com.traveloveapi.repository.voucher.VoucherRedeemRepository;
@@ -23,7 +21,6 @@ import com.traveloveapi.utility.JwtProvider;
 import com.traveloveapi.utility.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.security.concurrent.DelegatingSecurityContextExecutor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -190,7 +187,7 @@ public class VoucherService {
 
         return voucherRedeem;
     }
-    public VoucherEntity createVoucher(String code, String title, int stock, Timestamp start_at, Timestamp end_at, String detail, VoucherDiscountType discount_type, float fixed_discount, float percent_discount, float minimum_spend, VoucherTargetType target_type, String target_id, Currency currency, int expiration, float max_discount) {
+    public VoucherEntity createVoucher(String code, String title, int stock, Timestamp start_at, Timestamp end_at, String detail, VoucherDiscountType discount_type, float fixed_discount, float percent_discount, float minimum_spend, VoucherTargetType target_type, String target_id, String currency, int expiration, float max_discount) {
         if (target_type==VoucherTargetType.TOUR)
         {
             if (!userService.verifyIsOwner(target_id, SecurityContext.getUserID()) && !userService.isAdmin())

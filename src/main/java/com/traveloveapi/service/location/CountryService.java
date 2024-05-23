@@ -1,7 +1,5 @@
 package com.traveloveapi.service.location;
 
-import com.traveloveapi.constrain.Currency;
-import com.traveloveapi.constrain.Language;
 import com.traveloveapi.constrain.SearchingType;
 import com.traveloveapi.entity.location.CountryEntity;
 import com.traveloveapi.entity.searching.SearchingEntity;

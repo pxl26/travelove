@@ -2,9 +2,7 @@ package com.traveloveapi.service.location;
 
 import com.traveloveapi.DTO.MediaWithDescription;
 import com.traveloveapi.DTO.location.CityDTO;
-import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.SearchingType;
-import com.traveloveapi.controller.publicController.MediaController;
 import com.traveloveapi.entity.MediaEntity;
 import com.traveloveapi.entity.location.CityEntity;
 import com.traveloveapi.entity.searching.SearchingEntity;

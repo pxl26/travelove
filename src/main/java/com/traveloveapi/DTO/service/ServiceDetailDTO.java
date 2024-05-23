@@ -1,7 +1,5 @@
 package com.traveloveapi.DTO.service;
 
-import com.traveloveapi.constrain.Currency;
-import com.traveloveapi.constrain.Language;
 import com.traveloveapi.constrain.ServiceStatus;
 import com.traveloveapi.entity.MediaEntity;
 import com.traveloveapi.entity.ServiceEntity;

@@ -1,7 +1,6 @@
 package com.traveloveapi.entity.join_entity;
 
 import com.traveloveapi.constrain.BillStatus;
-import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.PayMethod;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +30,7 @@ public class JoinBillRow {
     private String tour_thumbnail;
     private float rating;
     private int sold;
-    private Currency currency;
+    private String currency;
 
     private String user_id;
 

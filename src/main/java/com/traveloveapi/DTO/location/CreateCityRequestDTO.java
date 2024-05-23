@@ -1,6 +1,5 @@
 package com.traveloveapi.DTO.location;
 
-import com.traveloveapi.constrain.Currency;
 import lombok.Data;
 
 @Data
@@ -11,7 +10,7 @@ public class CreateCityRequestDTO {
     private String location;
     private String description;
     private String time_zone;
-    private Currency currency;
+    private String currency;
     private String best_time;
     private String dont_miss;
 }

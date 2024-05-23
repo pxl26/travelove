@@ -1,6 +1,5 @@
 package com.traveloveapi.entity.searching;
 
-import com.traveloveapi.constrain.Currency;
 import com.traveloveapi.constrain.SearchingType;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -28,8 +27,7 @@ public class SearchingEntity {
 
     private String country_name;
 
-    @Enumerated(EnumType.STRING)
-    private Currency currency;
+    private String currency;
 
     @Enumerated(EnumType.STRING)
     private SearchingType type;
