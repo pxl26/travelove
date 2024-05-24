@@ -46,9 +46,9 @@ public class JwtProvider {
                 desc = "7d-90m";
                 break;
             case TOUR_OWNER:
-                access = 1800000L;   //15'
-                refresh = 5400000L; //95'
-                desc = "15m-95m";
+                access = 604800000L;   //7d
+                refresh = 5400000L; //90'
+                desc = "7d-90m";
                 break;
         }
         response.setAccess_token(JwtProvider.generateToken(id, access));
