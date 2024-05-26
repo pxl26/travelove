@@ -64,6 +64,6 @@ oauth:
         host: https://www.travelovecompany.com
 #        host: http://localhost:3000
 web:
-    host: http://localhost:3000
+    host: https://www.travelovecompany.com
 
 

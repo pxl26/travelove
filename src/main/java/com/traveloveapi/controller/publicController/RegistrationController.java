@@ -78,6 +78,8 @@ public class RegistrationController {
         UserDetailEntity detail = userDetailRepository.find(user_id);
         if (detail.getEmail().equals(entity.getEmail()))
             detail.setPassword(passwordEncoder.encode(password));
+
+        userDetailRepository.update(detail);
         return JwtProvider.generateTokenResponse(detail.getUser_id(), Role.TOUR_OWNER);
     }
 }
