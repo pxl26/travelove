@@ -16,7 +16,7 @@ spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         password: 26122002loc
-        url: jdbc:mysql://localhost:3307/travelove
+        url: jdbc:mysql://db.travelovecompany.com:3307/travelove
         username: root
     jpa:
         properties:

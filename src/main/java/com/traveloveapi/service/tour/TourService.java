@@ -145,6 +145,7 @@ public class TourService {
             service = userService.isAdmin() ? serviceRepository.findAdmin(id) : serviceRepository.find(id);
         if (service==null&& userService.verifyIsOwner(id, SecurityContext.getUserID()))
             service = serviceRepository.findAdmin(id);
+        System.out.println("Hello: " + id);
         ServiceDetailEntity tour = tourRepository.find(id);
         ArrayList<MediaEntity> media = mediaRepository.find(id, "GALLERY-MEDIA");
 
@@ -163,10 +164,14 @@ public class TourService {
         if ((!isAdmin)&&service_owner.isEmpty())
             if (!service_owner.equals(SecurityContext.getUserID()))
                     throw new ForbiddenException();
-        ArrayList<ServiceEntity> entity_list = service_owner!="" ? serviceRepository.findByStatus(ServiceStatus.PENDING, service_owner) : serviceRepository.findByStatus(ServiceStatus.PENDING);
+        ArrayList<ServiceEntity> entity_list = !service_owner.isEmpty() ? serviceRepository.findByStatus(ServiceStatus.PENDING, service_owner) : serviceRepository.findByStatus(ServiceStatus.PENDING);
+        if (entity_list.isEmpty())
+            return new ArrayList<>();
         ArrayList<ServiceDetailDTO> rs = new ArrayList<>();
-        for (ServiceEntity entity: entity_list)
+        for (ServiceEntity entity: entity_list) {
+            System.out.println(entity.getTitle());
             rs.add(getTour(entity.getId()));
+        }
         return rs;
     }
 
