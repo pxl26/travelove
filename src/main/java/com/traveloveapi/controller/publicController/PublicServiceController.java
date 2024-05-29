@@ -74,7 +74,7 @@ public class PublicServiceController {
         Calendar now  = Calendar.getInstance();
         if (now.get(Calendar.YEAR) > year)
             throw new CustomException("Invalid year", 400);
-        if (now.get(Calendar.MONTH) + 1 < month)
+        if (now.get(Calendar.MONTH) + 1 > month)
             throw  new CustomException("Invalid month", 400);
 
         int lengthOfMonth = YearMonth.now().lengthOfMonth();
