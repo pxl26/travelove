@@ -14,6 +14,8 @@ public class CurrencyService {
     final private RedisService redisService;
 
     public Double convert(String from, String to, Double amount) {
+        if (to==null)
+            return amount;
         Double fromRate = getRate(from);
         Double toRate = getRate(to);
         return fromRate/toRate*amount;

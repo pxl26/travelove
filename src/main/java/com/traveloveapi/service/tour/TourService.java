@@ -151,7 +151,7 @@ public class TourService {
         ServiceDetailEntity tour = tourRepository.find(id);
         ArrayList<MediaEntity> media = mediaRepository.find(id, "GALLERY-MEDIA");
 
-        rs = new ServiceDetailDTO(service, tour, media, !SecurityContext.isAnonymous() && wishListService.isWish(SecurityContext.getUserID(), id), currency, currencyService.convert(tour.getCurrency(), currency, (double)service.getMin_price()));
+        rs = new ServiceDetailDTO(service, tour, media, !SecurityContext.isAnonymous() && wishListService.isWish(SecurityContext.getUserID(), id), currency,  currencyService.convert(tour.getCurrency(), currency, (double)service.getMin_price()));
         try {
             redisService.getConnection().set(isPrivilege ? "tour_detail:" + id + ":privilege" : "tour_detail:" + id, new ObjectMapper().writeValueAsString(rs));
         }

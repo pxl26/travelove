@@ -61,7 +61,11 @@ public class ServiceDetailDTO implements Serializable {
 
         wish = isWish;
 
-        min_price = currency.equals(originCurrency) ? service.getMin_price() : converted_min_price;
+        if (currency != null) {
+            min_price = currency.equals(originCurrency) ? service.getMin_price() : converted_min_price;
+        }
+        else
+            min_price = converted_min_price;
     }
 
 }
