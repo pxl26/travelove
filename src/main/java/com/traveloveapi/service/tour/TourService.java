@@ -103,7 +103,7 @@ public class TourService {
         ServiceDetailDTO rs;
         boolean isPrivilege = false;
         if (SecurityContext.isAnonymous()) {
-            String key = "tour_detail:"+id;
+            String key = "tour_detail:"+currency+':'+id;
             ObjectMapper mapper = new ObjectMapper();
             String value = redisService.getConnection().get(key);
             try {
@@ -128,7 +128,7 @@ public class TourService {
         }
         else
         {
-            String key = "tour_detail:"+id;
+            String key = "tour_detail:"+':'+id;
             ObjectMapper mapper = new ObjectMapper();
             String value = redisService.getConnection().get(key);
             try {

@@ -32,7 +32,7 @@ public class ServiceDetailDTO implements Serializable {
     private String location;
     private String note;
     private Double min_price;
-    private String currency;
+    private String userCurrency;
     private String primary_language;
     private ArrayList<MediaEntity> gallery;
     private String city_id;
@@ -59,6 +59,7 @@ public class ServiceDetailDTO implements Serializable {
         gallery = media;
         city_id = service.getCity_id();
 
+        userCurrency = currency;
         wish = isWish;
 
         if (currency != null) {
