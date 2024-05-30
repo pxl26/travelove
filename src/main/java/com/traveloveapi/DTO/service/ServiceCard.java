@@ -10,7 +10,7 @@ public class ServiceCard {
     private float rating;
     private int vote_quantity;
     private int sold;
-    private float min_price;
+    private Double min_price;
     private String currency;
     private String city;
     private String country;

@@ -41,10 +41,10 @@ public class LocationController {
 
     @GetMapping("/city/all-service")
     @Tags({
-            @Tag(name = "SPRINT 4")
+            @Tag(name = "SPRINT 4"),
     })
-    public ArrayList<ServiceCard> getAllTour(@RequestParam String city_id) {
-        return tourService.getTourByCity(city_id, OrderType.ASCENDED, SortBy.RATING, 0, 999);
+    public ArrayList<ServiceCard> getAllTour(@RequestParam String city_id, @RequestParam(required = false) String currency) {
+        return tourService.getTourByCity(city_id, OrderType.ASCENDED, SortBy.RATING, 0, 999, currency);
     }
 
     @GetMapping("/country/all-city")

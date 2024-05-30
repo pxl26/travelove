@@ -25,6 +25,7 @@ import com.traveloveapi.repository.location.CityRepository;
 import com.traveloveapi.repository.searching.SearchingRepository;
 import com.traveloveapi.repository.service_package.*;
 import com.traveloveapi.service.aws.s3.S3FileService;
+import com.traveloveapi.service.currency.CurrencyService;
 import com.traveloveapi.service.location.CityService;
 import com.traveloveapi.service.redis.RedisService;
 import com.traveloveapi.service.user.UserService;
@@ -60,6 +61,7 @@ public class TourService {
     final private WishListService wishListService;
     final private CityRepository cityRepository;
     final private RedisService redisService;
+    final private CurrencyService currencyService;
 
     public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, String currency, String primary_language, MultipartFile[] files,String[] gallery_description, String city_id, String location, String address) throws IOException, InterruptedException {
         UserEntity owner = userService.verifyIsTourOwner();
@@ -94,10 +96,10 @@ public class TourService {
         //---------- CREATE SEARCHING RECORD
         //makeSearchable(service);
 
-        return new ServiceDetailDTO(service, tour, media,false);
+        return new ServiceDetailDTO(service, tour, media,false, currency, (double)service.getMin_price());
     }
 
-    public ServiceDetailDTO getTour(String id) {
+    public ServiceDetailDTO getTour(String id, String currency) {
         ServiceDetailDTO rs;
         boolean isPrivilege = false;
         if (SecurityContext.isAnonymous()) {
@@ -149,7 +151,7 @@ public class TourService {
         ServiceDetailEntity tour = tourRepository.find(id);
         ArrayList<MediaEntity> media = mediaRepository.find(id, "GALLERY-MEDIA");
 
-        rs = new ServiceDetailDTO(service, tour, media, !SecurityContext.isAnonymous() && wishListService.isWish(SecurityContext.getUserID(), id));
+        rs = new ServiceDetailDTO(service, tour, media, !SecurityContext.isAnonymous() && wishListService.isWish(SecurityContext.getUserID(), id), currency, currencyService.convert(tour.getCurrency(), currency, (double)service.getMin_price()));
         try {
             redisService.getConnection().set(isPrivilege ? "tour_detail:" + id + ":privilege" : "tour_detail:" + id, new ObjectMapper().writeValueAsString(rs));
         }
@@ -159,7 +161,7 @@ public class TourService {
         return rs;
     }
 
-    public ArrayList<ServiceDetailDTO> getPendingTour(String service_owner) {
+    public ArrayList<ServiceDetailDTO> getPendingTour(String service_owner, String currency) {
         boolean isAdmin = userService.isAdmin();
         if ((!isAdmin)&&service_owner.isEmpty())
             if (!service_owner.equals(SecurityContext.getUserID()))
@@ -170,7 +172,7 @@ public class TourService {
         ArrayList<ServiceDetailDTO> rs = new ArrayList<>();
         for (ServiceEntity entity: entity_list) {
             System.out.println(entity.getTitle());
-            rs.add(getTour(entity.getId()));
+            rs.add(getTour(entity.getId(), currency));
         }
         return rs;
     }
@@ -210,7 +212,7 @@ public class TourService {
         searchingRepository.update(searching);
         redisService.getConnection().del("tour_detail:"+service_id);
         redisService.getConnection().del("tour_detail:"+service_id+":privilege");
-        return new ServiceDetailDTO(entity, detail, mediaRepository.find(service_id, "GALLERY-MEDIA"), !SecurityContext.isAnonymous() && wishListService.isWish(SecurityContext.getUserID(), service_id));
+        return new ServiceDetailDTO(entity, detail, mediaRepository.find(service_id, "GALLERY-MEDIA"), !SecurityContext.isAnonymous() && wishListService.isWish(SecurityContext.getUserID(), service_id), currency, currencyService.convert(detail.getCurrency(), currency, (double)entity.getMin_price()));
     }
 
 
@@ -268,33 +270,33 @@ public class TourService {
         return result;
     }
 
-    public ArrayList<ServiceCard> getTourByTitle(String query, OrderType type, SortBy sortBy, int page, int page_size) {
+    public ArrayList<ServiceCard> getTourByTitle(String query, OrderType type, SortBy sortBy, int page, int page_size, String currency) {
         ArrayList<ServiceEntity> list = serviceRepository.findByTitle(query, type, sortBy, page, page_size);
         ArrayList<ServiceCard> rs = new ArrayList<>();
         for (ServiceEntity ele: list)
-            rs.add(createCard(ele.getId()));
+            rs.add(createCard(ele.getId(), currency));
         return rs;
     }
 
-    public ArrayList<ServiceCard> getTourByCity(String city_id, OrderType type, SortBy sortBy, int page, int page_size) {
+    public ArrayList<ServiceCard> getTourByCity(String city_id, OrderType type, SortBy sortBy, int page, int page_size, String currency) {
         ArrayList<ServiceEntity> list = serviceRepository.findByCity(city_id, type, sortBy, page, page_size);
         ArrayList<ServiceCard> rs = new ArrayList<>();
         for (ServiceEntity ele: list)
-            rs.add(createCard(ele.getId()));
+            rs.add(createCard(ele.getId(), currency));
         return rs;
     }
 
-    public ArrayList<ServiceCard> getTourByCountry(String country_name, OrderType type, SortBy sortBy, int page, int page_size) {
+    public ArrayList<ServiceCard> getTourByCountry(String country_name, OrderType type, SortBy sortBy, int page, int page_size, String currency) {
         ArrayList<ServiceEntity> list = serviceRepository.findByCountry(country_name, type, sortBy, page, page_size);
         ArrayList<ServiceCard> rs = new ArrayList<>();
         for (ServiceEntity ele: list)
-            rs.add(createCard(ele.getId()));
+            rs.add(createCard(ele.getId(), currency));
         return rs;
     }
 
-    public ServiceCard createCard(String service_id) {
+    public ServiceCard createCard(String service_id, String currency) {
         ObjectMapper mapper = new ObjectMapper();
-        String cached_value = redisService.getConnection().get("tour_card:"+service_id);
+        String cached_value = redisService.getConnection().get("tour_card:"+currency+':'+service_id);
         try {
             if (cached_value!=null)
                 return mapper.readValue(cached_value, ServiceCard.class);
@@ -309,15 +311,21 @@ public class TourService {
         rs.setSold(service.getSold());
         rs.setTitle(service.getTitle());
         rs.setRating(service.getRating());
-        rs.setMin_price(service.getMin_price());
         rs.setThumbnail(service.getThumbnail());
-        rs.setCurrency(detail.getCurrency());
         rs.setCity(city.getName());
         rs.setCountry(city.getCountry_name());
         rs.setStatus(service.getStatus());
 
+        if(currency==null) {
+            rs.setCurrency(detail.getCurrency());
+            rs.setMin_price((double)service.getMin_price());
+        }
+        else {
+            rs.setCurrency(currency);
+            rs.setMin_price(currencyService.convert(detail.getCurrency(), currency, (double) service.getMin_price()));
+        }
         try {
-            redisService.getConnection().set("tour_card:"+service_id, mapper.writeValueAsString(rs));
+            redisService.getConnection().set("tour_card:"+currency+':'+service_id, mapper.writeValueAsString(rs));
         }
         catch (Exception ex) {
             System.out.println(ex);
@@ -367,7 +375,7 @@ public class TourService {
         return rs;
     }
 
-    public ArrayList<ServiceCard> getTourByOwner(String owner_id) {
+    public ArrayList<ServiceCard> getTourByOwner(String owner_id, String currency) {
         ArrayList<ServiceCard> rs = new ArrayList<>();
         List<ServiceEntity> tour;
         if (owner_id==null)
@@ -376,7 +384,7 @@ public class TourService {
             throw new ForbiddenException();
         else tour = serviceRepository.findByOwner(SecurityContext.getUserID());
         for (ServiceEntity ele: tour)
-            rs.add(this.createCard(ele.getId()));
+            rs.add(this.createCard(ele.getId(), currency));
         return rs;
     }
 }

@@ -31,10 +31,10 @@ public class TourController {
     @Tags({
             @Tag(name = "SPRINT 2")
     })
-    public ArrayList<ServiceDetailDTO> getPendingService(@RequestParam(required = false) String owner) {
+    public ArrayList<ServiceDetailDTO> getPendingService(@RequestParam(required = false) String owner, @RequestParam(required = false) String currency) {
         if (owner==null)
             owner="";
-        return tourService.getPendingTour(owner);
+        return tourService.getPendingTour(owner, currency);
     }
 
     @PutMapping
@@ -45,14 +45,14 @@ public class TourController {
 
     @GetMapping("/card")
     @Tag(name = "SPRINT 5")
-    public ServiceCard getCard(@RequestParam String tour_id) {
-        return tourService.createCard(tour_id);
+    public ServiceCard getCard(@RequestParam String tour_id, @RequestParam(required = false) String currency) {
+        return tourService.createCard(tour_id, currency);
     }
 
     @GetMapping("/owner")
     @Tag(name = "SPRINT 5")
-    public ArrayList<ServiceCard> getListTourByOwner(@RequestParam(required = false) String owner_id) {
-        return tourService.getTourByOwner(owner_id);
+    public ArrayList<ServiceCard> getListTourByOwner(@RequestParam(required = false) String owner_id, @RequestParam(required = false) String currency) {
+        return tourService.getTourByOwner(owner_id, currency);
     }
 
     @PostMapping("/feedback")

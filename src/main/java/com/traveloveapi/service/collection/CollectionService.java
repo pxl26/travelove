@@ -30,7 +30,7 @@ public class CollectionService {
     final private TourService tourService;
     final private RedisService redisService;
 
-    public CollectionDTO create(String name, String[] service_list, CollectionDisplay display_on, String ref_id) {
+    public CollectionDTO create(String name, String[] service_list, CollectionDisplay display_on, String ref_id, String currency) {
         CollectionEntity entity = new CollectionEntity();
         entity.setId(UUID.randomUUID().toString());
         entity.setName(name);
@@ -46,13 +46,13 @@ public class CollectionService {
             collectionDetailRepository.save(detail);
         }
 
-        redisService.getConnection().del("collection:"+ display_on + ':' + ref_id);
-        return get(entity.getId());
+        redisService.getConnection().del("collection:"+ display_on + ':'+ currency + ':' + ref_id);
+        return get(entity.getId(),currency);
     }
-    public ArrayList<CollectionDTO> getCollectionList(CollectionDisplay display_on, String ref_id) {
+    public ArrayList<CollectionDTO> getCollectionList(CollectionDisplay display_on, String ref_id, String currency) {
         ObjectMapper mapper = new ObjectMapper();
         TypeFactory typeFactory = mapper.getTypeFactory();
-        String value = redisService.getConnection().get("collection_list:"+display_on+':'+ref_id);
+        String value = redisService.getConnection().get("collection_list:"+display_on+':' + currency + ':'+ref_id);
         try {
             if (value != null)
                 return mapper.readValue(value, typeFactory.constructType(ArrayList.class, CollectionDTO.class));
@@ -65,16 +65,16 @@ public class CollectionService {
             return new ArrayList<>();
         ArrayList<CollectionDTO> rs = new ArrayList<>();
         for (CollectionEntity ele: data)
-            rs.add(get(ele.getId()));
+            rs.add(get(ele.getId(), currency));
         try {
-            redisService.getConnection().set("collection_list:" + display_on + ':' + ref_id, mapper.writeValueAsString(rs));
+            redisService.getConnection().set("collection_list:" + display_on + ':' + currency + ':' + ref_id, mapper.writeValueAsString(rs));
         } catch (Exception ex) {
             System.out.println(ex);
         }
         return rs;
     }
 
-    public CollectionDTO get(String id) {
+    public CollectionDTO get(String id, String currency) {
         CollectionDTO rs = new CollectionDTO();
         CollectionEntity entity = collectionRepository.find(id);
         if (entity==null)
@@ -86,7 +86,7 @@ public class CollectionService {
         ArrayList<CollectionDetailEntity> list = collectionDetailRepository.find(id);
         rs.setService_list(new ArrayList<>());
         for (CollectionDetailEntity ele: list) {
-            ServiceCard card = tourService.createCard(ele.getService_id());
+            ServiceCard card = tourService.createCard(ele.getService_id(), currency);
             if (card.getStatus()!= ServiceStatus.VERIFIED)
                 continue;
             rs.getService_list().add(card);

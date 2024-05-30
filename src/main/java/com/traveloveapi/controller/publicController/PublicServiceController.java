@@ -38,19 +38,19 @@ public class PublicServiceController {
 
     @GetMapping("/get-all-tour")
     @Tag(name = "AI support")
-    public List<ServiceDetailDTO> getAll() {
+    public List<ServiceDetailDTO> getAll(@RequestParam(required = false) String currency) {
         List<ServiceEntity> data =  serviceRepository.getAll();
         ArrayList<ServiceDetailDTO> serviceDetailDTOs = new ArrayList<>();
         for (ServiceEntity serviceEntity : data) {
-            serviceDetailDTOs.add(tourService.getTour(serviceEntity.getId()));
+            serviceDetailDTOs.add(tourService.getTour(serviceEntity.getId(), currency));
         }
         return serviceDetailDTOs;
     }
 
     @GetMapping("/tour")
     @Tag(name = "SPRINT 2")
-    public ServiceDetailDTO getTour(@RequestParam String id)  {
-        ServiceDetailDTO tour = tourService.getTour(id);
+    public ServiceDetailDTO getTour(@RequestParam String id, @RequestParam(required = false) String currency)  {
+        ServiceDetailDTO tour = tourService.getTour(id, currency);
         activityLoggingService.viewTour(tour.getId());
         return tour;
     }
@@ -119,11 +119,11 @@ public class PublicServiceController {
     }
 
     @GetMapping("/best-seller")
-    public List getBestSeller(@RequestParam int quantity) {
+    public List getBestSeller(@RequestParam int quantity, @RequestParam(required = false) String currency) {
         List<ServiceEntity> tour = serviceRepository.getBestSellers(quantity);
         ArrayList<ServiceDetailDTO> serviceDetailDTOs = new ArrayList<>();
         for (ServiceEntity serviceEntity : tour) {
-            serviceDetailDTOs.add(tourService.getTour(serviceEntity.getId()));
+            serviceDetailDTOs.add(tourService.getTour(serviceEntity.getId(), currency));
         }
         return serviceDetailDTOs;
     }

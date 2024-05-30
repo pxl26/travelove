@@ -4,6 +4,8 @@ import com.traveloveapi.constrain.ServiceStatus;
 import com.traveloveapi.entity.MediaEntity;
 import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.ServiceDetailEntity;
+import com.traveloveapi.service.currency.CurrencyService;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ServiceDetailDTO implements Serializable {
     private String id;
     private String title;
@@ -28,15 +31,16 @@ public class ServiceDetailDTO implements Serializable {
     private String address;
     private String location;
     private String note;
-    private Float min_price;
+    private Double min_price;
     private String currency;
     private String primary_language;
     private ArrayList<MediaEntity> gallery;
     private String city_id;
+    private String originCurrency;
 
     private boolean wish;
 
-    public ServiceDetailDTO(ServiceEntity service, ServiceDetailEntity tour, ArrayList<MediaEntity> media, boolean isWish) {
+    public ServiceDetailDTO(ServiceEntity service, ServiceDetailEntity tour, ArrayList<MediaEntity> media, boolean isWish, String currency, Double converted_min_price) {
         id = service.getId();
         title = service.getTitle();
         service_owner = service.getService_owner();
@@ -50,13 +54,14 @@ public class ServiceDetailDTO implements Serializable {
         location = tour.getLocation();
         note = tour.getNote();
         thumbnail = service.getThumbnail();
-        min_price = service.getMin_price();
-        currency = tour.getCurrency();
+        originCurrency = tour.getCurrency();
         primary_language = tour.getPrimary_language();
         gallery = media;
         city_id = service.getCity_id();
 
         wish = isWish;
+
+        min_price = currency.equals(originCurrency) ? service.getMin_price() : converted_min_price;
     }
 
 }
