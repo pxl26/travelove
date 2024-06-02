@@ -18,7 +18,7 @@ public class CurrencyService {
             return amount;
         Double fromRate = getRate(from);
         Double toRate = getRate(to);
-        return fromRate/toRate*amount;
+        return toRate/fromRate*amount;
     }
 
     Double getRate(String currency) {

@@ -128,7 +128,7 @@ public class TourService {
         }
         else
         {
-            String key = "tour_detail:"+':'+id;
+            String key = "tour_detail:"+currency+':'+id;
             ObjectMapper mapper = new ObjectMapper();
             String value = redisService.getConnection().get(key);
             try {
@@ -153,7 +153,7 @@ public class TourService {
 
         rs = new ServiceDetailDTO(service, tour, media, !SecurityContext.isAnonymous() && wishListService.isWish(SecurityContext.getUserID(), id), currency,  currencyService.convert(tour.getCurrency(), currency, (double)service.getMin_price()));
         try {
-            redisService.getConnection().set(isPrivilege ? "tour_detail:" + id + ":privilege" : "tour_detail:" + id, new ObjectMapper().writeValueAsString(rs));
+            redisService.getConnection().set("tour_detail:" + (isPrivilege ? ":privilege:" : ":") +currency + ':' + id , new ObjectMapper().writeValueAsString(rs));
         }
         catch (Exception ex) {
             System.out.println(ex);

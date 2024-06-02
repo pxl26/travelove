@@ -1,10 +1,13 @@
 package com.traveloveapi.controller.wish_list;
 
 import com.traveloveapi.DTO.WishList.WishListDTO;
+import com.traveloveapi.entity.ServiceDetailEntity;
+import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.WishListEntity;
 import com.traveloveapi.repository.ServiceDetailRepository;
 import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.repository.WishListRepository;
+import com.traveloveapi.service.currency.CurrencyService;
 import com.traveloveapi.service.tour.TourService;
 import com.traveloveapi.service.wish_list.WishListService;
 import com.traveloveapi.utility.SecurityContext;
@@ -26,11 +29,12 @@ public class WishListController {
     final private ServiceRepository serviceRepository;
     final private WishListService wishListService;
     final private ServiceDetailRepository serviceDetailRepository;
+    final private CurrencyService currencyService;
 
 
     @GetMapping
     @Tag(name = "SPRINT 4")
-    public List getWishList(@RequestParam int page) {
+    public List getWishList(@RequestParam int page, @RequestParam(required = false) String currency) {
         int page_size = 7;
         List raw_data =  wishListRepository.find(SecurityContext.getUserID(),page_size*page, page_size);
         ArrayList<WishListDTO> rs = new ArrayList<>();
@@ -38,7 +42,11 @@ public class WishListController {
             return rs;
         ArrayList<WishListEntity> data = (ArrayList<WishListEntity>)(raw_data);
         for (WishListEntity entity: data)
-            rs.add(new WishListDTO(entity,serviceRepository.find(entity.getService_id()), serviceDetailRepository.find(entity.getService_id()).getCurrency()));
+        {
+            ServiceEntity tour = serviceRepository.find(entity.getService_id());
+            ServiceDetailEntity detail = serviceDetailRepository.find(entity.getService_id());
+            rs.add(new WishListDTO(entity, tour,detail.getCurrency(), currency, currency==null ? null : currencyService.convert(detail.getCurrency(), currency, (double) tour.getMin_price())));
+            }
         return rs;
     }
 
