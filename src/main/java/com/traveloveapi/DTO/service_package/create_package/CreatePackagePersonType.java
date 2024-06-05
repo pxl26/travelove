@@ -8,5 +8,5 @@ import lombok.*;
 @AllArgsConstructor
 public class CreatePackagePersonType {
     private String name;
-    private float bonus_price;
+    private Double bonus_price;
 }

@@ -11,7 +11,8 @@ public class ServiceCard {
     private int vote_quantity;
     private int sold;
     private Double min_price;
-    private String currency;
+    private String originCurrency;
+    private String userCurrency;
     private String city;
     private String country;
     private String thumbnail;

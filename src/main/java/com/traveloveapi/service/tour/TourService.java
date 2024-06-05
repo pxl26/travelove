@@ -62,6 +62,7 @@ public class TourService {
     final private CityRepository cityRepository;
     final private RedisService redisService;
     final private CurrencyService currencyService;
+    private final ServiceDetailRepository serviceDetailRepository;
 
     public ServiceDetailDTO createNewService(ServiceType type, String title, String description, String highlight, String note, String currency, String primary_language, MultipartFile[] files,String[] gallery_description, String city_id, String location, String address) throws IOException, InterruptedException {
         UserEntity owner = userService.verifyIsTourOwner();
@@ -216,7 +217,10 @@ public class TourService {
     }
 
 
-    public PackageInfoDTO getPackageInfo(String service_id) {
+    public PackageInfoDTO getPackageInfo(String service_id, String currency) {
+        ServiceDetailEntity tour = serviceDetailRepository.find(service_id);
+        if (currency==null)
+            currency = tour.getCurrency();
         PackageInfoDTO result = new PackageInfoDTO();
         result.setService_id(service_id);
 
@@ -235,7 +239,7 @@ public class TourService {
         //------set person type
         ArrayList<PackagePersonTypeEntity> packagePersonTypeEntities = packagePersonTypeRepository.find(service_id);
         for (PackagePersonTypeEntity entity: packagePersonTypeEntities) {
-            CreatePackagePersonType dto = new CreatePackagePersonType(entity.getName(), entity.getBonus_price());
+            CreatePackagePersonType dto = new CreatePackagePersonType(entity.getName(),currencyService.convert(tour.getCurrency(), currency,(double) entity.getBonus_price()));
             result.getPerson_type().add(dto);
         }
         //------set special option
@@ -264,7 +268,7 @@ public class TourService {
             dto.setPackage_option(new ArrayList<>());
             for (PackageOptionEntity option: option_list)
                 if (option.getGroup_number()==entity.getGroup_number())
-                    dto.getPackage_option().add(new OptionDTO(entity.getGroup_number(), option.getOption_number(), option.getName(), option.getPrice(), option.getPrice_special()));
+                    dto.getPackage_option().add(new OptionDTO(entity.getGroup_number(), option.getOption_number(), option.getName(), currencyService.convert(tour.getCurrency(), currency,(double) option.getPrice()), currencyService.convert(tour.getCurrency(), currency,(double) option.getPrice_special())));
             result.getPackage_group().add(dto);
         }
         return result;
@@ -315,13 +319,12 @@ public class TourService {
         rs.setCity(city.getName());
         rs.setCountry(city.getCountry_name());
         rs.setStatus(service.getStatus());
-
+        rs.setUserCurrency(currency);
+        rs.setOriginCurrency(detail.getCurrency());
         if(currency==null) {
-            rs.setCurrency(detail.getCurrency());
             rs.setMin_price((double)service.getMin_price());
         }
         else {
-            rs.setCurrency(currency);
             rs.setMin_price(currencyService.convert(detail.getCurrency(), currency, (double) service.getMin_price()));
         }
         try {

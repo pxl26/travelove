@@ -58,8 +58,8 @@ public class PublicServiceController {
 
     @GetMapping("/package")
     @Tag(name = "SPRINT 2")
-    public PackageInfoDTO getPackage(@RequestParam String service_id) {
-        return tourService.getPackageInfo(service_id);
+    public PackageInfoDTO getPackage(@RequestParam String service_id, @RequestParam(required = false) String currency) {
+        return tourService.getPackageInfo(service_id, currency);
     }
 
     @PutMapping("/check-available")

@@ -29,7 +29,7 @@ public class UserActivityController {
 
     @GetMapping("/viewed-tour")
     @Tag(name = "SPRINT 4")
-    public ArrayList<ViewedTourDTO> getViewedTour() {
-        return activityLoggingService.getViewedTour(SecurityContext.getUserID());
+    public ArrayList<ViewedTourDTO> getViewedTour(@RequestParam(required = false) String currency) {
+        return activityLoggingService.getViewedTour(SecurityContext.getUserID(), currency);
     }
 }

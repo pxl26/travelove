@@ -14,5 +14,9 @@ public class ViewedTourDTO {
 
     private String thumb;
 
-    private float min_price;
+    private Double min_price;
+
+    private String originCurrency;
+
+    private String userCurrency;
 }
