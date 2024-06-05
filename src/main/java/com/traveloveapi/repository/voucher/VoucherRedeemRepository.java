@@ -26,7 +26,7 @@ public class VoucherRedeemRepository {
 
     public VoucherRedeemEntity findByKey(String key) {
         List temp = entityManager.createQuery("FROM VoucherRedeemEntity m WHERE m.redeem_key=:key").setParameter("key",key).getResultList();
-        if (temp==null)
+        if (temp.isEmpty())
             return null;
         return (VoucherRedeemEntity) temp.get(0);
     }

@@ -16,7 +16,7 @@ public class BillDetailDTO {
     private Date date;
     private Timestamp create_at;
     private Timestamp update_at;
-    private float total;
+    private Double total;
     private int quantity;
     private BillStatus status;
 

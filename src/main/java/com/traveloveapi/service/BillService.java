@@ -8,6 +8,8 @@ import com.traveloveapi.DTO.service_package.bill.BillOption;
 import com.traveloveapi.DTO.service_package.bill.CreateBillPersonType;
 import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.constrain.Role;
+import com.traveloveapi.entity.ServiceDetailEntity;
+import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.entity.join_entity.JoinBillRow;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
@@ -20,11 +22,14 @@ import com.traveloveapi.entity.service_package.package_option.PackageOptionEntit
 import com.traveloveapi.entity.service_package.person_type.PackagePersonTypeEntity;
 import com.traveloveapi.entity.service_package.special_date.SpecialDateEntity;
 import com.traveloveapi.exception.ForbiddenException;
+import com.traveloveapi.repository.ServiceDetailRepository;
+import com.traveloveapi.repository.ServiceRepository;
 import com.traveloveapi.repository.UserRepository;
 import com.traveloveapi.repository.bill.BillDetailOptionRepository;
 import com.traveloveapi.repository.bill.BillDetailPersonTypeRepository;
 import com.traveloveapi.repository.bill.BillRepository;
 import com.traveloveapi.repository.service_package.*;
+import com.traveloveapi.service.currency.CurrencyService;
 import com.traveloveapi.service.user.UserService;
 import com.traveloveapi.service.voucher.VoucherService;
 import com.traveloveapi.utility.SecurityContext;
@@ -51,6 +56,9 @@ public class BillService {
     final private UserRepository userRepository;
     final private UserService userService;
     final private VoucherService voucherService;
+    final private CurrencyService currencyService;
+    private final ServiceRepository serviceRepository;
+    private final ServiceDetailRepository serviceDetailRepository;
 
 
     public BillDetailDTO getBillDetail(String bill_id) {
@@ -143,17 +151,21 @@ public class BillService {
         return rs;
     }
 
-    public BillDTO createNewBill(BillRequest data) {
+    public BillDTO createNewBill(BillRequest data, String currency) {
         String id = UUID.randomUUID().toString().replace("-","");
         String user_id = SecurityContext.getUserID();
         BillEntity bill = new BillEntity();
         bill.setId(id);
         bill.setUser_id(user_id);
         bill.setService_id(data.getService_id());
-        bill.setTotal(getTotalForBill(data.getService_id(),data.getDate(), data.getPerson_types(), data.getOptions()));
         bill.setDate(data.getDate());
         bill.setCreate_at(new Timestamp(System.currentTimeMillis()));
         bill.setStatus(BillStatus.PENDING);
+        //--
+        float total = getTotalForBill(data.getService_id(),data.getDate(), data.getPerson_types(), data.getOptions());
+        ServiceDetailEntity tour = serviceDetailRepository.find(data.getService_id());
+        bill.setTotal(currencyService.convert(tour.getCurrency(), currency,(double) total));
+        //---
         int num_ticket = 0;
         for (CreateBillPersonType ele: data.getPerson_types())
             num_ticket+=ele.getQuantity();

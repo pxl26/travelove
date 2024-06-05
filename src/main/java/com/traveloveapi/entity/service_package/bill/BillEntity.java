@@ -22,7 +22,7 @@ public class BillEntity {
 
     private String user_id;
 
-    private float total;
+    private Double total;
 
     private Timestamp create_at;
 

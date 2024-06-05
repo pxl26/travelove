@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class JoinBillRow {
     private String bill_id;
-    private float total;
+    private Double total;
     private Timestamp create_at;
     private Timestamp update_at;
     private Date date;
@@ -41,5 +41,5 @@ public class JoinBillRow {
     private String user_full_name;
 
     private String voucher_id;
-    private float voucher_discount_amount;
+    private Double voucher_discount_amount;
 }

@@ -41,7 +41,7 @@ public class VoucherService {
     public ArrayList<VoucherDTO> getUsableVoucher(String tour_id) {
         return voucherRepository.getAvailableVoucherForTour(tour_id, SecurityContext.getUserID());
     }
-    public float applyVouchers(String[] redeem_key_list, String bill_id) {
+    public Double applyVouchers(String[] redeem_key_list, String bill_id) {
         ArrayList<String> key_list = new ArrayList<>();
         //-------REMOVE DUPLICATE VOUCHER-------
         for (String key: redeem_key_list)
@@ -63,6 +63,8 @@ public class VoucherService {
         //---------------
         for (String key: key_list) {
             VoucherRedeemEntity voucherRedeem = voucherRedeemRepository.findByKey(key);
+            if (voucherRedeem==null)
+                continue;
             if (voucherRedeem.getStatus()==VoucherRedeemStatus.USED)
                 throw new CustomException("Voucher was used: #key_"+voucherRedeem.getRedeem_key(), 400);
             if (voucherRedeem.getStatus()==VoucherRedeemStatus.EXPIRED)
@@ -74,9 +76,9 @@ public class VoucherService {
 
 
         BillEntity bill = billRepository.find(bill_id);
-        float bill_amount = bill.getTotal();
+        Double bill_amount = bill.getTotal();
         for (String voucher_id: voucher_list) {
-            float discount_by_voucher = 0;
+            Double discount_by_voucher = 0.0;
             VoucherEntity voucher = voucherRepository.find(voucher_id);
 
             //--------VALIDATED-------
@@ -87,9 +89,9 @@ public class VoucherService {
             //-----------
 
             if (voucher.getDiscount_type()==VoucherDiscountType.FIXED)
-                discount_by_voucher=voucher.getFixed_discount();
+                discount_by_voucher= Double.valueOf(voucher.getFixed_discount());
             else if (voucher.getDiscount_type()==VoucherDiscountType.PERCENT)
-                discount_by_voucher = Math.min(bill.getTotal() * voucher.getPercent_discount() / 100, voucher.getMax_discount());
+                discount_by_voucher = (Double) Math.min(bill.getTotal() * voucher.getPercent_discount() / 100, voucher.getMax_discount());
 
             //----------------------------------------------
             if (discount_by_voucher >= bill_amount)            // bill cannot be less than 0 by voucher discount

@@ -22,7 +22,7 @@ public class BillDTO {
     private String service_id;
     private String user_id;
     private Timestamp create_at;
-    private float total;
+    private Double total;
     private Timestamp update_at;
     private ArrayList<GroupOptionDTO> options;
     private ArrayList<CreateBillPersonType> person_types;
