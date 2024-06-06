@@ -29,4 +29,6 @@ public class BillDTO {
     private BillStatus status;
     private String gateway_url;
     private PayMethod pay_method;
+    private String originCurrency;
+    private String userCurrency;
 }

@@ -154,7 +154,7 @@ public class BillService {
         return rs;
     }
 
-    public BillDTO createNewBill(BillRequest data) {
+    public BillDTO createNewBill(BillRequest data, String currency) {
         String id = UUID.randomUUID().toString().replace("-","");
         String user_id = SecurityContext.getUserID();
         BillEntity bill = new BillEntity();
@@ -202,6 +202,11 @@ public class BillService {
         rs.setOptions(data.getOptions());
         rs.setPerson_types(data.getPerson_types());
         rs.setStatus(BillStatus.PENDING);
+        rs.setOriginCurrency(tour.getCurrency());
+        rs.setUserCurrency(currency);
+        if (currency!=null) {
+            rs.setTotal(currencyService.convert(rs.getOriginCurrency(), currency, rs.getTotal()));
+        }
         return rs;
     }
 
