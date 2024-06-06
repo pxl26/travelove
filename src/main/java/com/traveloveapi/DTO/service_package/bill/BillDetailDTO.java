@@ -25,7 +25,8 @@ public class BillDetailDTO {
     private String tour_thumbnail;
     private float tour_rating;
     private int tour_sold;
-    private String tour_currency;
+    private String originCurrency;
+    private String userCurrency;
 
     private ArrayList<CreateBillPersonType> person_type;
     private ArrayList<BillOption> option;

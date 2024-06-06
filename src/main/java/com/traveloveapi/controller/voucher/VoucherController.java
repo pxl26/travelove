@@ -43,14 +43,14 @@ public class VoucherController {
 
     @GetMapping("/my-voucher")
     @Tag(name = "SPRINT 9")
-    public ArrayList<RedeemVoucherDTO> getAllVoucher(@RequestParam(required = false) String user_id, @RequestParam int page) {
-        return voucherService.getVoucherByUser(user_id, page);
+    public ArrayList<RedeemVoucherDTO> getAllVoucher(@RequestParam(required = false) String user_id, @RequestParam int page, @RequestParam(required = false) String currency) {
+        return voucherService.getVoucherByUser(user_id, page, currency);
     }
 
     @GetMapping("/tour")
     @Tag(name = "SPRINT 9")
-    public ArrayList<VoucherDTO> getByTour(@RequestParam String tour_id) {
-        return voucherService.getUsableVoucher(tour_id);
+    public ArrayList<VoucherDTO> getByTour(@RequestParam String tour_id, @RequestParam(required = false) String currency) {
+        return voucherService.getUsableVoucher(tour_id, currency);
     }
 
     @GetMapping("/manage")

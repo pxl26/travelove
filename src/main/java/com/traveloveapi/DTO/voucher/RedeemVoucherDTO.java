@@ -23,9 +23,10 @@ public class RedeemVoucherDTO {
 
 
     private VoucherDiscountType discount_type;
-    private float fixed_discount;
+    private Double fixed_discount;
     private float percent_discount;
     private float minimum_spend;
     private float max_discount;
-    private String currency;
+    private String originCurrency;
+    private String userCurrency;
 }

@@ -38,8 +38,8 @@ public class VoucherService {
     final private BillVoucherRepository billVoucherRepository;
     final private RabbitTemplate rabbitTemplate;
 
-    public ArrayList<VoucherDTO> getUsableVoucher(String tour_id) {
-        return voucherRepository.getAvailableVoucherForTour(tour_id, SecurityContext.getUserID());
+    public ArrayList<VoucherDTO> getUsableVoucher(String tour_id, String currency) {
+        return voucherRepository.getAvailableVoucherForTour(tour_id, SecurityContext.getUserID(), currency);
     }
     public Double applyVouchers(String[] redeem_key_list, String bill_id) {
         ArrayList<String> key_list = new ArrayList<>();
@@ -153,13 +153,13 @@ public class VoucherService {
         return voucherRepository.getByCreator(creator, type);
     }
 
-    public ArrayList<RedeemVoucherDTO> getVoucherByUser(String user_id, int page) {
+    public ArrayList<RedeemVoucherDTO> getVoucherByUser(String user_id, int page, String currency) {
         if (user_id!=null)
             if (!userService.isAdmin() && !user_id.equals(SecurityContext.getUserID()))
                 throw new ForbiddenException();
         if (user_id==null)
             user_id=SecurityContext.getUserID();
-        return voucherRedeemRepository.getByUser(user_id, page);
+        return voucherRedeemRepository.getByUser(user_id, page, currency);
     }
 
     public VoucherRedeemEntity redeemVoucher(String voucher_id, String redeem_user, boolean isGiven) {

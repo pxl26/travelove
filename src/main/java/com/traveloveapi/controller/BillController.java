@@ -115,8 +115,8 @@ public class BillController {
 
     @GetMapping("/detail")
     @Tag(name = "SPRINT 8")
-    public BillDetailDTO test(@RequestParam String bill_id) {
-        return billService.getBillDetail(bill_id);
+    public BillDetailDTO test(@RequestParam String bill_id, @RequestParam(required = false) String currency) {
+        return billService.getBillDetail(bill_id, currency);
     }
 
 }

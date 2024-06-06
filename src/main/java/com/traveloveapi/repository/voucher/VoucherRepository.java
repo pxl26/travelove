@@ -6,6 +6,7 @@ import com.traveloveapi.constrain.voucher.VoucherStatus;
 import com.traveloveapi.constrain.voucher.VoucherTargetType;
 import com.traveloveapi.entity.voucher.VoucherEntity;
 import com.traveloveapi.entity.voucher.VoucherRedeemEntity;
+import com.traveloveapi.service.currency.CurrencyService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -16,8 +17,13 @@ import java.util.List;
 
 @Repository
 public class VoucherRepository {
+    private final CurrencyService currencyService;
     @PersistenceContext
     private EntityManager entityManager;
+
+    public VoucherRepository(CurrencyService currencyService) {
+        this.currencyService = currencyService;
+    }
 
     public VoucherEntity find(String voucher_id) {
         return entityManager.find(VoucherEntity.class, voucher_id);
@@ -75,7 +81,7 @@ public class VoucherRepository {
     }
 
 
-    public ArrayList<VoucherDTO> getAvailableVoucherForTour(String tour_id, String user_id) {
+    public ArrayList<VoucherDTO> getAvailableVoucherForTour(String tour_id, String user_id, String currency) {
         List<Object> data = (List<Object>)entityManager.createQuery(
                 """
                         SELECT data.id, data.discount_type, data.minimum_spend, data.fixed_discount, data.percent_discount, data.max_discount, data.currency, data.target_type, data.target_id FROM
@@ -91,7 +97,9 @@ public class VoucherRepository {
         for (Object ele: data)
         {
             Object[] row = (Object[]) ele;
-            VoucherDTO a = new VoucherDTO((String) row[0], (VoucherDiscountType) row[1], (float) row[2], (float) row[3], (float) row[4], (float) row[5], (String) row[6], (VoucherTargetType) row[7], (String) row[8]);
+            VoucherDTO a = new VoucherDTO((String) row[0], (VoucherDiscountType) row[1], (float) row[2], (double) row[3], (float) row[4], (float) row[5], (String) row[6], (VoucherTargetType) row[7], (String) row[8], currency);
+            if (currency!=null && a.getType()==VoucherDiscountType.FIXED)
+                a.setFixed_discount(currencyService.convert(a.getOriginCurrency(), currency, a.getFixed_discount()));
             rs.add(a);
         }
         return rs;

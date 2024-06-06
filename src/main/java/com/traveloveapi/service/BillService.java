@@ -61,7 +61,7 @@ public class BillService {
     private final ServiceDetailRepository serviceDetailRepository;
 
 
-    public BillDetailDTO getBillDetail(String bill_id) {
+    public BillDetailDTO getBillDetail(String bill_id, String currency) {
         BillEntity bill = billRepository.find(bill_id);
         UserEntity user = userRepository.find(SecurityContext.getUserID());
         // ---- AUTH FOR ACCESS: Bill owner + Admin + Tour owner (Own tour)
@@ -91,7 +91,10 @@ public class BillService {
         rs.setTour_rating(data.get(0).getRating());
         rs.setTour_sold(data.get(0).getSold());
         rs.setTour_thumbnail(data.get(0).getTour_thumbnail());
-        rs.setTour_currency(data.get(0).getCurrency());
+        rs.setOriginCurrency("VND");
+        rs.setUserCurrency(currency);
+        if (currency!=null)
+            rs.setTotal(currencyService.convert("VND", currency, rs.getTotal()));
 
         rs.setPerson_type(new ArrayList<>());
         rs.setOption(new ArrayList<>());
