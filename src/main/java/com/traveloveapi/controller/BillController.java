@@ -47,7 +47,7 @@ public class BillController {
     @Tags({
             @Tag(name = "SPRINT 2"),
             @Tag(name = "SPRINT 5")})
-    public BillDTO createBill(@RequestBody BillRequest request, @RequestParam(required = false) String currency) {
+    public BillDTO createBill(@RequestBody BillRequest request, @RequestParam String currency) {
         return billService.createNewBill(request, currency);
     }
 
