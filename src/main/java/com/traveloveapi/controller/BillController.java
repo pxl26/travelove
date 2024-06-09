@@ -114,7 +114,7 @@ public class BillController {
             BillCurrencyDTO dto = new BillCurrencyDTO();
             dto = modelMapper.map(bill, BillCurrencyDTO.class);
             dto.setUserCurrency(currency);
-            dto.setOriginCurrency(tour.getCurrency());
+            dto.setOriginCurrency(bill.getCurrency());
             if (currency!=null)
                 dto.setTotal(currencyService.convert(dto.getOriginCurrency(), dto.getUserCurrency(), dto.getTotal()));
             return dto;

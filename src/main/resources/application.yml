@@ -61,7 +61,7 @@ payment:
 
         vnpay: http://payment:5000/api/vnpay/create-payment
         zalopay: http://payment:5000/api/zalopay/create-payment
-        paypal: http://payment:5000/api/paypal/create-payment
+        paypal:  http://payment:5000/api/paypal/create-payment
 oauth:
     google:
         host: https://www.travelovecompany.com
