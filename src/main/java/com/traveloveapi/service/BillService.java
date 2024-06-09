@@ -91,10 +91,10 @@ public class BillService {
         rs.setTour_rating(data.get(0).getRating());
         rs.setTour_sold(data.get(0).getSold());
         rs.setTour_thumbnail(data.get(0).getTour_thumbnail());
-        rs.setOriginCurrency("VND");
+        rs.setOriginCurrency(data.get(0).getBill_currency());
         rs.setUserCurrency(currency);
         if (currency!=null)
-            rs.setTotal(currencyService.convert(data.get(0).getCurrency(), currency, rs.getTotal()));
+            rs.setTotal(currencyService.convert(rs.getOriginCurrency(), currency, rs.getTotal()));
 
         rs.setPerson_type(new ArrayList<>());
         rs.setOption(new ArrayList<>());

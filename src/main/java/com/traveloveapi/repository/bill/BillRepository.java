@@ -35,7 +35,7 @@ public class BillRepository {
     public List getBillDetail(String bill_id) {
         List<Object> data = (List<Object>) entityManager.createQuery(
                 """
-                SELECT bill.id, bill.total, bill.create_at, bill.update_at, bill.date, bill.status, bill.quantity, person.type, person.quantity, pk_group.title, option.name, service.title, service.id, service.thumbnail, service.rating, service.sold, detail.currency, bill.user_id, bill.feedback_id, bill.gateway_url, bill.pay_method, user.avatar, user.full_name, voucher.voucher_id, voucher.discount_amount
+                SELECT bill.id, bill.total, bill.create_at, bill.update_at, bill.date, bill.status, bill.quantity, person.type, person.quantity, pk_group.title, option.name, service.title, service.id, service.thumbnail, service.rating, service.sold, detail.currency, bill.user_id, bill.feedback_id, bill.gateway_url, bill.pay_method, user.avatar, user.full_name, voucher.voucher_id, voucher.discount_amount, bill.currency
                 FROM BillEntity bill
                 JOIN ServiceEntity service ON bill.service_id=service.id AND bill.id=:id
                 JOIN UserEntity user ON bill.user_id=user.id
@@ -49,7 +49,7 @@ public class BillRepository {
         for (Object ele: data)
         {
             Object[] row = (Object[]) ele;
-            JoinBillRow a = new JoinBillRow((String) row[0], (Double) row[1], (Timestamp) row[2], (Timestamp) row[3], (Date) row[4], (BillStatus) row[5], (int)row[6], (String)row[7], (int)row[8], (String)row[9], (String)row[10], (String)row[11], (String)row[12], (String)row[13], (float)row[14], (int)row[15], (String) row[16], (String)row[17], (String)row[18], (String) row[19], (PayMethod) row[20], (String) row[21], (String) row[22], (String) row[23], row[24]==null ? 0: (Double) row[24]);
+            JoinBillRow a = new JoinBillRow((String) row[0], (Double) row[1], (Timestamp) row[2], (Timestamp) row[3], (Date) row[4], (BillStatus) row[5], (int)row[6], (String)row[7], (int)row[8], (String)row[9], (String)row[10], (String)row[11], (String)row[12], (String)row[13], (float)row[14], (int)row[15], (String) row[16], (String)row[17], (String)row[18], (String) row[19], (PayMethod) row[20], (String) row[21], (String) row[22], (String) row[23], row[24]==null ? 0: (Double) row[24], (String) row[25]);
             rs.add(a);
         }
         return rs;

@@ -42,4 +42,6 @@ public class JoinBillRow {
 
     private String voucher_id;
     private Double voucher_discount_amount;
+
+    private String bill_currency;
 }
