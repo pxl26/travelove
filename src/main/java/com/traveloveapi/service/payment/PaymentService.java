@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.traveloveapi.DTO.payment.GatewayResponse;
 import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.constrain.PayMethod;
+import com.traveloveapi.entity.ServiceDetailEntity;
 import com.traveloveapi.entity.ServiceEntity;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
 import com.traveloveapi.exception.CustomException;
@@ -37,6 +38,10 @@ public class PaymentService {
 
     @Value("${payment.zalopay}")
     private String zalopay_endpoint;
+
+    @Value("${payment.paypal}")
+    private String paypal_endpoint;
+
     public GatewayResponse getPaymentGateway(String bill_id, String bank_code, PayMethod method) {
         BillEntity bill = billRepository.find(bill_id);
         if (bill==null)
@@ -48,7 +53,8 @@ public class PaymentService {
         int amount = (int) Math.round(bill.getTotal());
         String order_description = "Thanh%20toán%20cho%20tour:%20" + bill.getService_id();
         String order_type = "Thanhtoan";
-        String request_url = (method==PayMethod.VNPAY ? vnpay_endpoint : zalopay_endpoint) + "?bank_code="+bank_code+"&amount="+amount+"&order_description="+order_description+"&order_type="+order_type + "&order_id="+bill_id;
+        String request_url = (method==PayMethod.VNPAY ? vnpay_endpoint : ( method==PayMethod.ZALOPAY ? zalopay_endpoint : paypal_endpoint)) + "?bank_code="+bank_code+"&amount="+amount+"&order_description="+order_description+"&order_type="+order_type + "&order_id="+bill_id + "&currency=" + bill.getCurrency();
+        System.out.println(request_url);
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(request_url)).method("POST",HttpRequest.BodyPublishers.noBody()).build();
 
         HttpResponse<String> response = null;

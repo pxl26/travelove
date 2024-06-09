@@ -164,6 +164,7 @@ public class BillService {
         bill.setDate(data.getDate());
         bill.setCreate_at(new Timestamp(System.currentTimeMillis()));
         bill.setStatus(BillStatus.PENDING);
+        bill.setCurrency(currency);
         //--
         float total = getTotalForBill(data.getService_id(),data.getDate(), data.getPerson_types(), data.getOptions());
         ServiceDetailEntity tour = serviceDetailRepository.find(data.getService_id());

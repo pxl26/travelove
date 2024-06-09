@@ -25,6 +25,13 @@ public class BillRepository {
         return entityManager.find(BillEntity.class, id);
     }
 
+    public BillEntity findByPaypalId(String paypalId) {
+        List<BillEntity> list = entityManager.createQuery("FROM BillEntity e WHERE e.gateway_url LIKE :id").setParameter("id","%"+paypalId ).getResultList();
+        if (list.size() > 0)
+            return list.get(0);
+        return null;
+    }
+
     public List getBillDetail(String bill_id) {
         List<Object> data = (List<Object>) entityManager.createQuery(
                 """

@@ -126,7 +126,7 @@ public class ServiceRepository {
     }
 
     public Long getPageTotalCountry(String country_name) {
-        return (Long) entityManager.createQuery("FROM ServiceEntity m JOIN CityEntity city ON m.city_id=city.id AND city.country_name=:country AND m.status=:status ").setParameter("country",country_name).setParameter("status",ServiceStatus.VERIFIED).getResultList().get(0);
+        return (Long) entityManager.createQuery("SELECT COUNT(*) FROM ServiceEntity m JOIN CityEntity city ON m.city_id=city.id AND city.country_name=:country AND m.status=:status ").setParameter("country",country_name).setParameter("status",ServiceStatus.VERIFIED).getResultList().get(0);
     }
 
     public List<ServiceEntity> findByOwner(String id) {

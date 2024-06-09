@@ -59,7 +59,16 @@ public class BillController {
 
     @PostMapping("/update")
     @Operation(hidden = true)
-    public SimpleResponse updateStatus(@RequestParam String order_id, @RequestParam String bank_code, @RequestParam String status_code,@RequestParam PayMethod method) {
+    public SimpleResponse updateStatus(@RequestParam String order_id, @RequestParam String status_code,@RequestParam PayMethod method) {
+        if (method==PayMethod.PAYPAL) {
+            BillEntity bill = billRepository.findByPaypalId(order_id);
+            if (bill==null)
+                return new SimpleResponse("Bill not found");
+            paymentService.updateBillWasPaid(bill.getId());
+            rabbitTemplate.convertAndSend("booking", bill.getId());
+            return new SimpleResponse(bill.getId(), 200);
+        }
+
         if ((status_code.equals("00")&&method==PayMethod.VNPAY) || (status_code.equals("1")&&method==PayMethod.ZALOPAY)) {
             paymentService.updateBillWasPaid(order_id);
             rabbitTemplate.convertAndSend("booking", order_id);
