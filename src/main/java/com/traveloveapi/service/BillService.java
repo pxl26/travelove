@@ -94,7 +94,7 @@ public class BillService {
         rs.setOriginCurrency("VND");
         rs.setUserCurrency(currency);
         if (currency!=null)
-            rs.setTotal(currencyService.convert("VND", currency, rs.getTotal()));
+            rs.setTotal(currencyService.convert(data.get(0).getCurrency(), currency, rs.getTotal()));
 
         rs.setPerson_type(new ArrayList<>());
         rs.setOption(new ArrayList<>());
