@@ -11,6 +11,7 @@ import com.traveloveapi.constrain.Role;
 import com.traveloveapi.entity.ServiceDetailEntity;
 import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.entity.service_package.bill.BillEntity;
+import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.exception.ForbiddenException;
 import com.traveloveapi.repository.ServiceDetailRepository;
 import com.traveloveapi.repository.bill.BillRepository;
@@ -48,6 +49,9 @@ public class BillController {
             @Tag(name = "SPRINT 2"),
             @Tag(name = "SPRINT 5")})
     public BillDTO createBill(@RequestBody BillRequest request, @RequestParam String currency) {
+        if (currency==null || currency.equals("")) {
+            throw new CustomException("Currency???????????", 400);
+        }
         return billService.createNewBill(request, currency);
     }
 
