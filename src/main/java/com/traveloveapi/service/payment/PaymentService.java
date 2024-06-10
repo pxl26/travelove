@@ -50,7 +50,7 @@ public class PaymentService {
             throw new CustomException("Bill was paid", 400);
         if (bill.getStatus()==BillStatus.CANCELED)
             throw new CustomException("Bill was canceled", 400);
-        int amount = (int) Math.round(bill.getTotal());
+        Double amount = method==PayMethod.PAYPAL ? bill.getTotal () : (int) Math.round(bill.getTotal());
         String order_description = "Thanh%20toán%20cho%20tour:%20" + bill.getService_id();
         String order_type = "Thanhtoan";
         String request_url = (method==PayMethod.VNPAY ? vnpay_endpoint : ( method==PayMethod.ZALOPAY ? zalopay_endpoint : paypal_endpoint)) + "?bank_code="+bank_code+"&amount="+amount+"&order_description="+order_description+"&order_type="+order_type + "&order_id="+bill_id + "&currency=" + bill.getCurrency();
