@@ -329,6 +329,8 @@ public class BillService {
                     total += (entity.getBonus_price() + base_price)*person.getQuantity();
                     break;
                 }
+
+        System.out.println("TOTAL: " + total);
         return total;
     }
 
