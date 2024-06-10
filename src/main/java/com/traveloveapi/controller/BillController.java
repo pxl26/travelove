@@ -52,6 +52,8 @@ public class BillController {
         if (currency==null || currency.equals("")) {
             throw new CustomException("Currency???????????", 400);
         }
+        if (currency.equals("VND"))
+            throw new CustomException("VND is not supported by Paypal", 400);
         return billService.createNewBill(request, currency);
     }
 
