@@ -54,7 +54,7 @@ public class PaymentService {
             throw new CustomException("VND is not supported by Paypal", 400);
         if (!bill.getCurrency().equals("VND") && method!=PayMethod.PAYPAL)
             throw new CustomException("VND is required", 400);
-        int amount = (int) Math.round(bill.getTotal());
+        String amount = String.valueOf(Math.round(bill.getTotal()));
         String order_description = "Thanh%20toán%20cho%20tour:%20" + bill.getService_id();
         String order_type = "Thanhtoan";
         String request_url = (method==PayMethod.VNPAY ? vnpay_endpoint : ( method==PayMethod.ZALOPAY ? zalopay_endpoint : paypal_endpoint)) + "?bank_code="+bank_code+"&amount="+(method==PayMethod.PAYPAL ? bill.getTotal() : amount)+"&order_description="+order_description+"&order_type="+order_type + "&order_id="+bill_id + "&currency=" + bill.getCurrency();
