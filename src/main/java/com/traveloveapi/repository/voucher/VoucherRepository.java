@@ -97,9 +97,12 @@ public class VoucherRepository {
         for (Object ele: data)
         {
             Object[] row = (Object[]) ele;
-            VoucherDTO a = new VoucherDTO((String) row[0], (VoucherDiscountType) row[1], (float) row[2], ((Float)row[3]).doubleValue(), (float) row[4], (float) row[5], (String) row[6], (VoucherTargetType) row[7], (String) row[8], currency);
-            if (currency!=null && a.getType()==VoucherDiscountType.FIXED)
+            VoucherDTO a = new VoucherDTO((String) row[0], (VoucherDiscountType) row[1], ((Float) row[2]).doubleValue(), ((Float)row[3]).doubleValue(), (float) row[4], ((Float) row[5]).doubleValue(), (String) row[6], (VoucherTargetType) row[7], (String) row[8], currency);
+            if (currency!=null && a.getType()==VoucherDiscountType.FIXED) {
                 a.setFixed_discount(currencyService.convert(a.getOriginCurrency(), currency, a.getFixed_discount()));
+                a.setMinimum_spend(currencyService.convert(a.getOriginCurrency(), currency, a.getMinimum_spend()));
+                a.setMax_discount(currencyService.convert(a.getOriginCurrency(), currency, a.getMax_discount()));
+            }
             rs.add(a);
         }
         return rs;
