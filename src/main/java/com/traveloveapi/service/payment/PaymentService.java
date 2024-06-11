@@ -50,6 +50,10 @@ public class PaymentService {
             throw new CustomException("Bill was paid", 400);
         if (bill.getStatus()==BillStatus.CANCELED)
             throw new CustomException("Bill was canceled", 400);
+        if (bill.getCurrency().equals("VND") && method==PayMethod.PAYPAL)
+            throw new CustomException("VND is not supported by Paypal", 400);
+        if (!bill.getCurrency().equals("VND") && method!=PayMethod.PAYPAL)
+            throw new CustomException("VND is required", 400);
         Double amount = method==PayMethod.PAYPAL ? bill.getTotal () : (int) Math.round(bill.getTotal());
         String order_description = "Thanh%20toán%20cho%20tour:%20" + bill.getService_id();
         String order_type = "Thanhtoan";
