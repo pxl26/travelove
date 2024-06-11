@@ -166,12 +166,14 @@ public class BillService {
         bill.setStatus(BillStatus.PENDING);
         bill.setCurrency(currency);
         //--
-        float total = getTotalForBill(data.getService_id(),data.getDate(), data.getPerson_types(), data.getOptions());
+        Float total = getTotalForBill(data.getService_id(),data.getDate(), data.getPerson_types(), data.getOptions());
         ServiceDetailEntity tour = serviceDetailRepository.find(data.getService_id());
-        if (tour.getCurrency().equals(currency))
-            bill.setTotal((double) total);
+        if (tour.getCurrency().equals(currency)) {
+            bill.setTotal(total.doubleValue());
+            System.out.println("SAME");
+        }
         else
-            bill.setTotal(currencyService.convert(tour.getCurrency(), currency,(double) total));
+            bill.setTotal(currencyService.convert(tour.getCurrency(), currency,total.doubleValue()));
         //---
         int num_ticket = 0;
         for (CreateBillPersonType ele: data.getPerson_types())
@@ -181,6 +183,8 @@ public class BillService {
         billRepository.save(bill);
         voucherService.applyVouchers(data.getVoucher_key_list(), bill.getId());
 
+        System.out.println("1: " + bill.getTotal());
+
         for (GroupOptionDTO option : data.getOptions()) {
             BillDetailOptionEntity bill_option = new BillDetailOptionEntity();
             bill_option.setBill_id(id);
@@ -188,6 +192,7 @@ public class BillService {
             bill_option.setOption_number(option.getOption_number());
             billDetailOptionRepository.save(bill_option);
         }
+        System.out.println("2: " + bill.getTotal());
 
         for (CreateBillPersonType person : data.getPerson_types()) {
             BillDetailPersonTypeEntity entity = new BillDetailPersonTypeEntity();
@@ -197,6 +202,7 @@ public class BillService {
             billDetailPersonTypeRepository.save(entity);
         }
 
+        System.out.println("3: " + bill.getTotal());
         BillDTO rs = new BillDTO();
         rs.setId(id);
         rs.setUser_id(user_id);
@@ -208,9 +214,11 @@ public class BillService {
         rs.setStatus(BillStatus.PENDING);
         rs.setOriginCurrency(tour.getCurrency());
         rs.setUserCurrency(currency);
-        if (currency!=null) {
-            rs.setTotal(currencyService.convert(rs.getOriginCurrency(), currency, rs.getTotal()));
-        }
+        System.out.println("4: " + bill.getTotal());
+        System.out.println(rs.getOriginCurrency());
+        System.out.println(currency);
+        System.out.println(rs.getTotal());
+
         return rs;
     }
 
