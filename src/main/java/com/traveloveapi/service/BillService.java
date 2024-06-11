@@ -168,7 +168,10 @@ public class BillService {
         //--
         float total = getTotalForBill(data.getService_id(),data.getDate(), data.getPerson_types(), data.getOptions());
         ServiceDetailEntity tour = serviceDetailRepository.find(data.getService_id());
-        bill.setTotal(currencyService.convert(tour.getCurrency(), currency,(double) total));
+        if (tour.getCurrency().equals(currency))
+            bill.setTotal((double) total);
+        else
+            bill.setTotal(currencyService.convert(tour.getCurrency(), currency,(double) total));
         //---
         int num_ticket = 0;
         for (CreateBillPersonType ele: data.getPerson_types())

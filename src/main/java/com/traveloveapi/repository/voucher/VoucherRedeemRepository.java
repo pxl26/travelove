@@ -42,7 +42,7 @@ public class VoucherRedeemRepository {
         for (Object ele: data)
         {
             Object[] row = (Object[]) ele;
-            RedeemVoucherDTO a = new RedeemVoucherDTO((String) row[0], (String) row[1],(String) row[2], (String) row[3], (VoucherRedeemStatus) row[4], (Timestamp) row[5], (Timestamp) row[6], (VoucherTargetType) row[7], (String) row[8], (VoucherDiscountType) row[9], (double) row[10], (float) row[11], (float) row[12], (float) row[13], (String) row[14], currency);
+            RedeemVoucherDTO a = new RedeemVoucherDTO((String) row[0], (String) row[1],(String) row[2], (String) row[3], (VoucherRedeemStatus) row[4], (Timestamp) row[5], (Timestamp) row[6], (VoucherTargetType) row[7], (String) row[8], (VoucherDiscountType) row[9], ((Float)row[10]).doubleValue(), (float) row[11], (float) row[12], (float) row[13], (String) row[14], currency);
             if (currency!=null)
                 a.setFixed_discount(currencyService.convert(a.getOriginCurrency(), currency, a.getFixed_discount()));
             rs.add(a);
