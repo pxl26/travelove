@@ -42,9 +42,12 @@ public class VoucherRedeemRepository {
         for (Object ele: data)
         {
             Object[] row = (Object[]) ele;
-            RedeemVoucherDTO a = new RedeemVoucherDTO((String) row[0], (String) row[1],(String) row[2], (String) row[3], (VoucherRedeemStatus) row[4], (Timestamp) row[5], (Timestamp) row[6], (VoucherTargetType) row[7], (String) row[8], (VoucherDiscountType) row[9], ((Float)row[10]).doubleValue(), (float) row[11], (float) row[12], (float) row[13], (String) row[14], currency);
-            if (currency!=null)
+            RedeemVoucherDTO a = new RedeemVoucherDTO((String) row[0], (String) row[1],(String) row[2], (String) row[3], (VoucherRedeemStatus) row[4], (Timestamp) row[5], (Timestamp) row[6], (VoucherTargetType) row[7], (String) row[8], (VoucherDiscountType) row[9], ((Float)row[10]).doubleValue(), (float) row[11], ((Float) row[12]).doubleValue(), ((Float) row[13]).doubleValue(), (String) row[14], currency);
+            if (currency!=null) {
                 a.setFixed_discount(currencyService.convert(a.getOriginCurrency(), currency, a.getFixed_discount()));
+                a.setMax_discount(currencyService.convert(a.getOriginCurrency(), currency, a.getMax_discount()));
+                a.setMinimum_spend(currencyService.convert(a.getOriginCurrency(), currency, a.getMinimum_spend()));
+            }
             rs.add(a);
         }
         return rs;
