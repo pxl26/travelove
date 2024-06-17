@@ -32,7 +32,7 @@ public class ReportController {
 
     @Tag(name = "SPRINT 10")
     @PostMapping
-    public ReportEntity createReport(@RequestParam String content, @RequestParam(required = false) String tour_id, @RequestParam MultipartFile[] attachment_list, @RequestParam Platform platform, @RequestParam ReportType type) {
+    public ReportEntity createReport(@RequestParam String content, @RequestParam(required = false) String tour_id, @RequestParam(required = false) MultipartFile[] attachment_list, @RequestParam Platform platform, @RequestParam ReportType type) {
         ReportEntity reportEntity = new ReportEntity();
         reportEntity.setId(UUID.randomUUID().toString());
         reportEntity.setReporter_id(SecurityContext.getUserID());
