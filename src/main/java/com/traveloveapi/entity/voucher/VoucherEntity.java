@@ -37,13 +37,13 @@ public class VoucherEntity {
     @Enumerated(EnumType.STRING)
     private VoucherDiscountType discount_type;
 
-    private Float fixed_discount;
+    private Double fixed_discount;
 
     private Float percent_discount;
 
-    private Float minimum_spend;
+    private Double minimum_spend;
 
-    private Float max_discount;
+    private Double max_discount;
 
     private String currency;
 

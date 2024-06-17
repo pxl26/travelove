@@ -16,6 +16,7 @@ import com.traveloveapi.repository.bill.BillVoucherRepository;
 import com.traveloveapi.repository.voucher.VoucherRedeemRepository;
 import com.traveloveapi.repository.voucher.VoucherRepository;
 import com.traveloveapi.service.collection.CollectionService;
+import com.traveloveapi.service.currency.CurrencyService;
 import com.traveloveapi.service.user.UserService;
 import com.traveloveapi.utility.JwtProvider;
 import com.traveloveapi.utility.SecurityContext;
@@ -37,6 +38,7 @@ public class VoucherService {
     final private CollectionService collectionService;
     final private BillVoucherRepository billVoucherRepository;
     final private RabbitTemplate rabbitTemplate;
+    private final CurrencyService currencyService;
 
     public ArrayList<VoucherDTO> getUsableVoucher(String tour_id, String currency) {
         return voucherRepository.getAvailableVoucherForTour(tour_id, SecurityContext.getUserID(), currency);
@@ -80,6 +82,11 @@ public class VoucherService {
         for (String voucher_id: voucher_list) {
             Double discount_by_voucher = 0.0;
             VoucherEntity voucher = voucherRepository.find(voucher_id);
+            if (!voucher.getCurrency().equals(bill.getCurrency()))
+            {
+                voucher.setFixed_discount(currencyService.convert(voucher.getCurrency(), bill.getCurrency(), voucher.getFixed_discount().doubleValue()));
+                voucher.setMinimum_spend(currencyService.convert(voucher.getCurrency(), bill.getCurrency(), voucher.getMinimum_spend().doubleValue()));
+            }
 
             //--------VALIDATED-------
             if(!validateVoucher(voucher, bill.getService_id()))
@@ -189,7 +196,7 @@ public class VoucherService {
 
         return voucherRedeem;
     }
-    public VoucherEntity createVoucher(String code, String title, int stock, Timestamp start_at, Timestamp end_at, String detail, VoucherDiscountType discount_type, float fixed_discount, float percent_discount, float minimum_spend, VoucherTargetType target_type, String target_id, String currency, int expiration, float max_discount) {
+    public VoucherEntity createVoucher(String code, String title, int stock, Timestamp start_at, Timestamp end_at, String detail, VoucherDiscountType discount_type, Float fixed_discount, Float percent_discount, Float minimum_spend, VoucherTargetType target_type, String target_id, String currency, int expiration, Float max_discount) {
         if (target_type==VoucherTargetType.TOUR)
         {
             if (!userService.verifyIsOwner(target_id, SecurityContext.getUserID()) && !userService.isAdmin())
@@ -213,10 +220,10 @@ public class VoucherService {
         voucher.setTarget_id(target_id);
         voucher.setStart_at(start_at);
         voucher.setEnd_at(end_at);
-        voucher.setMinimum_spend(minimum_spend);
-        voucher.setFixed_discount(fixed_discount);
+        voucher.setMinimum_spend(minimum_spend.doubleValue());
+        voucher.setFixed_discount(fixed_discount.doubleValue());
         voucher.setPercent_discount(percent_discount);
-        voucher.setMax_discount(max_discount);
+        voucher.setMax_discount(max_discount.doubleValue());
 
         voucherRepository.save(voucher);
         return voucher;
