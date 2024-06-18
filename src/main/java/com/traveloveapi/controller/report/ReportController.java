@@ -45,15 +45,16 @@ public class ReportController {
         if (tour_id != null)
             reportEntity.setTour_id(tour_id);
         int k=0;
-        for (MultipartFile attachment : attachment_list) {
-            MediaEntity media = new MediaEntity();
-            media.setId(UUID.randomUUID().toString());
-            media.setSeq(k++);
-            media.setRef_id(reportEntity.getId());
-            media.setType("REPORT-ATTACHMENT");
-            media.setPath(s3FileService.uploadFile(attachment, "public/report/"+reportEntity.getId()+'/',media.getId()));
-            mediaRepository.save(media);
-        }
+        if (attachment_list != null)
+            for (MultipartFile attachment : attachment_list) {
+                MediaEntity media = new MediaEntity();
+                media.setId(UUID.randomUUID().toString());
+                media.setSeq(k++);
+                media.setRef_id(reportEntity.getId());
+                media.setType("REPORT-ATTACHMENT");
+                media.setPath(s3FileService.uploadFile(attachment, "public/report/"+reportEntity.getId()+'/',media.getId()));
+                mediaRepository.save(media);
+            }
         reportRepository.save(reportEntity);
         return reportEntity;
     }
