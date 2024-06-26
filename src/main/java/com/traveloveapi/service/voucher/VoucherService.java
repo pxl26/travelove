@@ -79,6 +79,7 @@ public class VoucherService {
 
         BillEntity bill = billRepository.find(bill_id);
         Double bill_amount = bill.getTotal();
+        System.out.println("Before applyVouchers: " + bill_amount);
         for (String voucher_id: voucher_list) {
             Double discount_by_voucher = 0.0;
             VoucherEntity voucher = voucherRepository.find(voucher_id);
@@ -99,22 +100,23 @@ public class VoucherService {
                 discount_by_voucher= Double.valueOf(voucher.getFixed_discount());
             else if (voucher.getDiscount_type()==VoucherDiscountType.PERCENT)
                 discount_by_voucher = (Double) Math.min(bill.getTotal() * voucher.getPercent_discount() / 100, voucher.getMax_discount());
-
+            System.out.println("Discount_by_voucher_1: " + discount_by_voucher);
             //----------------------------------------------
             if (discount_by_voucher >= bill_amount)            // bill cannot be less than 0 by voucher discount
                 discount_by_voucher = bill_amount;
+            System.out.println("Discount_by_voucher_2: " + discount_by_voucher);
             BillVoucherEntity bill_voucher = new BillVoucherEntity();
             bill_voucher.setVoucher_id(voucher_id);
             bill_voucher.setBill_id(bill_id);
             bill_voucher.setDiscount_amount(discount_by_voucher);
             billVoucherRepository.save(bill_voucher);
-
+            System.out.println("Discount_by_voucher_3: " + discount_by_voucher);
             bill_amount-=discount_by_voucher;
             if (bill_amount==0)
                 break;
         }
         //-----DISABLE WAS USED
-
+        System.out.println("Discount_by_voucher_4: " + bill_amount);
         bill.setTotal(bill_amount);
         billRepository.update(bill);
         return bill_amount;

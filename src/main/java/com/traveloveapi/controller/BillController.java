@@ -49,6 +49,7 @@ public class BillController {
             @Tag(name = "SPRINT 2"),
             @Tag(name = "SPRINT 5")})
     public BillDTO createBill(@RequestBody BillRequest request, @RequestParam String currency) {
+        System.out.println(request.getDate());
         if (currency==null || currency.equals("")) {
             throw new CustomException("Currency???????????", 400);
         }

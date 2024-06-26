@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Array;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 

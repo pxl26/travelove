@@ -1,10 +1,14 @@
 package com.traveloveapi.repository;
 
+import com.traveloveapi.DTO.TourSummary;
 import com.traveloveapi.DTO.service.TourOwnerDTO;
+import com.traveloveapi.constrain.BillStatus;
 import com.traveloveapi.constrain.OrderType;
 import com.traveloveapi.constrain.ServiceStatus;
 import com.traveloveapi.constrain.SortBy;
 import com.traveloveapi.entity.ServiceEntity;
+import com.traveloveapi.entity.service_package.bill.BillEntity;
+import com.traveloveapi.service.currency.CurrencyService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.PersistenceContext;
@@ -15,12 +19,18 @@ import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
 public class ServiceRepository {
     @PersistenceContext
     private EntityManager entityManager;
+    private CurrencyService currencyService;
+
+    ServiceRepository(CurrencyService curService) {
+        this.currencyService = curService;
+    }
 
     public ServiceEntity find(String id) {
         ServiceEntity rs = entityManager.find(ServiceEntity.class, id);
@@ -163,13 +173,36 @@ public class ServiceRepository {
     }
 
     public List getBestSellers(String owner) {
-        return entityManager.createQuery(
-                        "SELECT s.id, s.title, s.rating, s.vote_quantity, SUM(s.sold) AS total_sold, SUM(b.total) AS total_income " +
+        List<Object> rawList = entityManager.createQuery(
+                        "SELECT s.id, s.title, s.rating, s.vote_quantity, s.sold, SUM(b.total) AS total_income " +
                                 "FROM ServiceEntity s " +
-                                "LEFT JOIN BillEntity b ON s.id = b.service_id AND s.service_owner = :owner " +
-                                "GROUP BY s.id, s.title, s.rating, s.vote_quantity " +
-                                "ORDER BY total_sold DESC")
+                                "JOIN BillEntity b ON b.status=:status AND s.id = b.service_id AND s.service_owner = :owner " +
+                                "GROUP BY s.id ")
                 .setParameter("owner", owner)
+                .setParameter("status", BillStatus.PAID)
                 .getResultList();
+        List<TourSummary> tourList = rawList.stream().map(e -> {
+            Object[] row = (Object[])e;
+            TourSummary tour = TourSummary.builder()
+                    .tour_id((String)row[0])
+                    .tour_title((String)row[1])
+                    .rating((Float)row[2])
+                    .feedbackQuantity((Integer) row[3])
+                    .sold((Integer) row[4])
+                    .income((Double) row[5])
+                    .build();
+            return tour;
+        }).toList();
+        return tourList.stream().map(e -> {
+            List<BillEntity> billList = entityManager.createQuery("FROM BillEntity e WHERE e.service_id=:tour").setParameter("tour", e.getTour_id()).getResultList();
+            Double[] total = new Double[1];
+            total[0] = 0.0;
+            billList.forEach(q ->{
+                total[0]+=currencyService.convert(q.getCurrency(), "VND", q.getTotal());
+                System.out.println(q.getId() + ": " +total[0]);
+            });
+            e.setIncome(total[0]);
+            return e;
+        }).sorted((a,b) -> a.getIncome() < b.getIncome() ? 1 :-1).toList();
     }
 }
