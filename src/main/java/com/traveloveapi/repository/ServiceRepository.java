@@ -174,7 +174,7 @@ public class ServiceRepository {
 
     public List getBestSellers(String owner) {
         List<Object> rawList = entityManager.createQuery(
-                        "SELECT s.id, s.title, s.rating, s.vote_quantity, s.sold, SUM(b.total) AS total_income " +
+                        "SELECT s.id, s.title, s.rating, s.vote_quantity, s.sold, SUM(b.total) AS total_income, s.thumbnail " +
                                 "FROM ServiceEntity s " +
                                 "JOIN BillEntity b ON b.status=:status AND s.id = b.service_id AND s.service_owner = :owner " +
                                 "GROUP BY s.id ")
@@ -190,6 +190,7 @@ public class ServiceRepository {
                     .feedbackQuantity((Integer) row[3])
                     .sold((Integer) row[4])
                     .income((Double) row[5])
+                    .thumbnail((String)row[6])
                     .build();
             return tour;
         }).toList();

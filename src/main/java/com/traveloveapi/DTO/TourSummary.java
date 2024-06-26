@@ -16,4 +16,5 @@ public class TourSummary {
     private Integer feedbackQuantity;
     private Integer sold;
     private Double income;
+    private String thumbnail;
 }
