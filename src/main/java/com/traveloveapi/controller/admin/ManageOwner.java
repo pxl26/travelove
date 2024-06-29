@@ -45,7 +45,7 @@ public class ManageOwner {
         banRepository.disableAllTour(owner_id);
         //-----------------
         UserDetailEntity user = userDetailRepository.find(owner_id);
-        mailService.sendEmail(user.getEmail(), "We regret to notice that your account was suspended.\n" +
+        mailService.sendSuccessfulOwnerRegistration(user.getEmail(), "We regret to notice that your account was suspended.\n" +
                 "\n" +
                 "<b>Reason:</b>\n" + reason +
                 "\n" +
@@ -57,7 +57,7 @@ public class ManageOwner {
                 "\n" +
                 "Best regards.\n" +
                 "\n" +
-                "--Travelove admin--");
+                "--Travelove admin--", "Your account was suspended");
         return banEntity;
     }
 

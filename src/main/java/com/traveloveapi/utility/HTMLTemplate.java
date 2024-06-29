@@ -63,7 +63,7 @@ public class HTMLTemplate {
                 <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
                     <div style="background-color: #fff; padding: 40px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); max-width: 600px; margin: 0 auto;">
                                 
-                        <img src="[Your Logo URL]" alt="[Your Brand Name]" style="max-width: 200px; margin-bottom: 30px;">\s
+                        <img src="{logo_URL}" alt="[Your Brand Name]" style="max-width: 200px; margin-bottom: 30px;">\s
                                 
                         <h1 style="color: #333; font-size: 28px;">Chúc mừng, bạn đã đăng ký thành công!</h1>
                                 
@@ -79,7 +79,7 @@ public class HTMLTemplate {
                     </div>
                 </body>
                 </html>
-                """).replace("{company_name}", company_name).replace("{new_pass_url}", url);
+                """).replace("{company_name}", company_name).replace("{new_pass_url}", url).replace("{logo_URL}", "https://storage.travelovecompany.com/video/travelove_logo.svg");
     }
 
     static public String rejectedOwnerRegistration(String company_name, String cause) {
