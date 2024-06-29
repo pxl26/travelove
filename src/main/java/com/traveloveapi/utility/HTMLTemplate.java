@@ -10,7 +10,7 @@ public class HTMLTemplate {
             </head>
             <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
                 <div style="background-color: #fff; padding: 30px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                    <h1 style="color: #333;">Xin chào""" +  user_name==null ? "" : (" "+ user_name) + """
+                    <h1 style="color: #333;">Xin chào""" +  (user_name==null ? "" : (" "+ user_name)) + """
                     ,</h1>
             
                     <p style="margin-bottom: 20px;">Mã OTP của bạn để xác minh là:</p>
