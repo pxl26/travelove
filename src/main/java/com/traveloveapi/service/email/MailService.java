@@ -25,28 +25,33 @@ public class MailService {
     private String username;
     private String password;
 
-    public void sendEmail(String address,String content) {
+
+
+    public void sendSuccessfulOwnerRegistration(String address, String htmlContent, String subject) {
         Properties props = new Properties();
         props.put("mail.smtp.host", host);
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", port);
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
 
-        Session session = Session.getInstance(props,
-                new Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
-        Message message = new MimeMessage(session);
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
         try {
-            message.setRecipients(Message.RecipientType.TO, new InternetAddress[]{new InternetAddress(address)});
-
+            Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
-            message.setSubject("Verify code");
-            message.setText(content);
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(address)); // Use parse for flexibility
+            message.setSubject(subject);
+            message.setContent(htmlContent, "text/html; charset=utf-8");
+            message.setHeader("Content-type", "text/html; charset=utf-8");
+
             Transport.send(message);
+
+            System.out.println("Email sent successfully!");
         } catch (MessagingException e) {
             e.printStackTrace();
         }

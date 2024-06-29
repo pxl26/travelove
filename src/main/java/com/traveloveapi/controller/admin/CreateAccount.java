@@ -18,6 +18,7 @@ import com.traveloveapi.repository.owner_registration.OwnerRegistrationRepositor
 import com.traveloveapi.service.email.MailService;
 import com.traveloveapi.service.register.RegisterService;
 import com.traveloveapi.service.user.UserService;
+import com.traveloveapi.utility.HTMLTemplate;
 import com.traveloveapi.utility.JwtProvider;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -79,7 +80,7 @@ public class CreateAccount {
         ownerRegistrationRepository.update(entity);
         if (action==VoucherAuditAction.DENY)
         {
-            mailService.sendEmail(entity.getEmail(),"Your merchant registration for Travelove was decline because: "+refuse_reason+"\n\nBest regards\n --Travelove admin---");
+            mailService.sendSuccessfulOwnerRegistration(entity.getEmail(),HTMLTemplate.rejectedOwnerRegistration(entity.getCompany_name(), refuse_reason), "Travelove merchant was failure");
             return entity;
         }
         UserEntity user = new UserEntity();
@@ -93,8 +94,9 @@ public class CreateAccount {
         detail.setUser_id(user.getId());
         detail.setEmail(entity.getEmail());
         userDetailRepository.save(detail);
+        String link = web_host + "/tour-owner-registration/new-password?registration_id=" + entity.getId() + "&user_id=" + user.getId();
 
-        mailService.sendEmail(entity.getEmail(), "Congratulation, your request to become our merchant was accepted. \n Open this link to begin: " + web_host + "/tour-owner-registration/new-password?registration_id=" + entity.getId() + "&user_id=" + user.getId());
+        mailService.sendSuccessfulOwnerRegistration(entity.getEmail(), HTMLTemplate.successfulOwnerRegistration(entity.getCompany_name(), link), "Travelove merchant registration successfully");
         return entity;
     }
 }
