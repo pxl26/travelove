@@ -13,7 +13,7 @@ public class HTMLTemplate {
                     <h1 style="color: #333;">Xin chào""" + " " +  user_name + """
                     ,</h1>
             
-                    <p style="margin-bottom: 20px;">Mã OTP của bạn để  là:</p>
+                    <p style="margin-bottom: 20px;">Mã OTP của bạn để xác minh là:</p>
             
                     <h2 style="font-size: 32px; font-weight: bold; color: #007bff; margin-bottom: 30px;">""" + otp + """
                     </h2>
