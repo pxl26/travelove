@@ -36,21 +36,21 @@ public class HTMLTemplate {
                 </head>
                 <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
                     <div style="background-color: #fff; padding: 30px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-                        <img src="{logoURL}" alt="Travelove logo" style="max-width: 150px; margin-bottom: 20px;">\s
+                        <img src="{logoURL}" alt="" width="100" height="100" title="Logo" style="margin-bottom: 20px;">
                                 
                         <h1 style="color: #333;">Chào mừng bạn đến với Travelove!</h1>
                                 
                         <p style="margin-bottom: 20px;">Để hoàn tất việc đăng ký tài khoản của bạn, vui lòng nhập mã OTP sau:</p>
                                 
-                        <h2 style="font-size: 32px; font-weight: bold; color: #007bff; margin-bottom: 30px;">{OTP}</h2>
+                        <h2 style="font-size: 32px; font-weight: bold; color: #007bff; margin-bottom: 10px;">{OTP}</h2>
                                 
-                        <p style="color: #555;">Mã này có hiệu lực trong <span style="font-weight: bold;">[Thời gian hiệu lực]</span> phút.</p>
+                        <p style="color: #555;">Mã này có hiệu lực trong <span style="font-weight: bold;">3</span> phút.</p>
                                 
                         <p style="color: #777; margin-top: 20px;">Nếu bạn không đăng ký tài khoản này, vui lòng bỏ qua email này.</p>
                     </div>
                 </body>
                 </html>
-                """).replace("{logoURL}", "https://storage.travelovecompany.com/video/travelove_logo.svg").replace("{OTP}", otp);
+                """).replace("{logoURL}", "https://storage.travelovecompany.com/video/travelove_logo.jpg").replace("{OTP}", otp);
     }
 
     static public String successfulOwnerRegistration(String company_name, String url) {
@@ -79,7 +79,7 @@ public class HTMLTemplate {
                     </div>
                 </body>
                 </html>
-                """).replace("{company_name}", company_name).replace("{new_pass_url}", url).replace("{logo_URL}", "https://storage.travelovecompany.com/video/travelove_logo.svg");
+                """).replace("{company_name}", company_name).replace("{new_pass_url}", url).replace("{logo_URL}", "https://storage.travelovecompany.com/video/travelove_logo.jpg");
     }
 
     static public String rejectedOwnerRegistration(String company_name, String cause) {
@@ -111,6 +111,6 @@ public class HTMLTemplate {
                     </div>
                 </body>
                 </html>
-                """).replace("{logoURL}", "https://storage.travelovecompany.com/video/travelove_logo.svg").replace("{cause}", cause).replace("{company_name}", company_name);
+                """).replace("{logoURL}", "https://storage.travelovecompany.com/video/travelove_logo.jpg").replace("{cause}", cause).replace("{company_name}", company_name);
     }
 }
