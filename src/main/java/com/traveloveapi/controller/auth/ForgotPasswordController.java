@@ -7,10 +7,12 @@ import com.traveloveapi.entity.UserDetailEntity;
 import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.exception.ExpiredCodeException;
 import com.traveloveapi.exception.IncorrectCodeException;
+import com.traveloveapi.exception.UserNotFoundException;
 import com.traveloveapi.repository.OtpRepository;
 import com.traveloveapi.repository.UserDetailRepository;
 import com.traveloveapi.repository.UserRepository;
 import com.traveloveapi.service.email.MailService;
+import com.traveloveapi.utility.HTMLTemplate;
 import com.traveloveapi.utility.JwtProvider;
 import com.traveloveapi.utility.OTPCodeProvider;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,17 +34,23 @@ public class ForgotPasswordController {
     @GetMapping
     @Tag(name = "SPRINT 1")
     public SimpleResponse requestChangeCode(@RequestParam String email) {
+        UserDetailEntity userDetailEntity = userDetailRepository.findByEmail(email);
+        if (userDetailEntity == null) {
+            throw new UserNotFoundException();
+        }
+        UserEntity user = userRepository.find(userDetailEntity.getUser_id());
         OtpEntity otp = new OtpEntity();
         String id = UUID.randomUUID().toString();
 
         otp.setId(id);
+        otp.setUser_id(userDetailEntity.getUser_id());
         otp.setAddress(email);
         otp.setExpiration(new Timestamp(System.currentTimeMillis() + 180000L)); // 3'
         otp.setType("RESET PASSWORD");
         otp.setCode(OTPCodeProvider.GenegateOTP(5));
         otpRepository.save(otp);
 
-        mailService.sendEmail(email, otp.getCode());
+        mailService.sendHTML(email, HTMLTemplate.resetPassword(otp.getCode(), user.getFull_name()));
         return new SimpleResponse(otp.getId(), 200);
     }
 

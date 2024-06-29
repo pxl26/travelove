@@ -3,9 +3,11 @@ package com.traveloveapi.service.user;
 import com.traveloveapi.DTO.user.UserProfile;
 import com.traveloveapi.constrain.EmailAndPasswordStatus;
 import com.traveloveapi.constrain.Gender;
+import com.traveloveapi.entity.GoogleEntity;
 import com.traveloveapi.entity.UserDetailEntity;
 import com.traveloveapi.entity.UserEntity;
 import com.traveloveapi.exception.ForbiddenException;
+import com.traveloveapi.repository.GoogleRepository;
 import com.traveloveapi.repository.UserDetailRepository;
 import com.traveloveapi.repository.UserRepository;
 import com.traveloveapi.constrain.Role;
@@ -24,6 +26,7 @@ public class UserProfileService {
     final private UserRepository userRepository;
     final private UserDetailRepository userDetailRepository;
     final private S3FileService s3FileService;
+    final private GoogleRepository googleRepository;
 
     public UserProfile findUserById(String id) {
         UserDetailEntity detail = userDetailRepository.find(id);
@@ -44,6 +47,9 @@ public class UserProfileService {
         UserDetailEntity detail = userDetailRepository.findByEmail(email);
         if (detail.getPassword()!=null)
             return EmailAndPasswordStatus.EMAIL_AND_PASSWORD;
+        GoogleEntity googleEntity = googleRepository.find(detail.getUser_id());
+        if (googleEntity==null)
+            return EmailAndPasswordStatus.WAITING_FOR_RESET;
         return EmailAndPasswordStatus.EMAIL_AND_NO_PASSWORD;
     }
 
