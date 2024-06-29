@@ -43,7 +43,7 @@ public class RegisterController {
         otpEntity.setNote(request.getPassword());
         otpEntity.setExpiration(new Timestamp(System.currentTimeMillis()+180000L));  // 3'
         otpRepository.save(otpEntity);
-        mailService.sendEmail(request.getEmail(), code);
+        mailService.sendVerifyEmail(request.getEmail(), code);
         return new SimpleResponse(id, 200);
     }
 

@@ -50,7 +50,7 @@ public class ForgotPasswordController {
         otp.setCode(OTPCodeProvider.GenegateOTP(5));
         otpRepository.save(otp);
 
-        mailService.sendHTML(email, HTMLTemplate.resetPassword(otp.getCode(), user.getFull_name()));
+        mailService.sendResetPasswordEmail(email, HTMLTemplate.resetPassword(otp.getCode(), user.getFull_name()));
         return new SimpleResponse(otp.getId(), 200);
     }
 
