@@ -11,6 +11,7 @@ import com.traveloveapi.exception.IncorrectCodeException;
 import com.traveloveapi.repository.OtpRepository;
 import com.traveloveapi.service.email.MailService;
 import com.traveloveapi.service.register.RegisterService;
+import com.traveloveapi.utility.HTMLTemplate;
 import com.traveloveapi.utility.OTPCodeProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,7 +44,7 @@ public class RegisterController {
         otpEntity.setNote(request.getPassword());
         otpEntity.setExpiration(new Timestamp(System.currentTimeMillis()+180000L));  // 3'
         otpRepository.save(otpEntity);
-        mailService.sendVerifyEmail(request.getEmail(), code);
+        mailService.sendVerifyEmail(request.getEmail(), HTMLTemplate.verifyEmailRegistration(code));
         return new SimpleResponse(id, 200);
     }
 
