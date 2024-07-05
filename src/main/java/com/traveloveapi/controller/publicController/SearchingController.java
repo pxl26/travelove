@@ -36,7 +36,7 @@ public class SearchingController {
         List<SearchingEntity> searchList =  searchingRepository.findByTitle(input, 0, 5);
         searchList.forEach(e-> System.out.println(e.getTitle()));
         return searchList.stream().filter(result ->
-                result.getTitle().contains(input_1))
+                SearchingSupporter.sanitize(result.getTitle()).contains(input_1))
                 .toList();
     }
 
