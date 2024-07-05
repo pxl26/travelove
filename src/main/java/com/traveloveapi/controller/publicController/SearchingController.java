@@ -30,9 +30,14 @@ public class SearchingController {
 
     @Tag(name = "SPRINT 4")
     @GetMapping
-    public List search(@RequestParam String input) {
+    public List<SearchingEntity> search(@RequestParam String input) {
         input = SearchingSupporter.sanitize(input);
-        return searchingRepository.findByTitle(input, 0, 5);
+        final String input_1 = input;
+        List<SearchingEntity> searchList =  searchingRepository.findByTitle(input, 0, 5);
+        searchList.forEach(e-> System.out.println(e.getTitle()));
+        return searchList.stream().filter(result ->
+                result.getTitle().contains(input_1))
+                .toList();
     }
 
     @PostMapping
