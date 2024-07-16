@@ -52,6 +52,7 @@ public class PublicUserController {
             return serviceRepository.getTourOwnerDTO(owner_id);
         return serviceRepository.getTourOwnerDTOByTour(tour_id);
     }
+
     @DeleteMapping
     public UserEntity deleteProfile(@RequestParam String email, @RequestParam String password) {
         TokenResponse token = loginService.emailLogin(email, password);

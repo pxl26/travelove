@@ -65,6 +65,8 @@ public class UserProfileService {
         userProfile.setGender(detail.getGender());
         userProfile.setCreate_at(detail.getCreate_at());
         userProfile.setUsername(detail.getUsername());
+        userProfile.setEmail(detail.getEmail());
+        userProfile.setPhone(detail.getPhone());
         //------ONLY ADMIN AND ACCOUNT OWNER ABLE TO LOAD PROFILE
 
         if(userProfile.getId().equals(SecurityContext.getUserID())) //account owner

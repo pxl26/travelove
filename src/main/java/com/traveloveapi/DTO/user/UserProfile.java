@@ -25,6 +25,8 @@ public class UserProfile {
     private String username;
     private Gender gender;
     private Timestamp create_at;
+    private String email;
+    private String phone;
 
     public UserProfile(UserEntity user, UserDetailEntity detail) {
         id = user.getId();
@@ -36,5 +38,7 @@ public class UserProfile {
         username = detail.getUsername();
         gender = detail.getGender();
         create_at = detail.getCreate_at();
+        email = detail.getEmail();
+        phone = detail.getPhone();
     }
 }
