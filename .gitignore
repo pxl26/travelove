@@ -45,7 +45,6 @@ buildNumber.properties
 github_token.txt
 .idea/
 
-!/target/
 !/src/main/resources/public/
 log
 logs
@@ -58,8 +57,4 @@ logs
 !/rootkey.csv
 !/src/test/
 !/.run/
-!/target/
-!/target/
-/target/
-!/target/
-!/target/
+
