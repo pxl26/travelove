@@ -9,7 +9,9 @@ import com.traveloveapi.DTO.service.ServiceStatusByDateDTO;
 import com.traveloveapi.DTO.service_package.GroupOptionDTO;
 import com.traveloveapi.DTO.service_package.PackageInfoDTO;
 import com.traveloveapi.entity.ServiceEntity;
+import com.traveloveapi.entity.itinerary.Itinerary;
 import com.traveloveapi.repository.ServiceRepository;
+import com.traveloveapi.service.itinerary.ItineraryService;
 import com.traveloveapi.service.redis.RedisService;
 import com.traveloveapi.exception.CustomException;
 import com.traveloveapi.service.BillService;
@@ -35,6 +37,13 @@ public class PublicServiceController {
     final private FeedbackService feedbackService;
     final private ActivityLoggingService activityLoggingService;
     final private ServiceRepository serviceRepository;
+    final private ItineraryService itineraryService;
+
+    @GetMapping("/itinerary")
+    @Tag(name = "Itinerary")
+    public List<Itinerary> getItineraries(@RequestParam String tour_id) {
+        return itineraryService.getItineraries(tour_id);
+    }
 
     @GetMapping("/get-all-tour")
     @Tag(name = "AI support")
