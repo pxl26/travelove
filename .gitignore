@@ -56,4 +56,4 @@ logs
 /SearchingEntity/
 !/rootkey.csv
 !/src/test/
-/.run/
+.run/
