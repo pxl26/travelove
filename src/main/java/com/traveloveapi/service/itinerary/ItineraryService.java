@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -19,10 +20,13 @@ public class ItineraryService {
         ModelMapper mapper = new ModelMapper();
         List<Itinerary> list = new ArrayList<>();
         for (ItineraryDTO itineraryDTO : itineraries) {
-            list.add(mapper.map(itineraryDTO, Itinerary.class));
+            Itinerary itinerary = mapper.map(itineraryDTO, Itinerary.class);
+            itinerary.setId(UUID.randomUUID().toString());
+            list.add(itinerary);
         }
         return itineraryRepository.saveAll(list);
     }
+
     public List<Itinerary> getItineraries(String tour_id) {
         return itineraryRepository.findAllByTourId(tour_id);
     }
