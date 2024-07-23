@@ -23,8 +23,9 @@ public class ItineraryService {
             Itinerary itinerary = mapper.map(itineraryDTO, Itinerary.class);
             itinerary.setId(UUID.randomUUID().toString());
             list.add(itinerary);
+            itineraryRepository.save(itinerary);
         }
-        return itineraryRepository.saveAll(list);
+        return list;
     }
 
     public List<Itinerary> getItineraries(String tour_id) {
