@@ -3,7 +3,7 @@ registration_key:
     tour_owner: oke
 mail:
     host: smtp.gmail.com
-    password: aoljzwgou
+    password: aoychbrlnljzwgou
     port: 587
     username: travelovecompany@gmail.com
 oauth-google:
